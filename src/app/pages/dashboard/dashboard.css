@@ -1,0 +1,157 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800&display=swap");
+
+body,
+input {
+  font-family: "Poppins", sans-serif;
+}
+
+/* Estilos básicos */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  height: 100vh;
+}
+
+/* Menu lateral */
+.menu-lateral {
+  width: 90px; /* Largura inicial do menu recolhido */
+  height: 100%;
+  background-color: #414bb2;
+  padding: 40px 0;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: width 0.3s ease;
+}
+
+.menu-lateral.expandir {
+  width: 260px; /* Largura do menu quando expandido */
+}
+
+.btn-expandir {
+  width: 100%;
+  padding-left: 10px;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.btn-expandir > i {
+  color: #fff;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+/* Centralizar ícones e remover pontos */
+ul {
+  list-style-type: none;
+  padding-left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+ul li.item-menu {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px 0;
+  transition: background-color 0.3s ease, justify-content 0.3s ease;
+  border: 2px solid transparent;
+  border-radius: 10px;
+}
+
+ul li.item-menu:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  border: 2px solid white;
+}
+
+ul li.item-menu a {
+  color: #fff;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  padding-left: 25px;
+  width: 100%;
+}
+
+ul li.item-menu a .icon {
+  font-size: 30px;
+  transition: margin-left 0.3s ease;
+  text-align: center;
+}
+
+ul li.item-menu a .txt-link {
+  margin-left: 20px;
+  opacity: 0;
+  white-space: nowrap;
+  transition: opacity 0.3s ease;
+}
+
+/* Mostrar texto apenas no menu expandido */
+.menu-lateral.expandir ul li.item-menu a .txt-link {
+  opacity: 1;
+}
+
+ul li.ativo {
+  background-color: #738bd3;
+  border-color: white;
+}
+
+#sair{
+    padding-left: 10px;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .menu-lateral {
+    width: 60px; /* Reduz a largura do menu em telas menores */
+    padding: 20px 0;
+  }
+
+  .menu-lateral.expandir {
+    width: 100%; /* O menu expande para 100% da tela em dispositivos menores */
+  }
+
+  ul li.item-menu a .txt-link {
+    display: none; /* Oculta o texto do link em telas pequenas */
+  }
+
+  .btn-expandir > i {
+    font-size: 20px; /* Ajusta o tamanho do ícone para caber em telas pequenas */
+  }
+}
+
+@media (max-width: 480px) {
+  .menu-lateral {
+    width: 100%; /* Menu ocupa toda a largura em dispositivos muito pequenos */
+    height: auto; /* Altura automática para caber o conteúdo */
+    flex-direction: row;
+    padding: 10px 0;
+  }
+
+  ul {
+    flex-direction: row; /* Ícones ficam em uma linha */
+    justify-content: space-around;
+  }
+
+  ul li.item-menu {
+    padding: 10px;
+    border-radius: 5px;
+  }
+
+  .btn-expandir {
+    display: none; /* Esconde o botão expandir em telas muito pequenas */
+  }
+}
+
+

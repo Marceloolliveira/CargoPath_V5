@@ -1,0 +1,196 @@
+/* Estilos Gerais */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f4f4f4; /* Cor de fundo do corpo */
+}
+
+.container {
+    padding: 20px;
+    max-width: 1000px;
+    margin: auto;
+    color: #333;
+    background-color: #e8e8e8 !important; /* Cor de fundo do container */
+    border-radius: 10px; 
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Título */
+.container h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #333; 
+}
+
+/* Layout principal */
+.layout {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Linha Remetente e Destinatário */
+.row-top {
+    width: 100%;
+    display: flex;
+    gap: 20px;
+}
+
+#sectionremetente, #sectiondestino {
+    width: 45%;
+}
+
+#section2 {
+    justify-content: space-between;
+    display: flex;
+    align-items: center;
+}
+
+.remetente, .destinatario {
+    flex: 1;
+    padding: 20px;
+    background-color: #fff; /* Fundo branco para seções */
+    border-radius: 8px;
+
+}
+
+/* Linha Horário e Carga */
+.row-middle {
+    display: flex;
+    gap: 20px;
+}
+
+.horario, .carga {
+    flex: 1;
+    padding: 20px;
+    background-color: #e8e8e8;
+    border-radius: 8px;
+
+}
+
+.carga-inputs{
+    display: flex;
+    text-align: center;
+    gap: 10px;
+}
+
+.carga-inputs label {
+    top: 50%;
+    text-align: end;
+}
+
+/* Seção Restantes */
+.restantes {
+    padding: 20px;               /* Espaçamento interno de 20 pixels */
+    background-color: #e8e8e8;   /* Cor de fundo cinza claro */
+    border-radius: 8px;          /* Bordas arredondadas */
+    display: flex;               /* Ativa o flexbox para alinhar itens dentro da div */
+    justify-content: flex-end;   /* Alinha os itens à direita */
+    margin-top: 20px;           /* Espaçamento acima, ajuste conforme necessário */
+}
+
+/* Subtítulos */
+.remetente h2, .destinatario h2, .horario h2, .carga h2, .restantes h2 {
+    font-size: 18px;
+    color: #333; 
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 5px;
+    margin-top: 0;
+}
+
+/* Inputs desativados */
+input[type="text"],
+input[type="number"],
+select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: white; /* Fundo branco para inputs */
+    color: #555; 
+    pointer-events: none;
+}
+
+/* Botões */
+#resultado {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+#btnPagar, #btnNovaCotacao {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+#btnPagar {
+    background-color: #4CAF50; 
+    color: #fff; 
+}
+
+#btnPagar:hover {
+    background-color: #45a049; 
+}
+
+#btnNovaCotacao {
+    background-color: red; 
+    color: #fff; 
+}
+
+#btnNovaCotacao:hover {
+    background-color: rgb(253, 41, 41); 
+}
+
+/* Inputs Específicos para Remetente e Destinatário */
+input, select {
+    background-color: white; 
+    width: 100%; /* Define uma largura comum */
+    box-sizing: border-box; /* Inclui padding e border no cálculo da largura */
+}
+
+/* Específico para cada tipo de campo */
+#remetenteRua,
+#destinoRua {
+    width: 80%; 
+}
+
+#remetenteNumero,
+#destinoNumero {
+    width: 14%; 
+}
+
+#remetenteCEP,
+#destinoCEP {
+    width: 20%; 
+}
+
+#remetenteCidade,
+#destinoCidade {
+    width: 25%; 
+}
+
+#remetenteEstado,
+#destinoEstado {
+    width: 12%;
+}
+
+#remetenteBairro,
+#destinoBairro {
+    width: 35%; 
+}
+
+#remetenteComplemento,
+#destinoComplemento {
+    width: 95%; 
+}

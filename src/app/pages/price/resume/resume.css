@@ -1,0 +1,203 @@
+/* Estilo base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+  
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    padding: 20px;
+}
+  
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    background-color: #e8e8e8;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow: auto;
+}
+
+.container-flex {
+    display: flex;
+}
+
+h1 {
+    font-size: 1.5em;
+    color: #333;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #333;
+    padding-bottom: 10px;
+}
+
+.info-container {
+    display: flex;
+    justify-content: space-between; /* Espaçamento entre colunas */
+    margin-top: 20px; /* Espaço acima do container de informações */
+}
+
+.info-left, .info-right {
+    flex: 1; /* Faz as colunas ocuparem espaço igual */
+    margin-right: 10px; /* Espaço entre as colunas */
+}
+
+.info-right {
+    margin-right: 0; /* Remove a margem direita da coluna da direita */
+}
+
+.section {
+    margin-bottom: 20px; /* Espaço entre as seções */
+}
+
+.section h2 {
+    font-size: 1.1em;
+    color: #111;
+    margin-bottom: 5px;
+}
+
+.carga {
+    margin-bottom: 20px;
+}
+
+.carga-inputs {
+    display: flex; /* Usar flexbox para alinhar os inputs horizontalmente */
+    flex-wrap: wrap; /* Permitir que os inputs quebrem linha se necessário */
+    justify-content: center;
+    text-align: center;
+}
+
+.carga-inputs label {
+    margin-right: 10px; /* Espaço entre o label e o input */
+    font-size: 0.9em; /* Tamanho do texto do label */
+    justify-content: center;
+    text-align: center;
+}
+
+input[type="text"], input[type="number"], select {
+    padding: 8px; /* Menor padding para inputs mais compactos */
+    margin: 5px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    text-align: center;
+    font-size: 0.85em; /* Reduzir o tamanho da fonte */
+    width: 100px; /* Largura fixa para inputs */
+}
+
+table {
+    width: 100%; /* Garantir que a tabela use toda a largura do container */
+    border-collapse: collapse; /* Remover espaçamento entre células */
+    font-size: 0.85em; /* Reduzir o tamanho da fonte da tabela */
+}
+
+th, td {
+    border: 1px solid #ccc; /* Borda para as células */
+    padding: 8px; /* Espaço interno nas células */
+    text-align: center; /* Centralizar texto nas células */
+}
+
+th {
+    background-color: #f0f0f0; /* Fundo para cabeçalhos da tabela */
+    font-weight: bold; /* Negrito para cabeçalhos */
+}
+
+input[type="number"] {
+    width: 70px; /* Largura menor para inputs dentro da tabela */
+    background-color: white;
+}
+
+#cubagemTable {
+    margin-top: 10px; /* Espaço acima da tabela */
+}
+#remetenteRua,
+#destinoRua {
+  width: 80%; /* Ajuste ou remova */
+  box-sizing: border-box; /* Ajuste ou remova */
+  justify-content: space-between; /* Ajuste ou remova */
+  align-items: center; /* Ajuste ou remova */
+  text-align: left; /* Ajuste ou remova */
+  background-color: white; /* Ajuste ou remova */
+}
+
+#remetenteNumero,
+#destinoNumero {
+  width: 15%; /* Ajuste ou remova */
+  box-sizing: border-box; /* Ajuste ou remova */
+  justify-content: space-between; /* Ajuste ou remova */
+  align-items: center; /* Ajuste ou remova */
+  background-color: white; /* Ajuste ou remova */
+}
+
+#remetenteCEP,
+#destinoCEP {
+  width: 20%; /* Ajuste ou remova */
+  box-sizing: border-box; /* Ajuste ou remova */
+  justify-content: space-between; /* Ajuste ou remova */
+  align-items: center; /* Ajuste ou remova */
+  background-color: white; /* Ajuste ou remova */
+}
+
+#remetenteCidade,
+#destinoCidade {
+  width: 25%; /* Ajuste ou remova */
+  box-sizing: border-box; /* Ajuste ou remova */
+  justify-content: space-between; /* Ajuste ou remova */
+  align-items: center; /* Ajuste ou remova */
+  background-color: white; /* Ajuste ou remova */
+}
+#remetenteEstado,
+#destinoEstado {
+    width: 12%;
+    background-color: white;
+}
+
+#remetenteBairro,
+#destinoBairro {
+  width: 32.5%; /* Ajuste ou remova */
+  justify-content: space-between; /* Ajuste ou remova */
+  align-items: center; /* Ajuste ou remova */
+  background-color: white; /* Ajuste ou remova */
+}
+
+#remetenteComplemento,
+#destinoComplemento {
+  width: 98%; /* Ajuste ou remova */
+  background-color: white;
+}
+
+input[type="text"], input[type="number"], select {
+  padding: 10px; /* Pode ser mantido ou ajustado */
+  margin: 5px 5px 10px 5px; /* Pode ser mantido ou ajustado */
+  border-radius: 5px; /* Pode ser mantido ou ajustado */
+  border: 1px solid #ccc; /* Pode ser mantido ou ajustado */
+  text-align: center; /* Ajuste se necessário */
+  font-size: 0.9em; /* Pode ser mantido ou ajustado */
+}
+
+#resultado{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+#btnPagar, 
+#btnNovaCotacao {
+    width: 85%;
+    background-color: #333;
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 20px;
+    float: right;
+  }
+  
+#btnNovaCotacao:hover,
+#btnPagar:hover {
+    background-color: #111;
+  }
+  

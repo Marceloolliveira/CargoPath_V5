@@ -1,0 +1,15 @@
+services: 
+  db:
+    image: postgres:latest
+    container_name: cargopath-db
+    environment:
+      - POSTGRES_USER=adm
+      - POSTGRES_PASSWORD=adm
+      - POSTGRES_DB=cargo_path
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:

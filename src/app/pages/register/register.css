@@ -1,0 +1,124 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.main-cadastro {
+  width: 100vw;
+  height: 100vh;
+  background-color: rgb(255, 255, 255);
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: center;
+  align-items: center;
+}
+
+.left-cadastro {
+  width: 50vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.left-cadastro > img {
+  max-width: 55vw;
+  height: auto;
+}
+.left-cadastro > h1 {
+  font-size: 3v;
+  color: #fff;
+}
+
+.right-cadastro {
+  width: 50vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  z-index: 1;
+}
+
+.card-cadastro {
+  width: 65%;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 30px 35px;
+  background-color: #414bb2;
+  border-radius: 20px;
+}
+
+.card-cadastro > h1 {
+  color: #fff;
+  font-weight: 800;
+  margin: 0;
+}
+
+.textfield-cadastro {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  margin: 10px 0;
+}
+
+.textfield-cadastro > input {
+  width: 100%;
+  border: none;
+  border-radius: 10px;
+  padding: 15px;
+  background-color: #7a81c9;
+  color: #fff;
+  font-size: 12pt;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.textfield-cadastro > label {
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+.textfield-cadastro > input::placeholder {
+  color: #fff;
+}
+
+.btn-cadastrar {
+  width: 100%;
+  padding: 16px 0px;
+  border: none;
+  border-radius: 5px;
+  text-transform: uppercase;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: #fff;
+  background-color: black;
+  cursor: pointer;
+  box-sizing: border-box;
+  margin-top: 10px;
+}
+
+.image_cadastro {
+  width: 100%;
+}
+
+@media only screen and (min-width: 950px) {
+  .card-cadastro {
+    width: 85%;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .main-cadastro {
+    flex-direction: column;
+  }
+  .right-cadastro {
+    width: 100%;
+    height: auto;
+  }
+}
