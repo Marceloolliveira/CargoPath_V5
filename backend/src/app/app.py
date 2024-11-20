@@ -15,7 +15,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'adm'  # Defina uma chave secreta forte
 
 # Permitir CORS para todas as rotas
-CORS(app, origins="http://127.0.0.1:5000")  # Configura o CORS para permitir requisições apenas da porta 5500
+CORS(app, resources={r"/*": {"origins": "http://127.0.0.1:5501"}}) # Configura o CORS para permitir requisições apenas da porta 5500
 
 # Registro dos Blueprints
 app.register_blueprint(register_blueprint)

@@ -6,7 +6,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Função para calcular o frete usando a API do Google Maps
     async function calcularFrete() {
-        // Variáveis de entrada para os campos de endereço
         const inputRemetenteRua = document.getElementById("remetenteRua");
         const inputRemetenteNumero = document.getElementById("remetenteNumero");
         const inputRemetenteCEP = document.getElementById("remetenteCEP");
@@ -43,10 +42,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 {
                     origins: [enderecoRemetente],
                     destinations: [enderecoDestinatario],
-                    travelMode: 'DRIVING'
+                    travelMode: "DRIVING",
                 },
                 function (response, status) {
-                    if (status === 'OK') {
+                    if (status === "OK") {
                         const distancia = response.rows[0].elements[0].distance.value / 1000; // Distância em km
                         const precoPorKm = 1.5;
                         const porcentagemCarga = 0.05;
@@ -54,15 +53,9 @@ document.addEventListener("DOMContentLoaded", function () {
                         const custoCarga = valorCarga * porcentagemCarga;
                         const valorFinalFrete = (custoDistancia + custoCarga).toFixed(2);
 
-                        document.getElementById("resultado").innerHTML = `
-                            <p>Distância: ${distancia.toFixed(2)} km</p>
-                            <p>Valor Final do Frete: R$ ${valorFinalFrete}</p>
-                        `;
-
                         resolve(valorFinalFrete);
                     } else {
                         console.error("Erro ao calcular a distância:", status);
-                        alert("Erro ao calcular a cotação. Tente novamente.");
                         reject("Erro ao calcular a distância");
                     }
                 }
@@ -72,7 +65,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Função para confirmar e salvar todos os dados no banco de dados
     async function confirmarCotacao() {
-        console.log("Botão Confirmar clicado");
         const usuarioID = localStorage.getItem("usuarioID");
         const descricaoPedido = document.getElementById("descricaoPedido").value;
 
@@ -81,26 +73,25 @@ document.addEventListener("DOMContentLoaded", function () {
             const valorFrete = await calcularFrete();
 
             // 1. Criação da Cotação
-            const cotacaoResponse = await fetch("http://127.0.0.1:5000/api/cotacao", {
+            const cotacaoResponse = await fetch("http://127.0.0.1:5000/api/cotacao/", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     descricao: descricaoPedido,
                     status: "pendente",
                     user_id: usuarioID,
-                    valor_frete: valorFrete
-                })
+                    valor_frete: valorFrete,
+                }),
             });
 
             const cotacaoData = await cotacaoResponse.json();
-
             if (!cotacaoResponse.ok) {
                 alert("Erro ao criar cotação: " + cotacaoData.error);
                 return;
             }
 
-            // Salvar o ID da cotação no localStorage
-            localStorage.setItem("cotacaoId", cotacaoData.cotacao_id);
+            const cotacaoId = cotacaoData.cotacao_id;
+            localStorage.setItem("cotacaoId", cotacaoId);
 
             // 2. Criar Localizações para Remetente e Destino
             const remetente = {
@@ -111,7 +102,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 estado: document.getElementById("remetenteEstado").value,
                 complemento: document.getElementById("remetenteComplemento").value,
                 tipo: 1,
-                cotacao_id: cotacaoData.cotacao_id
+                cotacao_id: cotacaoId,
             };
 
             const destino = {
@@ -122,30 +113,84 @@ document.addEventListener("DOMContentLoaded", function () {
                 estado: document.getElementById("destinoEstado").value,
                 complemento: document.getElementById("destinoComplemento").value,
                 tipo: 2,
-                cotacao_id: cotacaoData.cotacao_id
+                cotacao_id: cotacaoId,
             };
 
             await Promise.all([
                 fetch("http://127.0.0.1:5000/api/localizacao", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(remetente)
+                    body: JSON.stringify(remetente),
                 }),
                 fetch("http://127.0.0.1:5000/api/localizacao", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(destino)
-                })
+                    body: JSON.stringify(destino),
+                }),
             ]);
+
+            // 3. Criar Carga
+            const cargaResponse = await fetch("http://127.0.0.1:5000/api/carga", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    valor: document.getElementById("valorCarga").value,
+                    peso: document.getElementById("pesoCarga").value,
+                    volumes: document.getElementById("volumesCarga").value,
+                    cotacao_id: cotacaoId,
+                }),
+            });
+
+            const cargaData = await cargaResponse.json();
+            if (!cargaResponse.ok) {
+                console.error("Erro ao criar carga:", cargaData.error);
+                return;
+            }
+
+            // 4. Criar Cubagem
+            const cubagemLinhas = document.querySelectorAll("#cubagemBody tr");
+            for (const linha of cubagemLinhas) {
+                const inputs = linha.querySelectorAll("input");
+                await fetch("http://127.0.0.1:5000/api/cubagem", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        altura: inputs[0].value,
+                        largura: inputs[1].value,
+                        comprimento: inputs[2].value,
+                        qtd: inputs[3].value,
+                        carga_id: cargaData.carga_id,
+                    }),
+                });
+            }
+
+            // 5. Criar Embalagem
+            const embalagemSelecionada = document.querySelector('input[name="embalagem"]:checked');
+            if (embalagemSelecionada) {
+                const embalagemResponse = await fetch("http://127.0.0.1:5000/api/embalagem", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        caixa: embalagemSelecionada.value === "caixa" ? "sim" : null,
+                        palet: embalagemSelecionada.value === "palet" ? "sim" : null,
+                        grade: embalagemSelecionada.value === "grade" ? "sim" : null,
+                        cubagem_id: cargaData.carga_id,
+                    }),
+                });
+                if (!embalagemResponse.ok) {
+                    console.error("Erro ao criar embalagem:", await embalagemResponse.json());
+                }
+            } else {
+                alert("Selecione uma embalagem antes de continuar.");
+            }
 
             alert("Cotação criada com sucesso!");
             window.location.href = "/src/app/pages/price/resume/resume.html";
         } catch (error) {
             console.error("Erro ao salvar dados da cotação:", error);
-            alert("Erro ao salvar dados da cotação. Verifique o console.");
         }
     }
 
-    // Evento de clique no botão Confirmar para calcular e salvar cotação
+    // Evento de clique no botão Confirmar
     document.getElementById("btnConfirmar").addEventListener("click", confirmarCotacao);
 });

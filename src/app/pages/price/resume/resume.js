@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
 
         // Fazer requisição para o backend
-        const response = await fetch(`http://127.0.0.1:5501/api/cotacao/resumo/${cotacaoId}`);
+        const response = await fetch(`http://127.0.0.1:5000/api/cotacao/resumo/${cotacaoId}`);
         const data = await response.json();
 
         if (!response.ok) {

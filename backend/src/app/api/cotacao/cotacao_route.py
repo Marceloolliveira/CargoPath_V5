@@ -1,10 +1,11 @@
 from flask import Blueprint, request, jsonify
 from ...data_base.db_classes.DatabaseConnection import DatabaseConnection
 
-cotacao_blueprint = Blueprint('cotacao', __name__)
+# Configurando o Blueprint com o prefixo /api/cotacao
+cotacao_blueprint = Blueprint('cotacao', __name__, url_prefix='/api/cotacao')
 
 # Endpoint para criar uma nova cotação
-@cotacao_blueprint.route('/api/cotacao', methods=['POST'])
+@cotacao_blueprint.route('/', methods=['POST'])
 def criar_cotacao():
     data = request.json
     descricao = data.get('descricao')
@@ -45,7 +46,7 @@ def criar_cotacao():
         db.close()
 
 # Endpoint para listar todas as cotações
-@cotacao_blueprint.route('/api/cotacoes', methods=['GET'])
+@cotacao_blueprint.route('/', methods=['GET'])
 def listar_cotacoes():
     db = DatabaseConnection()
     db.connect()
@@ -76,7 +77,7 @@ def listar_cotacoes():
         db.close()
 
 # Endpoint para obter uma cotação específica
-@cotacao_blueprint.route('/api/cotacao/<int:cotacao_id>', methods=['GET'])
+@cotacao_blueprint.route('/<int:cotacao_id>', methods=['GET'])
 def obter_cotacao(cotacao_id):
     db = DatabaseConnection()
     db.connect()
@@ -106,7 +107,7 @@ def obter_cotacao(cotacao_id):
         db.close()
 
 # Endpoint para atualizar uma cotação
-@cotacao_blueprint.route('/api/cotacao/<int:cotacao_id>', methods=['PUT'])
+@cotacao_blueprint.route('/<int:cotacao_id>', methods=['PUT'])
 def atualizar_cotacao(cotacao_id):
     data = request.json
     descricao = data.get('descricao')
@@ -140,7 +141,7 @@ def atualizar_cotacao(cotacao_id):
         db.close()
 
 # Endpoint para deletar uma cotação
-@cotacao_blueprint.route('/api/cotacao/<int:cotacao_id>', methods=['DELETE'])
+@cotacao_blueprint.route('/<int:cotacao_id>', methods=['DELETE'])
 def deletar_cotacao(cotacao_id):
     db = DatabaseConnection()
     db.connect()
@@ -161,13 +162,8 @@ def deletar_cotacao(cotacao_id):
         cursor.close()
         db.close()
 
-#Endpoint para trazer o resumo por cotação_Id
-from flask import Blueprint, request, jsonify
-from ...data_base.db_classes.DatabaseConnection import DatabaseConnection
-
-cotacao_blueprint = Blueprint('cotacao', __name__)
-
-@cotacao_blueprint.route('/api/cotacao/resumo/<int:cotacao_id>', methods=['GET'])
+# Endpoint para trazer o resumo de uma cotação por ID
+@cotacao_blueprint.route('/resumo/<int:cotacao_id>', methods=['GET'])
 def obter_resumo_cotacao(cotacao_id):
     db = DatabaseConnection()
     db.connect()
@@ -177,8 +173,8 @@ def obter_resumo_cotacao(cotacao_id):
         return jsonify({"error": "Erro ao conectar ao banco de dados"}), 500
 
     try:
-        # SQL ajustado para evitar conflitos de nomes
-        SQL_AJUSTADO = """
+        # SQL para buscar os dados relacionados ao resumo da cotação
+        SQL_RESUMO = """
             SELECT 
                 cotacoes.cotacao_id,
                 cotacoes.descricao AS cotacao_descricao,
@@ -187,7 +183,7 @@ def obter_resumo_cotacao(cotacao_id):
                 cotacoes.valor_frete AS cotacao_valor_frete,
                 cotacoes.created_at AS cotacao_created_at,
 
-                -- Campos da tabela localizacao (remetente e destinatario)
+                -- Dados da tabela localizacao
                 remetente.localizacao_id AS remetente_id,
                 remetente.rua AS remetente_rua,
                 remetente.numero AS remetente_numero,
@@ -204,25 +200,24 @@ def obter_resumo_cotacao(cotacao_id):
                 destino.estado AS destino_estado,
                 destino.complemento AS destino_complemento,
 
-                -- Campos da tabela carga
+                -- Dados da tabela carga
                 carga.carga_id AS carga_id,
                 carga.valor AS carga_valor,
                 carga.peso AS carga_peso,
                 carga.volumes AS carga_volumes,
 
-                -- Campos da tabela cubagem
+                -- Dados da tabela cubagem
                 cubagem.cubagem_id AS cubagem_id,
                 cubagem.altura AS cubagem_altura,
                 cubagem.largura AS cubagem_largura,
                 cubagem.comprimento AS cubagem_comprimento,
                 cubagem.qtd AS cubagem_quantidade,
 
-                -- Campos da tabela embalagem
+                -- Dados da tabela embalagem
                 embalagem.embalagem_id AS embalagem_id,
                 embalagem.caixa AS embalagem_caixa,
                 embalagem.palet AS embalagem_palet,
                 embalagem.grade AS embalagem_grade
-
             FROM 
                 cotacoes
             LEFT JOIN localizacao AS remetente 
@@ -239,14 +234,14 @@ def obter_resumo_cotacao(cotacao_id):
                 cotacoes.cotacao_id = %s;
         """
 
-        # Executar o SQL e buscar os dados
-        cursor.execute(SQL_AJUSTADO, (cotacao_id,))
+        # Executar o SQL
+        cursor.execute(SQL_RESUMO, (cotacao_id,))
         resumo = cursor.fetchone()
 
         if not resumo:
             return jsonify({"error": "Cotação não encontrada"}), 404
 
-        # Construir o JSON de resposta com base nos apelidos
+        # Construir o JSON de resposta
         dados = {
             "cotacao_id": resumo[0],
             "descricao": resumo[1],
@@ -261,7 +256,7 @@ def obter_resumo_cotacao(cotacao_id):
                 "cep": resumo[9],
                 "cidade": resumo[10],
                 "estado": resumo[11],
-                "complemento": resumo[12]
+                "complemento": resumo[12],
             },
             "destino": {
                 "id": resumo[13],
@@ -270,27 +265,27 @@ def obter_resumo_cotacao(cotacao_id):
                 "cep": resumo[16],
                 "cidade": resumo[17],
                 "estado": resumo[18],
-                "complemento": resumo[19]
+                "complemento": resumo[19],
             },
             "carga": {
                 "id": resumo[20],
                 "valor": float(resumo[21]),
                 "peso": float(resumo[22]),
-                "volumes": resumo[23]
+                "volumes": resumo[23],
             },
             "cubagem": {
                 "id": resumo[24],
                 "altura": float(resumo[25]),
                 "largura": float(resumo[26]),
                 "comprimento": float(resumo[27]),
-                "quantidade": resumo[28]
+                "quantidade": resumo[28],
             },
             "embalagem": {
                 "id": resumo[29],
                 "caixa": resumo[30],
                 "palet": resumo[31],
-                "grade": resumo[32]
-            }
+                "grade": resumo[32],
+            },
         }
 
         return jsonify(dados), 200
@@ -301,6 +296,5 @@ def obter_resumo_cotacao(cotacao_id):
         cursor.close()
         db.close()
 
-
-
-
+    # (Lógica do resumo já implementada corretamente)
+    
