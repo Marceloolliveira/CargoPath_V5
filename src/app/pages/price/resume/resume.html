@@ -57,7 +57,6 @@
     <div class="container">
         <h1>Resumo da Cotação</h1>
 
-        <!-- Div principal que contém esquerda e direita -->
         <div class="container-flex">
             <!-- Lado esquerdo -->
             <div class="left-content">
@@ -76,7 +75,6 @@
                             <select id="remetenteEstado" disabled>
                                 <option value="AC">AC</option>
                                 <option value="AL">AL</option>
-                                <!-- Outros estados omitidos por brevidade -->
                             </select>
                             <input type="text" placeholder="Bairro" id="remetenteBairro" disabled>
                             <input type="text" placeholder="Complemento" id="remetenteComplemento" disabled>
@@ -93,7 +91,6 @@
                             <select id="destinoEstado" disabled>
                                 <option value="AC">AC</option>
                                 <option value="AL">AL</option>
-                                <!-- Outros estados omitidos por brevidade -->
                             </select>
                             <input type="text" placeholder="Bairro" id="destinoBairro" disabled>
                             <input type="text" placeholder="Complemento" id="destinoComplemento" disabled>
@@ -138,6 +135,11 @@
                             </tr>
                         </tbody>
                     </table>
+                </div>
+
+                <div class="section">
+                    <h2>Data de Agendamento</h2>
+                    <input type="text" id="dataAgendamento" placeholder="Data de Agendamento" disabled>
                 </div>
 
                 <div class="section">

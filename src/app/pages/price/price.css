@@ -186,6 +186,22 @@ input[type="text"], input[type="number"], select {
   background-color: #111;
 }
 
+.flatpickr-calendar {
+  font-family: 'Arial', sans-serif;
+  color: #333;
+}
+
+.flatpickr-day {
+  border-radius: 50%;
+  transition: 0.3s;
+}
+
+.flatpickr-day:hover {
+  background: #007bff;
+  color: #fff;
+}
+
+
 /* Responsividade */
 @media (max-width: 768px) {
   .container {

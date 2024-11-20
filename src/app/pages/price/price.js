@@ -4,6 +4,15 @@ document.addEventListener("DOMContentLoaded", function () {
         return `${rua}, ${numero}, ${cep}, ${cidade} - ${estado}`;
     }
 
+    // Configuração do calendário (Flatpickr)
+    flatpickr("#dataAgendamento", {
+        altInput: true, 
+        altFormat: "F j, Y", 
+        dateFormat: "Y-m-d", 
+        minDate: "today",
+        locale: "pt",
+    });
+
     // Função para calcular o frete usando a API do Google Maps
     async function calcularFrete() {
         const inputRemetenteRua = document.getElementById("remetenteRua");
@@ -67,6 +76,7 @@ document.addEventListener("DOMContentLoaded", function () {
     async function confirmarCotacao() {
         const usuarioID = localStorage.getItem("usuarioID");
         const descricaoPedido = document.getElementById("descricaoPedido").value;
+        const dataAgendamento = document.getElementById("dataAgendamento").value;
 
         try {
             // Calcular o frete primeiro
@@ -81,6 +91,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     status: "pendente",
                     user_id: usuarioID,
                     valor_frete: valorFrete,
+                    data_agendamento: dataAgendamento,
                 }),
             });
 

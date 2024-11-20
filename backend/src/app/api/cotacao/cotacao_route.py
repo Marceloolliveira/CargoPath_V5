@@ -12,6 +12,7 @@ def criar_cotacao():
     status = data.get('status')
     valor_frete = data.get('valor_frete')
     user_id = data.get('user_id')
+    data_agendamento = data.get('data_agendamento')
 
     db = DatabaseConnection()
     db.connect()
@@ -22,10 +23,10 @@ def criar_cotacao():
 
     try:
         cursor.execute("""
-            INSERT INTO cotacoes (descricao, status, user_id, valor_frete)
-            VALUES (%s, %s, %s, %s)
+            INSERT INTO cotacoes (descricao, status, user_id, valor_frete, data_agendamento)
+            VALUES (%s, %s, %s, %s, %s)
             RETURNING cotacao_id;
-        """, (descricao, status, user_id, valor_frete))
+        """, (descricao, status, user_id, valor_frete, data_agendamento))
         
         cotacao_id = cursor.fetchone()[0]
         db.commit()
@@ -36,6 +37,7 @@ def criar_cotacao():
             "status": status,
             "user_id": user_id,
             "valor_frete": valor_frete,
+            "data_agendamento": data_agendamento,
             "message": "Cotação criada com sucesso!"
         }), 201
     except Exception as e:
@@ -59,7 +61,6 @@ def listar_cotacoes():
         cursor.execute("SELECT * FROM cotacoes;")
         cotacoes = cursor.fetchall()
         
-        # Adiciona rótulos aos dados retornados
         cotacoes_list = []
         for cotacao in cotacoes:
             cotacoes_list.append({
@@ -67,8 +68,9 @@ def listar_cotacoes():
                 "descricao": cotacao[1],
                 "status": cotacao[2],
                 "user_id": cotacao[3],
-                "valor_frete": cotacao[5],
-                "created_at": cotacao[4]
+                "valor_frete": cotacao[4],
+                "data_agendamento": cotacao[5],
+                "created_at": cotacao[6]
             })
         
         return jsonify(cotacoes_list), 200
@@ -96,68 +98,13 @@ def obter_cotacao(cotacao_id):
                 "descricao": cotacao[1],
                 "status": cotacao[2],
                 "user_id": cotacao[3],
-                "valor_frete": cotacao[5],
-                "created_at": cotacao[4]
+                "valor_frete": cotacao[4],
+                "data_agendamento": cotacao[5],
+                "created_at": cotacao[6]
             }
             return jsonify(cotacao_detalhe), 200
         else:
             return jsonify({"message": "Cotação não encontrada"}), 404
-    finally:
-        cursor.close()
-        db.close()
-
-# Endpoint para atualizar uma cotação
-@cotacao_blueprint.route('/<int:cotacao_id>', methods=['PUT'])
-def atualizar_cotacao(cotacao_id):
-    data = request.json
-    descricao = data.get('descricao')
-    status = data.get('status')
-
-    db = DatabaseConnection()
-    db.connect()
-    cursor = db.get_cursor()
-
-    if cursor is None:
-        return jsonify({"error": "Erro ao conectar ao banco de dados"}), 500
-
-    try:
-        cursor.execute("""
-            UPDATE cotacoes SET descricao = %s, status = %s
-            WHERE cotacao_id = %s;
-        """, (descricao, status, cotacao_id))
-        
-        db.commit()
-        return jsonify({
-            "cotacao_id": cotacao_id,
-            "descricao": descricao,
-            "status": status,
-            "message": "Cotação atualizada com sucesso!"
-        }), 200
-    except Exception as e:
-        db.rollback()
-        return jsonify({"error": str(e)}), 500
-    finally:
-        cursor.close()
-        db.close()
-
-# Endpoint para deletar uma cotação
-@cotacao_blueprint.route('/<int:cotacao_id>', methods=['DELETE'])
-def deletar_cotacao(cotacao_id):
-    db = DatabaseConnection()
-    db.connect()
-    cursor = db.get_cursor()
-
-    if cursor is None:
-        return jsonify({"error": "Erro ao conectar ao banco de dados"}), 500
-
-    try:
-        cursor.execute("DELETE FROM cotacoes WHERE cotacao_id = %s;", (cotacao_id,))
-        db.commit()
-        
-        return jsonify({"cotacao_id": cotacao_id, "message": "Cotação deletada com sucesso!"}), 200
-    except Exception as e:
-        db.rollback()
-        return jsonify({"error": str(e)}), 500
     finally:
         cursor.close()
         db.close()
@@ -173,7 +120,6 @@ def obter_resumo_cotacao(cotacao_id):
         return jsonify({"error": "Erro ao conectar ao banco de dados"}), 500
 
     try:
-        # SQL para buscar os dados relacionados ao resumo da cotação
         SQL_RESUMO = """
             SELECT 
                 cotacoes.cotacao_id,
@@ -181,9 +127,10 @@ def obter_resumo_cotacao(cotacao_id):
                 cotacoes.status AS cotacao_status,
                 cotacoes.user_id AS cotacao_user_id,
                 cotacoes.valor_frete AS cotacao_valor_frete,
+                cotacoes.data_agendamento AS cotacao_data_agendamento,
                 cotacoes.created_at AS cotacao_created_at,
 
-                -- Dados da tabela localizacao
+                -- Campos da tabela localizacao
                 remetente.localizacao_id AS remetente_id,
                 remetente.rua AS remetente_rua,
                 remetente.numero AS remetente_numero,
@@ -200,20 +147,20 @@ def obter_resumo_cotacao(cotacao_id):
                 destino.estado AS destino_estado,
                 destino.complemento AS destino_complemento,
 
-                -- Dados da tabela carga
+                -- Campos da tabela carga
                 carga.carga_id AS carga_id,
                 carga.valor AS carga_valor,
                 carga.peso AS carga_peso,
                 carga.volumes AS carga_volumes,
 
-                -- Dados da tabela cubagem
+                -- Campos da tabela cubagem
                 cubagem.cubagem_id AS cubagem_id,
                 cubagem.altura AS cubagem_altura,
                 cubagem.largura AS cubagem_largura,
                 cubagem.comprimento AS cubagem_comprimento,
                 cubagem.qtd AS cubagem_quantidade,
 
-                -- Dados da tabela embalagem
+                -- Campos da tabela embalagem
                 embalagem.embalagem_id AS embalagem_id,
                 embalagem.caixa AS embalagem_caixa,
                 embalagem.palet AS embalagem_palet,
@@ -234,57 +181,56 @@ def obter_resumo_cotacao(cotacao_id):
                 cotacoes.cotacao_id = %s;
         """
 
-        # Executar o SQL
         cursor.execute(SQL_RESUMO, (cotacao_id,))
         resumo = cursor.fetchone()
 
         if not resumo:
             return jsonify({"error": "Cotação não encontrada"}), 404
 
-        # Construir o JSON de resposta
         dados = {
             "cotacao_id": resumo[0],
             "descricao": resumo[1],
             "status": resumo[2],
             "user_id": resumo[3],
             "valor_frete": float(resumo[4]),
-            "created_at": resumo[5],
+            "data_agendamento": resumo[5].strftime("%Y-%m-%d") if resumo[5] else None,
+            "created_at": resumo[6].strftime("%Y-%m-%d %H:%M:%S") if resumo[6] else None,
             "remetente": {
-                "id": resumo[6],
-                "rua": resumo[7],
-                "numero": resumo[8],
-                "cep": resumo[9],
-                "cidade": resumo[10],
-                "estado": resumo[11],
-                "complemento": resumo[12],
+                "id": resumo[7],
+                "rua": resumo[8],
+                "numero": resumo[9],
+                "cep": resumo[10],
+                "cidade": resumo[11],
+                "estado": resumo[12],
+                "complemento": resumo[13],
             },
             "destino": {
-                "id": resumo[13],
-                "rua": resumo[14],
-                "numero": resumo[15],
-                "cep": resumo[16],
-                "cidade": resumo[17],
-                "estado": resumo[18],
-                "complemento": resumo[19],
+                "id": resumo[14],
+                "rua": resumo[15],
+                "numero": resumo[16],
+                "cep": resumo[17],
+                "cidade": resumo[18],
+                "estado": resumo[19],
+                "complemento": resumo[20],
             },
             "carga": {
-                "id": resumo[20],
-                "valor": float(resumo[21]),
-                "peso": float(resumo[22]),
-                "volumes": resumo[23],
+                "id": resumo[21],
+                "valor": float(resumo[22]),
+                "peso": float(resumo[23]),
+                "volumes": resumo[24],
             },
             "cubagem": {
-                "id": resumo[24],
-                "altura": float(resumo[25]),
-                "largura": float(resumo[26]),
-                "comprimento": float(resumo[27]),
-                "quantidade": resumo[28],
+                "id": resumo[25],
+                "altura": float(resumo[26]),
+                "largura": float(resumo[27]),
+                "comprimento": float(resumo[28]),
+                "quantidade": resumo[29],
             },
             "embalagem": {
-                "id": resumo[29],
-                "caixa": resumo[30],
-                "palet": resumo[31],
-                "grade": resumo[32],
+                "id": resumo[30],
+                "caixa": resumo[31],
+                "palet": resumo[32],
+                "grade": resumo[33],
             },
         }
 
@@ -296,5 +242,3 @@ def obter_resumo_cotacao(cotacao_id):
         cursor.close()
         db.close()
 
-    # (Lógica do resumo já implementada corretamente)
-    
