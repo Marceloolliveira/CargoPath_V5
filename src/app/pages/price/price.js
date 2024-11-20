@@ -123,6 +123,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 cidade: document.getElementById("destinoCidade").value,
                 estado: document.getElementById("destinoEstado").value,
                 complemento: document.getElementById("destinoComplemento").value,
+                destinatario_nome: document.getElementById("destinatarioNome").value,
                 tipo: 2,
                 cotacao_id: cotacaoId,
             };

@@ -19,7 +19,7 @@ document.getElementById("btn-cadastrar").addEventListener("click", async (e) => 
       if (response.ok) {
           const data = await response.json();
           alert("Cadastro realizado com sucesso!");
-          window.location.href = "/src/app/pages/login/login.html"; // Redireciona para a página de login
+          window.location.href = "http://127.0.0.1:5501/login.html";
       } else {
           const error = await response.json();
           alert(error.error || "Erro no cadastro");

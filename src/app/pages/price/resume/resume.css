@@ -182,10 +182,9 @@ input[type="text"], input[type="number"], select {
     justify-content: center;
     align-items: center;
 }
-#btnPagar, 
-#btnNovaCotacao {
+#btnPagar {
     width: 85%;
-    background-color: #333;
+    background-color: #45a049;
     color: white;
     padding: 15px 30px;
     border: none;
@@ -195,9 +194,24 @@ input[type="text"], input[type="number"], select {
     margin-top: 20px;
     float: right;
   }
+
+#btnNovaCotacao{
+    width: 85%;
+    background-color: rgb(253, 60, 60);
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 20px;
+    float: right;
+}
   
-#btnNovaCotacao:hover,
+#btnNovaCotacao:hover {
+    background-color: rgb(255, 0, 0);
+  }
 #btnPagar:hover {
-    background-color: #111;
+    background-color: #1caf21;
   }
   

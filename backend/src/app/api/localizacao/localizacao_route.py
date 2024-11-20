@@ -15,6 +15,7 @@ def criar_localizacao():
     complemento = data.get('complemento')
     tipo = data.get('tipo')
     cotacao_id = data.get('cotacao_id')
+    destinatario_nome = data.get('destinatario_nome')  # Novo campo
 
     db = DatabaseConnection()
     db.connect()
@@ -25,10 +26,10 @@ def criar_localizacao():
 
     try:
         cursor.execute("""
-            INSERT INTO localizacao (rua, numero, cep, cidade, estado, complemento, tipo, cotacao_id)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+            INSERT INTO localizacao (rua, numero, cep, cidade, estado, complemento, tipo, cotacao_id, destinatario_nome)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
             RETURNING localizacao_id;
-        """, (rua, numero, cep, cidade, estado, complemento, tipo, cotacao_id))
+        """, (rua, numero, cep, cidade, estado, complemento, tipo, cotacao_id, destinatario_nome))
         
         localizacao_id = cursor.fetchone()[0]
         db.commit()

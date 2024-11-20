@@ -130,7 +130,7 @@ def obter_resumo_cotacao(cotacao_id):
                 cotacoes.data_agendamento AS cotacao_data_agendamento,
                 cotacoes.created_at AS cotacao_created_at,
 
-                -- Campos da tabela localizacao
+                -- Campos da tabela localizacao para remetente
                 remetente.localizacao_id AS remetente_id,
                 remetente.rua AS remetente_rua,
                 remetente.numero AS remetente_numero,
@@ -139,6 +139,7 @@ def obter_resumo_cotacao(cotacao_id):
                 remetente.estado AS remetente_estado,
                 remetente.complemento AS remetente_complemento,
 
+                -- Campos da tabela localizacao para destino
                 destino.localizacao_id AS destino_id,
                 destino.rua AS destino_rua,
                 destino.numero AS destino_numero,
@@ -146,6 +147,7 @@ def obter_resumo_cotacao(cotacao_id):
                 destino.cidade AS destino_cidade,
                 destino.estado AS destino_estado,
                 destino.complemento AS destino_complemento,
+                destino.destinatario_nome AS destino_destinatario_nome, 
 
                 -- Campos da tabela carga
                 carga.carga_id AS carga_id,
@@ -212,25 +214,26 @@ def obter_resumo_cotacao(cotacao_id):
                 "cidade": resumo[18],
                 "estado": resumo[19],
                 "complemento": resumo[20],
+                "destinatario_nome": resumo[21],  # Novo campo
             },
             "carga": {
-                "id": resumo[21],
-                "valor": float(resumo[22]),
-                "peso": float(resumo[23]),
-                "volumes": resumo[24],
+                "id": resumo[22],
+                "valor": float(resumo[23]),
+                "peso": float(resumo[24]),
+                "volumes": resumo[25],
             },
             "cubagem": {
-                "id": resumo[25],
-                "altura": float(resumo[26]),
-                "largura": float(resumo[27]),
-                "comprimento": float(resumo[28]),
-                "quantidade": resumo[29],
+                "id": resumo[26],
+                "altura": float(resumo[27]),
+                "largura": float(resumo[28]),
+                "comprimento": float(resumo[29]),
+                "quantidade": resumo[30],
             },
             "embalagem": {
-                "id": resumo[30],
-                "caixa": resumo[31],
-                "palet": resumo[32],
-                "grade": resumo[33],
+                "id": resumo[31],
+                "caixa": resumo[32],
+                "palet": resumo[33],
+                "grade": resumo[34],
             },
         }
 
@@ -241,4 +244,58 @@ def obter_resumo_cotacao(cotacao_id):
     finally:
         cursor.close()
         db.close()
+
+@cotacao_blueprint.route('/user/<int:user_id>/coletas', methods=['GET'])
+def listar_coletas_por_usuario(user_id):
+    db = DatabaseConnection()
+    db.connect()
+    cursor = db.get_cursor()
+
+    if cursor is None:
+        return jsonify({"error": "Erro ao conectar ao banco de dados"}), 500
+
+    try:
+        # Query para buscar coletas por user_id
+        SQL_COLETAS = """
+            SELECT
+                cotacoes.cotacao_id,
+                cotacoes.descricao,
+                cotacoes.status,
+                cotacoes.data_agendamento,
+                remetente.cidade AS remetente_cidade,
+                destino.cidade AS destino_cidade
+            FROM cotacoes
+            LEFT JOIN localizacao AS remetente
+                ON cotacoes.cotacao_id = remetente.cotacao_id AND remetente.tipo = 1
+            LEFT JOIN localizacao AS destino
+                ON cotacoes.cotacao_id = destino.cotacao_id AND destino.tipo = 2
+            WHERE cotacoes.user_id = %s
+            ORDER BY cotacoes.data_agendamento ASC;
+        """
+        cursor.execute(SQL_COLETAS, (user_id,))
+        coletas = cursor.fetchall()
+
+        if not coletas:
+            return jsonify({"message": "Nenhuma coleta encontrada."}), 404
+
+        # Preparar dados para resposta JSON
+        coletas_list = []
+        for coleta in coletas:
+            coletas_list.append({
+                "id": coleta[0],
+                "descricao": coleta[1],
+                "status": coleta[2],
+                "data_agendamento": coleta[3].strftime("%Y-%m-%d") if coleta[3] else None,
+                "remetente": coleta[4],
+                "destino": coleta[5]
+            })
+
+        return jsonify(coletas_list), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    finally:
+        cursor.close()
+        db.close()
+
+
 

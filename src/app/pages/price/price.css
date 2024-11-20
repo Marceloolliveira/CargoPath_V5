@@ -47,11 +47,17 @@ h1 {
 #remetenteCEP, #destinoCEP,
 #remetenteCidade, #destinoCidade,
 #remetenteBairro, #destinoBairro,
-#remetenteComplemento, #destinoComplemento {
+#remetenteComplemento, #destinoComplemento, #descricaoPedido {
   box-sizing: border-box;
   background-color: white;
   margin-bottom: 10px;
 }
+
+#destinatarioNome{
+  width: 65%;
+  padding-right: px;
+}
+
 
 #remetenteRua, #destinoRua {
   width: 80%;

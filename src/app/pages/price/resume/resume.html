@@ -72,10 +72,7 @@
                             <input type="text" placeholder="Número" id="remetenteNumero" disabled>
                             <input type="text" placeholder="CEP" id="remetenteCEP" disabled>
                             <input type="text" placeholder="Cidade" id="remetenteCidade" disabled>
-                            <select id="remetenteEstado" disabled>
-                                <option value="AC">AC</option>
-                                <option value="AL">AL</option>
-                            </select>
+                            <input type="text" placeholder="UF" id="remetenteEstado" disabled>
                             <input type="text" placeholder="Bairro" id="remetenteBairro" disabled>
                             <input type="text" placeholder="Complemento" id="remetenteComplemento" disabled>
                         </div>
@@ -88,12 +85,11 @@
                             <input type="text" placeholder="Número" id="destinoNumero" disabled>
                             <input type="text" placeholder="CEP" id="destinoCEP" disabled>
                             <input type="text" placeholder="Cidade" id="destinoCidade" disabled>
-                            <select id="destinoEstado" disabled>
-                                <option value="AC">AC</option>
-                                <option value="AL">AL</option>
-                            </select>
+                            <input id="destinoEstado" type="text" placeholder="UF" id="destinoUF" disabled>
                             <input type="text" placeholder="Bairro" id="destinoBairro" disabled>
                             <input type="text" placeholder="Complemento" id="destinoComplemento" disabled>
+                            <h2>Nome do destinatario</h2>
+                            <input type="text" placeholder="Nome do Destinatário" id="destinoNome" disabled>
                         </div>
                     </div>
                 </div>
@@ -149,8 +145,8 @@
                 </div>
 
                 <div id="resultado">
-                    <button id="btnPagar" class="btn btn-primary">Agendar Coleta</button>
-                    <button id="btnNovaCotacao" class="btn btn-secondary">Nova Cotação</button>
+                    <button id="btnPagar" class="btn btn-primary">Pagar / Agendar Coleta</button>
+                    <button id="btnNovaCotacao" class="btn btn-secondary">Cancelar / Nova Cotação</button>
                 </div>
                 
             </div>

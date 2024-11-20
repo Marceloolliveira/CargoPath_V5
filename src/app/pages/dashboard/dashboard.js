@@ -40,6 +40,7 @@ document.getElementById("sair").addEventListener("click", function() {
     localStorage.removeItem("usuarioID");
     localStorage.removeItem("usuarioNome");
     localStorage.removeItem("valorFinalFrete");
+    localStorage.removeItem("cotacaoId");
     window.location.href = "../../../../login.html"; // Redireciona para a página de login
 });
 

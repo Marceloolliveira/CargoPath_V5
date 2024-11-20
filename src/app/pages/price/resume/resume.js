@@ -19,6 +19,8 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         preencherDados("remetente", data.remetente);
         preencherDados("destino", data.destino);
+        
+        document.getElementById("destinoNome").value = data.destino.destinatario_nome || "Não informado";
 
         document.getElementById("valorCarga").value = data.carga.valor;
         document.getElementById("pesoCarga").value = data.carga.peso;
@@ -70,3 +72,12 @@ function configurarBotoes() {
         window.location.href = "/src/app/pages/price/price.html";
     });
 }
+
+//sair e limpar localStorage
+document.getElementById("sair").addEventListener("click", function() {
+    localStorage.removeItem("token");
+    localStorage.removeItem("usuarioID");
+    localStorage.removeItem("usuarioNome");
+    localStorage.removeItem("valorFinalFrete");
+    window.location.href = "../../../../../login.html"; // Redireciona para a página de login
+});
