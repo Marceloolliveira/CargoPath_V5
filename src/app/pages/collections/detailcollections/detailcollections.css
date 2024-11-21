@@ -43,7 +43,7 @@ h1 {
 }
 
 .right-content {
-  flex: 1;
+  flex: 3;
   background-color: #e9f7ef;
   padding: 20px;
   border-radius: 8px;
@@ -142,7 +142,7 @@ h1 {
 /* Carga */
 .carga {
   display: flex;
-  flex-wrap: wrap;
+  width: 100%;
   gap: 10px;
 }
 
@@ -205,4 +205,22 @@ button {
 #resultado {
   display: flex;
   gap: 10px;
+}
+
+#btnPagar {
+  width: 100%;
+  background-color: #45a049;
+  color: white;
+  padding: 15px 30px;
+  padding-right: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-top: 20px;
+  float: right;
+}
+
+#btnPagar:hover {
+  background-color: #1caf21;
 }

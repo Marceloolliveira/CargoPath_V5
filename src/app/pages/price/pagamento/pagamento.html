@@ -9,50 +9,6 @@
     <script src="https://sdk.mercadopago.com/js/v2"></script>
 </head>
 <body>
-  <div class="menu-lateral">
-    <div class="btn-expandir">
-        <i class="bi bi-list" id="btn-exp"></i>
-    </div>
-    <ul id="menu">
-        <li class="item-menu">
-            <a href="../../dashboard/dashboard.html" class="inico" data-page="dashboard">
-                <span class="icon"><i class="bi bi-house"></i></span>
-                <span class="txt-link">INÍCIO</span>
-            </a>
-        </li>
-        <li class="item-menu ativo">
-            <a href="../../price/price.html" data-page="price">
-                <span class="icon"><i class="bi bi-file-earmark-text"></i></span>
-                <span class="txt-link">COTAÇÕES</span>
-            </a>
-        </li>
-        <li class="item-menu">
-            <a href="../../collections/collections.html" data-page="collections">
-                <span class="icon"><i class="bi bi-truck"></i></span>
-                <span class="txt-link">COLETAS</span>
-            </a>
-        </li>
-        <li class="item-menu">
-            <a href="../../invoices/invoices.html" data-page="invoices">
-                <span class="icon"><i class="bi bi-currency-dollar"></i></span>
-                <span class="txt-link">FATURAS</span>
-            </a>
-        </li>
-        <li class="item-menu">
-            <a href="../../history/history.html" data-page="history">
-                <span class="icon"><i class="bi bi-inbox"></i></span>
-                <span class="txt-link">HISTÓRICO</span>
-            </a>
-        </li>
-        <li class="item-menu">
-            <a>
-                <span class="icon"><i class="bi bi-person"></i></span>
-                <span id="nomeUsuario" class="txt-link">USUÁRIO</span>
-                <span class="icon" id="sair"><i class="bi bi-box-arrow-right"></i></span>
-            </a>
-        </li>
-    </ul>
-</div>
 
     <div class="container">
         <h1>Pagamento</h1>
@@ -69,18 +25,16 @@
         
         <!-- Área de pagamento -->
         <div class="pagamento-container">
-            <h2>Selecione o Método de Pagamento</h2>
-            <div id="paymentBrick_container"></div>
+          <div id="wallet_container"></div>
         </div>
 
         <!-- Botões de Ação -->
         <div class="acoes">
-            <button id="voltarResumo" class="btn-secundario">Voltar ao Resumo</button>
-            <button id="confirmarPagamento" class="btn-primario">Confirmar Pagamento</button>
+            <button id="voltarResumo" class="btn-secundario">Voltar para inicio</button>
         </div>
     </div>
 
     <script src="pagamento.js"></script>
-    <script src="../../dashboard/dashboard.js"></script>
+    <script src="../../common.js"></script>
 </body>
 </html>

@@ -405,6 +405,57 @@ def obter_historico(user_id):
         db.close()
 
 
+@cotacao_blueprint.route('/user/<int:user_id>/faturas', methods=['GET'])
+def listar_faturas_pagas(user_id):
+    db = DatabaseConnection()
+    db.connect()
+    cursor = db.get_cursor()
+
+    if cursor is None:
+        return jsonify({"error": "Erro ao conectar ao banco de dados"}), 500
+
+    try:
+        # Query para buscar faturas pagas
+        SQL_FATURAS = """
+            SELECT 
+                cotacoes.cotacao_id,
+                remetente.rua AS remetente_rua,
+                destino.rua AS destino_rua,
+                cotacoes.data_agendamento,
+                cotacoes.status
+            FROM cotacoes
+            LEFT JOIN localizacao AS remetente 
+                ON cotacoes.cotacao_id = remetente.cotacao_id AND remetente.tipo = 1
+            LEFT JOIN localizacao AS destino 
+                ON cotacoes.cotacao_id = destino.cotacao_id AND destino.tipo = 2
+            WHERE cotacoes.user_id = %s AND cotacoes.status = 'pago'
+            ORDER BY cotacoes.data_agendamento DESC;
+        """
+        cursor.execute(SQL_FATURAS, (user_id,))
+        faturas = cursor.fetchall()
+
+        if not faturas:
+            return jsonify([]), 200
+
+        # Preparar os dados para resposta JSON
+        resultado = [
+            {
+                "id": row[0],
+                "remetente": row[1] or "Remetente não informado",
+                "destino": row[2] or "Destino não informado",
+                "data_agendamento": row[3].strftime("%Y-%m-%d") if row[3] else "Não informado",
+                "status": row[4]
+            }
+            for row in faturas
+        ]
+
+        return jsonify(resultado), 200
+    except Exception as e:
+        print(f"Erro ao obter faturas pagas: {e}")
+        return jsonify({"error": str(e)}), 500
+    finally:
+        cursor.close()
+        db.close()
 
 
 

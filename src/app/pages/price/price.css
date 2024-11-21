@@ -239,3 +239,21 @@ input[type="text"], input[type="number"], select {
     float: none;
   }
 }
+
+select {
+  appearance: none; /* Remove estilos padrão do navegador */
+  height: 40px; /* Defina a altura */
+  padding: 0 10px; /* Adicione espaçamento interno */
+  font-size: 16px; /* Ajuste o tamanho da fonte */
+  border: 1px solid #ccc; /* Borda */
+  border-radius: 5px; /* Bordas arredondadas */
+  background-color: #fff; /* Fundo branco */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra leve */
+  cursor: pointer; /* Cursor de mão para indicar clique */
+}
+
+select:focus {
+  outline: none; /* Remove o contorno padrão ao focar */
+  border-color: #414bb2; /* Destaque a borda ao focar */
+}
+

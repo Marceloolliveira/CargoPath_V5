@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", function () {
     try {
       const preferenceId = await fetchPreferenceId();
 
-      await bricksBuilder.create("payment", "paymentBrick_container", {
+      mp.bricks().create("wallet", "wallet_container", {
         initialization: {
           amount: parseFloat(valorFinalFrete),
           preferenceId: preferenceId,
@@ -65,8 +65,7 @@ document.addEventListener("DOMContentLoaded", function () {
             console.log("Payment Brick carregado com sucesso!");
           },
           onSubmit: (formData) => {
-            console.log("Dados enviados para o pagamento:", formData);
-            alert("Pagamento realizado com sucesso!");
+            console.log("Dados enviados para o pagamento:", formData);     
           },
           onError: (error) => {
             console.error("Erro ao carregar o Payment Brick:", error);
@@ -82,4 +81,13 @@ document.addEventListener("DOMContentLoaded", function () {
   console.log("Amount:", parseFloat(valorFinalFrete));
 
   loadPaymentBrick();
+});
+
+
+document.getElementById("voltarResumo").addEventListener("click", function () {
+  localStorage.removeItem("cotacaoId");
+  localStorage.removeItem("valorFinalFrete");
+  localStorage.removeItem("destinatario");
+  localStorage.removeItem("dataAgendamento");
+  window.location.href = "/src/app/pages/price/price.html";
 });

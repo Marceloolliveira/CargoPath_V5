@@ -64,7 +64,6 @@ h1 {
 
 .carga-inputs {
     display: flex; /* Usar flexbox para alinhar os inputs horizontalmente */
-    flex-wrap: wrap; /* Permitir que os inputs quebrem linha se necessário */
     justify-content: center;
     text-align: center;
 }
@@ -75,6 +74,8 @@ h1 {
     justify-content: center;
     text-align: center;
 }
+
+
 
 input[type="text"], input[type="number"], select {
     padding: 8px; /* Menor padding para inputs mais compactos */
@@ -119,6 +120,11 @@ input[type="number"] {
   align-items: center; /* Ajuste ou remova */
   text-align: left; /* Ajuste ou remova */
   background-color: white; /* Ajuste ou remova */
+}
+
+#destinoNome{
+    width: 80%;
+    background-color: white;
 }
 
 #remetenteNumero,

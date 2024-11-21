@@ -54,3 +54,7 @@ function preencherDados(tipo, dados) {
   document.getElementById(`${tipo}Bairro`).value = dados.bairro || "";
   document.getElementById(`${tipo}Complemento`).value = dados.complemento || "";
 }
+
+document.getElementById("btnPagar").addEventListener("click", function () {// Redirecionar para a tela de pagamento
+    window.location.href = "/src/app/pages/price/resume/resume.html"; // Altere para o caminho correto
+})
