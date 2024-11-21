@@ -109,6 +109,64 @@ def obter_cotacao(cotacao_id):
         cursor.close()
         db.close()
 
+# Endpoint para atualizar uma cotação
+@cotacao_blueprint.route('/<int:cotacao_id>', methods=['PUT'])
+def atualizar_cotacao(cotacao_id):
+    data = request.json
+    descricao = data.get('descricao')
+    status = data.get('status')
+
+    db = DatabaseConnection()
+    db.connect()
+    cursor = db.get_cursor()
+
+    if cursor is None:
+        return jsonify({"error": "Erro ao conectar ao banco de dados"}), 500
+
+    try:
+        cursor.execute("""
+            UPDATE cotacoes SET descricao = %s, status = %s
+            WHERE cotacao_id = %s;
+        """, (descricao, status, cotacao_id))
+        
+        db.commit()
+        return jsonify({
+            "cotacao_id": cotacao_id,
+            "descricao": descricao,
+            "status": status,
+            "message": "Cotação atualizada com sucesso!"
+        }), 200
+    except Exception as e:
+        db.rollback()
+        return jsonify({"error": str(e)}), 500
+    finally:
+        cursor.close()
+        db.close()
+
+# Endpoint para deletar uma cotação
+@cotacao_blueprint.route('/api/cotacao/<int:cotacao_id>', methods=['DELETE'])
+def deletar_cotacao(cotacao_id):
+    db = DatabaseConnection()
+    db.connect()
+    cursor = db.get_cursor()
+
+    if cursor is None:
+        return jsonify({"error": "Erro ao conectar ao banco de dados"}), 500
+
+    try:
+        cursor.execute("DELETE FROM cotacoes WHERE cotacao_id = %s;", (cotacao_id,))
+        db.commit()
+        
+        return jsonify({"cotacao_id": cotacao_id, "message": "Cotação deletada com sucesso!"}), 200
+    except Exception as e:
+        db.rollback()
+        return jsonify({"error": str(e)}), 500
+    finally:
+        cursor.close()
+        db.close()
+
+
+
 # Endpoint para trazer o resumo de uma cotação por ID
 @cotacao_blueprint.route('/resumo/<int:cotacao_id>', methods=['GET'])
 def obter_resumo_cotacao(cotacao_id):
@@ -296,6 +354,57 @@ def listar_coletas_por_usuario(user_id):
     finally:
         cursor.close()
         db.close()
+
+#endpoint para tabela historico
+@cotacao_blueprint.route('/user/<int:user_id>/historico', methods=['GET'])
+def obter_historico(user_id):
+    db = DatabaseConnection()
+    db.connect()
+    cursor = db.get_cursor()
+
+    if cursor is None:
+        return jsonify({"error": "Erro ao conectar ao banco de dados"}), 500
+
+    try:
+        cursor.execute("""
+            SELECT 
+                cotacoes.cotacao_id,
+                remetente.rua AS remetente_rua,
+                destino.rua AS destino_rua,
+                cotacoes.data_agendamento,
+                cotacoes.status
+            FROM cotacoes
+            LEFT JOIN localizacao AS remetente 
+                ON cotacoes.cotacao_id = remetente.cotacao_id AND remetente.tipo = 1
+            LEFT JOIN localizacao AS destino 
+                ON cotacoes.cotacao_id = destino.cotacao_id AND destino.tipo = 2
+            WHERE cotacoes.user_id = %s AND (cotacoes.status = 'finalizado' OR cotacoes.status = 'cancelado')
+            ORDER BY cotacoes.data_agendamento DESC;
+        """, (user_id,))
+        historico = cursor.fetchall()
+
+        if not historico:
+            return jsonify([]), 200
+
+        resultado = [
+            {
+                "id": row[0],
+                "remetente": row[1] or "Remetente não informado",
+                "destino": row[2] or "Destino não informado",
+                "data_agendamento": row[3].strftime("%Y-%m-%d") if row[3] else "Não informado",
+                "status": row[4]
+            }
+            for row in historico
+        ]
+        return jsonify(resultado), 200
+    except Exception as e:
+        print(f"Erro ao obter histórico: {e}")
+        return jsonify({"error": str(e)}), 500
+    finally:
+        cursor.close()
+        db.close()
+
+
 
 
 

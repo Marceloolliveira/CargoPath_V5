@@ -1,23 +1,49 @@
+from flask import Blueprint, jsonify, request
 import mercadopago
 
-sdk = mercadopago.SDK("YOUR_ACCESS_TOKEN")
+payment_blueprint = Blueprint('payment', __name__, url_prefix='/api/payment')
 
-request_options = mercadopago.config.RequestOptions()
-request_options.custom_headers = {
-    'x-idempotency-key': '<SOME_UNIQUE_VALUE>'
-}
+# Configurar o SDK do Mercado Pago com a chave de acesso
+sdk = mercadopago.SDK("TEST-8590336602236945-112101-1cd5dc844d47eb2fcd1242647a2351a4-2109333902")  # Substitua pela sua chave de acesso
 
-payment_data = {
-    "transaction_amount": 100,
-    "token": "CARD_TOKEN",
-    "description": "Payment description",
-    "payment_method_id": 'visa',
-    "installments": 1,
-    "payer": {
-        "email": 'test_user_123456@testuser.com'
-    }
-}
-result = sdk.payment().create(payment_data, request_options)
-payment = result["response"]
+@payment_blueprint.route('/create_preference', methods=['POST'])
+def create_preference():
+    try:
+        data = request.json
+        cotacao_id = data.get("cotacaoId")
+        valor = data.get("amount")
+        descricao = f"Cotação #{cotacao_id}"
 
-print(payment)
+        # Configuração explícita de métodos de pagamento
+        preference_data = {
+            "items": [
+                {
+                    "title": descricao,
+                    "quantity": 1,
+                    "unit_price": float(valor),
+                }
+            ],
+            "payment_methods": {
+                "excluded_payment_types": [],  # Permitir todos os tipos de pagamento
+                "excluded_payment_methods": [],  # Não excluir métodos específicos
+                "installments": 12,  # Número máximo de parcelas permitidas
+                "default_payment_method_id": None  # Não definir método padrão (opcional)
+            },
+            "back_urls": {
+                "success": "http://127.0.0.1:5501/src/app/pages/dashboard/dashboard.html",
+                "failure": "http://127.0.0.1:5501/src/app/pages/price/pagamento/pagamento.html",
+                "pending": "http://127.0.0.1:5501/src/app/pages/price/pagamento/pagamento.html"
+            },
+            "auto_return": "approved",
+        }
+
+        # Criar a preferência de pagamento no Mercado Pago
+        preference_response = sdk.preference().create(preference_data)
+        preference = preference_response["response"]
+        print(f"Preference criada com sucesso: {preference['id']}")
+
+        return jsonify({"preferenceId": preference["id"]}), 200
+
+    except Exception as e:
+        print(f"Erro ao criar preferência: {e}")
+        return jsonify({"error": str(e)}), 500

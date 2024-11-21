@@ -34,7 +34,6 @@ document.addEventListener("DOMContentLoaded", async function () {
           `;
           tableBody.insertAdjacentHTML("beforeend", row);
       });
-
   } catch (error) {
       console.error("Erro ao carregar coletas:", error);
       alert("Erro ao carregar coletas. Verifique o console.");
@@ -54,7 +53,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       if (button.classList.contains("cancelar")) {
           const row = button.closest("tr");
           const cotacaoId = row.dataset.cotacaoId; // Recupera o cotacao_id
-          await cancelarColeta(cotacaoId);
+          await cancelarColeta(row, cotacaoId);
       }
   });
 });
@@ -66,20 +65,38 @@ function verDetalhes(cotacaoId) {
 }
 
 // Função para cancelar coleta
-async function cancelarColeta(cotacaoId) {
+async function cancelarColeta(row, cotacaoId) {
+  const confirmacao = confirm("Tem certeza de que deseja cancelar esta cotação?");
+  if (!confirmacao) return;
+
+  const userId = localStorage.getItem("usuarioID"); // Certifique-se de ter o user_id
+
   try {
-      const response = await fetch(`http://127.0.0.1:5000/api/coletas/${cotacaoId}`, {
-          method: "DELETE",
+      const response = await fetch(`http://127.0.0.1:5000/api/cotacao/${cotacaoId}`, {
+          method: "PUT",
+          headers: {
+              "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+              descricao: "Cotação cancelada", // Envie uma descrição padrão
+              status: "cancelado",
+              user_id: userId, // Inclua o user_id
+          }),
       });
 
       if (!response.ok) {
-          throw new Error("Erro ao cancelar a coleta.");
+          const errorData = await response.json();
+          throw new Error(errorData.error || "Erro ao cancelar a coleta.");
       }
 
-      alert("Coleta cancelada com sucesso.");
-      location.reload();
+      const data = await response.json();
+      alert(data.message || "Cotação cancelada com sucesso.");
+
+      // Remover a linha correspondente da tabela
+      row.remove();
   } catch (error) {
-      console.error("Erro ao cancelar coleta:", error);
-      alert("Erro ao cancelar coleta. Verifique o console.");
+      console.error("Erro ao cancelar a coleta:", error);
+      alert("Erro ao cancelar a coleta. Verifique o console.");
   }
 }
+

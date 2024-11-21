@@ -108,7 +108,8 @@ ul li.ativo {
 }
 
 #sair{
-    padding-left: 10px;
+    padding-left: 1px;
+    font-size: 30px;
 }
 
 /* Responsividade */
@@ -154,4 +155,183 @@ ul li.ativo {
   }
 }
 
+body {
+  background-color: #f4f4f4;
+  font-family: 'Poppins', sans-serif;
+  margin-left: 90px;
+}
 
+.container {
+  padding: 20px;
+}
+
+h1, h2 {
+  color: #333;
+}
+
+h2 {
+  margin-top: 10px;
+}
+
+.filters {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.filters input,
+.filters button {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.filters button {
+  background-color: #414bb2;
+  color: white;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+}
+
+.dashboard-content {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.chart-container {
+  background-color: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.chart-container canvas {
+  height: 200px;
+  width: 200px;
+  margin: auto;
+}
+
+.chart-label {
+  margin-top: 10px;
+}
+
+.chart-label i {
+  font-size: 24px;
+  color: #414bb2;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #f5a623;
+  border-radius: 8px;
+ 
+  padding: 20px;
+  font-size: 18px;
+  text-align: center;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.card i {
+  font-size: 40px;
+  margin-bottom: 10px;
+}
+
+
+/* Animação dos números */
+@keyframes count-up {
+  from {
+    content: "0";
+  }
+  to {
+    content: attr(data-value);
+  }
+}
+
+/* Estilo dos cartões no padrão dos gráficos */
+.card {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Ícone flutuante no canto */
+.card i {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 30px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Informações centrais */
+.card h3 {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.card .count {
+  font-size: 42px;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Cores de fundo específicas */
+#totalCard {
+  background: linear-gradient(135deg, #414bb2, #6c77d6);
+  color: white;
+}
+
+#pendingCard {
+  background: linear-gradient(135deg, #f5a623, #f8c474);
+  color: white;
+}
+
+#completedCard {
+  background: linear-gradient(135deg, #27ae60, #6cc98d);
+  color: white;
+}
+
+#cancelledCard {
+  background: linear-gradient(135deg, #e74c3c, #f07568);
+  color: white;
+}
+
+/* Layout responsivo e dinâmico */
+.dashboard-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.chart-value {
+  display: block;
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  margin-top: 5px;
+  text-align: center;
+}

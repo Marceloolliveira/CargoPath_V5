@@ -1,39 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script
-      src="https://kit.fontawesome.com/64d58efce2.js"
-      crossorigin="anonymous"
-    ></script>
   <title>Detalhes da Coleta</title>
-  <link rel="stylesheet" href="../../../pages/dashboard/dashboard.css">
   <link rel="stylesheet" href="detailcollections.css">
+  <link rel="stylesheet" href="../../dashboard/dashboard.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 <body>
-
   <div class="menu-lateral">
     <div class="btn-expandir">
         <i class="bi bi-list" id="btn-exp"></i>
     </div>
-  
     <ul id="menu">
-        <li  class="item-menu ">
-            <a href="../../dashboard/dashboard.html" class="inico" data-page="dashboard">
-                <span  class="icon"><i class="bi bi-house"></i></span>
-                <span  class="txt-link">INÍCIO</span>
+        <li class="item-menu">
+            <a href="../../dashboard/dashboard.html" class="inicio" data-page="dashboard">
+                <span class="icon"><i class="bi bi-house"></i></span>
+                <span class="txt-link">INÍCIO</span>
             </a>
         </li>
         <li class="item-menu">
-            <a href="../../price/price.html">
+            <a href="../../price/price.html" data-page="price">
                 <span class="icon"><i class="bi bi-file-earmark-text"></i></span>
-                <span class="txt-link" >COTAÇÕES</span>
+                <span class="txt-link">COTAÇÕES</span>
             </a>
         </li>
-        <li href="" class="item-menu ativo">
-            <a>
+        <li class="item-menu ativo">
+            <a href="../../collections/collections.html" data-page="collections">
                 <span class="icon"><i class="bi bi-truck"></i></span>
                 <span class="txt-link">COLETAS</span>
             </a>
@@ -56,89 +50,91 @@
                 <span id="nomeUsuario" class="txt-link">USUÁRIO</span>
                 <span class="icon" id="sair"><i class="bi bi-box-arrow-right"></i></span>
             </a>
-      </li>
+        </li>
     </ul>
-    </div>
-  </div>
-  
+</div>
+
   <div class="container">
     <h1>Detalhes da Coleta</h1>
 
-    <!-- Div principal que contém esquerda e direita -->
-    <div class="layout">
-        <!-- Div Esquerda -->
-        <div class="esquerda">
-            
-            <!-- Dados relacionados ao processo -->
-            <div class="dados-processo">
-                <h2>Dados do Processo</h2>
-                <!-- Conteúdo específico do processo pode ser adicionado aqui -->
-            </div>
-            
-            <!-- Seção Remetente -->
-            <div class="remetente">
-                <h2>Remetente</h2>
-                <div class="section2">
-                    <input type="text" placeholder="Rua" id="remetenteRua" disabled>
-                    <input type="text" placeholder="Número" id="remetenteNumero" disabled>
-                    <input type="text" placeholder="CEP" id="remetenteCEP" disabled>
-                    <input type="text" placeholder="Cidade" id="remetenteCidade" disabled>
-                    <select id="remetenteEstado" disabled>
-                        <option value="AC">AC</option>
-                        <option value="AL">AL</option>
-                        <!-- Outros estados omitidos por brevidade -->
-                    </select>
-                    <input type="text" placeholder="Bairro" id="remetenteBairro" disabled>
-                    <input type="text" placeholder="Complemento" id="remetenteComplemento" disabled>
-                </div>
-            </div>
+    <div class="container-flex">
+      <!-- Lado esquerdo -->
+      <div class="left-content">
+        <h2 class="IdCotacao">ID da Coleta:</h2>
+        <h2 class="status">Status:</h2>
+        <h2><br></h2>
 
-            <!-- Seção Destinatário -->
-            <div class="destinatario">
-                <h2>Destinatário</h2>
-                <div class="section2">
-                    <input type="text" placeholder="Rua" id="destinoRua" disabled>
-                    <input type="text" placeholder="Número" id="destinoNumero" disabled>
-                    <input type="text" placeholder="CEP" id="destinoCEP" disabled>
-                    <input type="text" placeholder="Cidade" id="destinoCidade" disabled>
-                    <select id="destinoEstado" disabled>
-                        <option value="AC">AC</option>
-                        <option value="AL">AL</option>
-                        <!-- Outros estados omitidos por brevidade -->
-                    </select>
-                    <input type="text" placeholder="Bairro" id="destinoBairro" disabled>
-                    <input type="text" placeholder="Complemento" id="destinoComplemento" disabled>
-                </div>
+        <div class="container2">
+          <div class="section">
+            <h2>Remetente</h2>
+            <div class="section2">
+              <input type="text" placeholder="Rua" id="remetenteRua" disabled>
+              <input type="text" placeholder="Número" id="remetenteNumero" disabled>
+              <input type="text" placeholder="CEP" id="remetenteCEP" disabled>
+              <input type="text" placeholder="Cidade" id="remetenteCidade" disabled>
+              <input type="text" placeholder="Estado" id="remetenteEstado" disabled>
+              <input type="text" placeholder="Bairro" id="remetenteBairro" disabled>
+              <input type="text" placeholder="Complemento" id="remetenteComplemento" disabled>
             </div>
+          </div>
 
-            <!-- Seção Carga e Observações -->
-            <div class="carga-observacoes">
-                <h2>Carga e Observações</h2>
-                <div class="itens-carga">
-                    <div class="carga">
-                        <label>Tipo de embalagem: </label>
-                        <img src="../../../../imgs/caixa.png" class="embalagem-img">
-                    </div>
-                    <div class="observacoes">
-                        <label>Observações:</label>
-                        <textarea placeholder="Não há observações."></textarea>
-                    </div>
-                </div>
+          <div class="section">
+            <h2>Destinatário</h2>
+            <div class="section2">
+              <input type="text" placeholder="Rua" id="destinoRua" disabled>
+              <input type="text" placeholder="Número" id="destinoNumero" disabled>
+              <input type="text" placeholder="CEP" id="destinoCEP" disabled>
+              <input type="text" placeholder="Cidade" id="destinoCidade" disabled>
+              <input type="text" placeholder="Estado" id="destinoEstado" disabled>
+              <input type="text" placeholder="Bairro" id="destinoBairro" disabled>
+              <input type="text" placeholder="Complemento" id="destinoComplemento" disabled>
+              <input type="text" placeholder="Nome do Destinatário" id="destinoNome" disabled>
             </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lado direito -->
+      <div class="right-content">
+        <div class="carga">
+          <h2>Carga</h2>
+          <label>Valor: </label>
+          <input type="number" id="valorCarga" disabled>
+          <label>Peso: </label>
+          <input type="number" id="pesoCarga" disabled>
+          <label>Volumes: </label>
+          <input type="number" id="volumesCarga" disabled>
         </div>
 
-        <!-- Div Direita -->
-        <div class="direita">
-            <h2>Status do Processo</h2>
-            <div class="status-processo">
-                <!-- Conteúdo do quadro de status aqui -->
-                <p>Status atual: Em andamento</p>
-            </div>
+        <div class="section">
+          <h2>Cubagem</h2>
+          <table id="cubagemTable">
+            <thead>
+              <tr>
+                <th>Nº</th>
+                <th>Altura (cm)</th>
+                <th>Largura (cm)</th>
+                <th>Comprimento (cm)</th>
+                <th>Qtd</th>
+              </tr>
+            </thead>
+            <tbody id="cubagemBody"></tbody>
+          </table>
         </div>
+
+        <div class="section">
+          <h2>Data de Agendamento</h2>
+          <input type="text" id="dataAgendamento" disabled>
+        </div>
+
+        <div class="section">
+          <label id="embalagemSelecionada">Embalagem Selecionada: <span></span></label>
+        </div>
+      </div>
     </div>
-</div> 
-</body>
-<!-- <script defer src="./src/app/pages/dashboard/dashboard.js"></script> -->
-<script defer src="../../dashboard/dashboard.js"></script>
-</html>
+  </div>
 
+  <script src="detailcollections.js"></script>
+  <script src="../../dashboard/dashboard.js"></script>
+</body>
+</html>

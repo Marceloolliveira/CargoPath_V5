@@ -6,14 +6,14 @@
 }
 
 body {
-  background-color: #f4f4f4; /* Alinhado com o segundo bloco */
-  padding: 20px; /* Adicionado para consistência */
+  background-color: #f4f4f4;
+  padding: 20px;
 }
 
 .container {
-  max-width: 1000px; /* Alinhado com o segundo bloco */
+  max-width: 1000px;
   margin: 0 auto;
-  background-color: #e8e8e8; /* Alinhado com o segundo bloco */
+  background-color: #e8e8e8;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -21,7 +21,7 @@ body {
 }
 
 h1 {
-  font-size: 1.5em; /* Alinhado com o segundo bloco */
+  font-size: 1.5em;
   color: #333;
   margin-bottom: 15px;
   border-bottom: 2px solid #333;
@@ -29,19 +29,12 @@ h1 {
 }
 
 /* Layout */
-.layout {
+.container-flex {
   display: flex;
   gap: 20px;
 }
 
-/* Div pai - Layout geral */
-.layout {
-  flex-direction: row;
-  gap: 20px;
-}
-
-/* Esquerda */
-.esquerda {
+.left-content {
   flex: 3;
   background-color: #ffffff;
   padding: 20px;
@@ -49,10 +42,19 @@ h1 {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Seções internas da coluna esquerda */
-.esquerda h2 {
-  font-size: 1.1em; /* Alinhado com o segundo bloco */
-  color: #111; /* Ajuste de cor */
+.right-content {
+  flex: 1;
+  background-color: #e9f7ef;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Seções internas */
+.left-content h2,
+.right-content h2 {
+  font-size: 1.1em;
+  color: #111;
   margin-bottom: 10px;
 }
 
@@ -60,24 +62,92 @@ h1 {
   margin-bottom: 20px;
 }
 
-.section input,
-.section select {
+.section2 input,
+.section2 select {
   width: calc(50% - 10px);
   margin: 5px 5px 10px 0;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  font-size: 0.9em; /* Ajuste de fonte */
+  font-size: 0.9em;
+}
+
+/* Campos específicos de endereço */
+#remetenteRua,
+#destinoRua,
+#remetenteNumero,
+#destinoNumero,
+#remetenteCEP,
+#destinoCEP,
+#remetenteCidade,
+#destinoCidade,
+#remetenteEstado,
+#destinoEstado,
+#remetenteBairro,
+#destinoBairro,
+#remetenteComplemento,
+#destinoComplemento {
+  box-sizing: border-box;
+  padding: 6px 8px;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: white;
+  font-size: 0.9em;
+}
+
+.endereco-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  width: 100%;
+  justify-content: space-between;
+}
+
+#remetenteRua,
+#destinoRua {
+  width: 76%;
+}
+
+#remetenteNumero,
+#destinoNumero {
+  width: 15%;
+}
+
+#remetenteCEP,
+#destinoCEP {
+  width: 20%;
+}
+
+#remetenteCidade,
+#destinoCidade {
+  width: 25%;
+}
+
+#remetenteEstado,
+#destinoEstado {
+  width: 12%;
+}
+
+#remetenteBairro,
+#destinoBairro {
+  width: 32.5%;
+}
+
+#remetenteComplemento,
+#destinoComplemento {
+  width: 92%;
 }
 
 /* Carga */
 .carga {
   display: flex;
   flex-wrap: wrap;
+  gap: 10px;
 }
 
 .carga label {
-  font-size: 0.9em; /* Ajuste de tamanho */
+  font-size: 0.9em;
   font-weight: bold;
   color: #333;
 }
@@ -88,41 +158,34 @@ h1 {
   border-radius: 4px;
 }
 
-.carga-observacoes{
-  flex-direction: row;
+/* Cubagem */
+#cubagemTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
 }
 
-.itens-carga{
-  display: flex;
-  flex-direction: row;
-}
-
-.carga .embalagem-img {
-  width: 50px; /* Redimensionar a imagem para 50px de largura */
-  height: auto; /* Manter a proporção da imagem */
-  margin-left: 10px; /* Espaçamento à esquerda da imagem */
-}
-
-/* Direita - Status do Processo */
-.direita {
-  flex: 1;
-  background-color: #e9f7ef;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.direita h2 {
-  font-size: 1.1em;
-  color: #2c3e50;
-}
-
-.direita .status {
-  font-size: 24px;
-  font-weight: bold;
-  color: #27ae60;
+#cubagemTable th,
+#cubagemTable td {
+  border: 1px solid #ccc;
+  padding: 8px;
   text-align: center;
-  margin-top: 20px;
+}
+
+#cubagemTable th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+}
+
+#cubagemBody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+/* Embalagem */
+#embalagemSelecionada {
+  font-size: 1em;
+  color: #333;
+  margin-top: 10px;
 }
 
 /* Botões */
@@ -142,121 +205,4 @@ button {
 #resultado {
   display: flex;
   gap: 10px;
-}
-
-/* Inputs específicos */
-input[type="text"],
-input[type="number"],
-select {
-  padding: 10px;
-  margin: 5px 5px 10px 5px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  text-align: center;
-  font-size: 0.85em; /* Ajuste de tamanho */
-}
-#remetenteRua,
-#destinoRua,
-#remetenteNumero,
-#destinoNumero,
-#remetenteCEP,
-#destinoCEP,
-#remetenteCidade,
-#destinoCidade,
-#remetenteEstado,
-#destinoEstado,
-#remetenteBairro,
-#destinoBairro,
-#remetenteComplemento,
-#destinoComplemento {
-  box-sizing: border-box;
-  padding: 6px 8px; /* Reduzido para diminuir a altura */
-  margin: 5px 0; /* Ajustado para reduzir o espaçamento entre os elementos */
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background-color: white;
-  font-size: 0.9em; /* Reduzido para um estilo mais compacto */
-}
-
-/* Ajustes individuais para largura */
-/* Container para os campos de endereço remetente e destino */
-.endereco-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px; /* Espaçamento entre os campos */
-  margin: 0;
-  padding: 0; /* Remove espaço extra */
-  width: 100%; /* Ocupa a largura total do container */
-  justify-content: space-between;
-  
-}
-
-/* Estilo dos campos de input */
-#remetenteRua,
-#destinoRua {
-  width: 76%;
-  box-sizing: border-box;
-  padding: 6px;
-}
-
-#remetenteNumero,
-#destinoNumero {
-  width: 15%;
-  box-sizing: border-box;
-  padding: 6px;
-}
-
-#remetenteCEP,
-#destinoCEP {
-  width: 20%;
-  box-sizing: border-box;
-  padding: 6px;
-}
-
-#remetenteCidade,
-#destinoCidade {
-  width: 25%;
-  box-sizing: border-box;
-  padding: 6px;
-}
-
-#remetenteEstado,
-#destinoEstado {
-  width: 12%;
-  box-sizing: border-box;
-  padding: 6px;
-}
-
-#remetenteBairro,
-#destinoBairro {
-  width: 32.5%;
-  box-sizing: border-box;
-  padding: 6px;
-}
-
-#remetenteComplemento,
-#destinoComplemento {
-  width: 92%;
-  box-sizing: border-box;
-  padding: 6px;
-}
-
-/* Remoção de propriedades desnecessárias */
-#remetenteRua,
-#destinoRua,
-#remetenteNumero,
-#destinoNumero,
-#remetenteCEP,
-#destinoCEP,
-#remetenteCidade,
-#destinoCidade,
-#remetenteEstado,
-#destinoEstado,
-#remetenteBairro,
-#destinoBairro,
-#remetenteComplemento,
-#destinoComplemento {
-  justify-content: initial; /* Removido justify-content e align-items */
-  align-items: initial;
-  text-align: left;
 }

@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         preencherDados("remetente", data.remetente);
         preencherDados("destino", data.destino);
-        
+
         document.getElementById("destinoNome").value = data.destino.destinatario_nome || "Não informado";
 
         document.getElementById("valorCarga").value = data.carga.valor;
@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             Palet: ${data.embalagem.palet || "Não"}<br>
             Grade: ${data.embalagem.grade || "Não"}
         `;
-        document.getElementById("embalagemSelecionada").innerHTML = `Embalagem Selecionada: <span>${embalagemSelecionada}</span>`;
+        document.getElementById("embalagemSelecionada").innerHTML = ` <span>${embalagemSelecionada}</span>`;
 
         configurarBotoes();
     } catch (error) {
@@ -63,21 +63,29 @@ function preencherDados(tipo, dados) {
 
 function configurarBotoes() {
     document.getElementById("btnPagar").addEventListener("click", function () {
-        alert("Funcionalidade de agendamento em desenvolvimento.");
-        window.location.href = "/src/app/pages/price/agendar/agendar.html";
+        const cotacaoId = localStorage.getItem("cotacaoId");
+        const valorFinalFrete = document.getElementById("valorFinal").textContent.replace("Valor: R$ ", "").trim();
+
+        // Salvar os dados necessários no localStorage
+        localStorage.setItem("cotacaoId", cotacaoId);
+        localStorage.setItem("valorFinalFrete", valorFinalFrete);
+
+        // Caso precise salvar mais dados
+        const destinatario = document.getElementById("destinoNome").value;
+        const dataAgendamento = document.getElementById("dataAgendamento").value;
+        localStorage.setItem("destinatario", destinatario);
+        localStorage.setItem("dataAgendamento", dataAgendamento);
+
+        // Redirecionar para a tela de pagamento
+        window.location.href = "/src/app/pages/price/pagamento/pagamento.html"; // Altere para o caminho correto
     });
 
     document.getElementById("btnNovaCotacao").addEventListener("click", function () {
         localStorage.removeItem("cotacaoId");
+        localStorage.removeItem("valorFinalFrete");
+        localStorage.removeItem("destinatario");
+        localStorage.removeItem("dataAgendamento");
         window.location.href = "/src/app/pages/price/price.html";
     });
 }
 
-//sair e limpar localStorage
-document.getElementById("sair").addEventListener("click", function() {
-    localStorage.removeItem("token");
-    localStorage.removeItem("usuarioID");
-    localStorage.removeItem("usuarioNome");
-    localStorage.removeItem("valorFinalFrete");
-    window.location.href = "../../../../../login.html"; // Redireciona para a página de login
-});

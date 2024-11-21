@@ -1,52 +1,59 @@
-document.addEventListener("DOMContentLoaded", function () {
-  const userID = localStorage.getItem("usuarioID");
+document.addEventListener("DOMContentLoaded", async function () {
+    const tableBody = document.querySelector("#historicoTable tbody");
+    const userId = localStorage.getItem("usuarioID");
 
-  if (!userID) {
-      alert("Usuário não encontrado! Retornando para a página de login.");
-      window.location.href = "../../login/login.html";
-      return;
-  }
+    if (!userId) {
+        alert("Usuário não identificado. Faça login novamente.");
+        window.location.href = "/login.html";
+        return;
+    }
 
-  // Exibir o nome do usuário
-  document.getElementById("nomeUsuario").innerText = localStorage.getItem("usuarioNome");
+    try {
+        // Requisição para buscar cotações do histórico (canceladas ou finalizadas)
+        const response = await fetch(`http://127.0.0.1:5000/api/cotacao/user/${userId}/historico`);
+        const historico = await response.json();
 
-  // Função para carregar histórico de cotações
-  async function carregarHistorico() {
-      try {
-          const response = await fetch(`http://127.0.0.1:5000/api/cotacoes?user_id=${userID}`);
-          const historico = await response.json();
+        if (!response.ok) {
+            throw new Error(historico.error || historico.message || "Erro ao carregar o histórico.");
+        }
 
-          if (response.ok) {
-              const historicoContainer = document.getElementById("historicoCotacoes");
-              historico.forEach(cotacao => {
-                  const divCotacao = document.createElement("div");
-                  divCotacao.classList.add("cotacao-item");
-                  divCotacao.innerHTML = `
-                      <h3>ID da Cotação: ${cotacao.cotacao_id}</h3>
-                      <p>Descrição: ${cotacao.descricao}</p>
-                      <p>Status: ${cotacao.status}</p>
-                      <p>Valor do Frete: R$ ${cotacao.valor_frete}</p>
-                      <p>Data: ${new Date(cotacao.created_at).toLocaleString()}</p>
-                      <button class="btn btn-primary" onclick="detalharCotacao(${cotacao.cotacao_id})">Ver Detalhes</button>
-                  `;
-                  historicoContainer.appendChild(divCotacao);
-              });
-          } else {
-              alert("Erro ao carregar o histórico de cotações.");
-              console.error(historico);
-          }
-      } catch (error) {
-          console.error("Erro ao carregar histórico:", error);
-          alert("Erro ao carregar o histórico. Verifique o console.");
-      }
-  }
+        // Preenchendo a tabela com o histórico
+        historico.forEach((cotacao) => {
+            if (cotacao.status === "cancelado" || cotacao.status === "finalizado") {
+                const row = `
+                    <tr data-cotacao-id="${cotacao.id}">
+                        <td>${cotacao.id || "ID não informado"}</td>
+                        <td>${cotacao.remetente || "Remetente não informado"}</td>
+                        <td>${cotacao.destino || "Destino não informado"}</td>
+                        <td>${cotacao.data_agendamento || "Não informado"}</td>
+                        <td>${cotacao.status || "Status não informado"}</td>
+                        <td>
+                            <button class="detalhes">Detalhes</button>
+                        </td>
+                    </tr>
+                `;
+                tableBody.insertAdjacentHTML("beforeend", row);
+            }
+        });
+    } catch (error) {
+        console.error("Erro ao carregar o histórico:", error);
+        alert("Erro ao carregar o histórico. Verifique o console.");
+    }
 
-  // Função para redirecionar para detalhes de uma cotação específica
-  function detalharCotacao(cotacaoID) {
-      localStorage.setItem("cotacaoID", cotacaoID);
-      window.location.href = "../resume/resume.html";
-  }
+    // Event delegation para o botão de "Detalhes"
+    tableBody.addEventListener("click", function (event) {
+        const button = event.target;
 
-  // Carregar histórico ao iniciar a página
-  carregarHistorico();
+        if (button.classList.contains("detalhes")) {
+            const row = button.closest("tr");
+            const cotacaoId = row.dataset.cotacaoId; // Recupera o cotacao_id
+            verDetalhes(cotacaoId);
+        }
+    });
 });
+
+// Função para visualizar detalhes da cotação (histórico)
+function verDetalhes(cotacaoId) {
+    localStorage.setItem("cotacaoId", cotacaoId); // Salva cotacao_id no localStorage
+    window.location.href = "../collections/detailcollections/detailcollections.html"; // Redireciona para a página de detalhes
+}
