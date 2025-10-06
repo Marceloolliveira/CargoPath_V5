@@ -13,8 +13,70 @@ document.addEventListener("DOMContentLoaded", function () {
         locale: "pt",
     });
 
+    // Aguarda a API do Google Maps estar disponível
+    function waitForGoogleMaps(timeout = 10000) {
+        return new Promise((resolve, reject) => {
+            if (window.google && window.google.maps) return resolve();
+            const intervalMs = 100;
+            let waited = 0;
+            const iv = setInterval(() => {
+                if (window.google && window.google.maps) {
+                    clearInterval(iv);
+                    resolve();
+                }
+                waited += intervalMs;
+                if (waited >= timeout) {
+                    clearInterval(iv);
+                    reject(new Error('Google Maps API não carregou dentro do tempo limite'));
+                }
+            }, intervalMs);
+        });
+    }
+
+    // Fallback: usa Nominatim (OpenStreetMap) para geocodificar endereços e calcula distância haversine
+    async function fallbackDistanceUsingNominatim(originAddress, destAddress) {
+        console.warn('Usando fallback Nominatim para calcular distância');
+        const encode = (s) => encodeURIComponent(s);
+        const urlFor = (q) => `https://nominatim.openstreetmap.org/search?format=json&q=${encode(q)}`;
+
+        try {
+            const [oResp, dResp] = await Promise.all([
+                fetch(urlFor(originAddress), { headers: { 'User-Agent': 'CargoPathApp/1.0' } }),
+                fetch(urlFor(destAddress), { headers: { 'User-Agent': 'CargoPathApp/1.0' } }),
+            ]);
+            const [oJson, dJson] = await Promise.all([oResp.json(), dResp.json()]);
+            if (!oJson.length || !dJson.length) throw new Error('Não foi possível geocodificar um dos endereços via Nominatim');
+
+            const oLat = parseFloat(oJson[0].lat);
+            const oLon = parseFloat(oJson[0].lon);
+            const dLat = parseFloat(dJson[0].lat);
+            const dLon = parseFloat(dJson[0].lon);
+
+            // Haversine
+            const toRad = (v) => (v * Math.PI) / 180;
+            const R = 6371; // km
+            const dLatR = toRad(dLat - oLat);
+            const dLonR = toRad(dLon - oLon);
+            const a = Math.sin(dLatR / 2) * Math.sin(dLatR / 2) + Math.cos(toRad(oLat)) * Math.cos(toRad(dLat)) * Math.sin(dLonR / 2) * Math.sin(dLonR / 2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            const distanciaKm = R * c;
+            return distanciaKm;
+        } catch (err) {
+            console.error('Fallback Nominatim falhou:', err);
+            throw err;
+        }
+    }
+
     // Função para calcular o frete usando a API do Google Maps
     async function calcularFrete() {
+        // Tenta usar Google Maps; se não disponível ou retornar erro, usa fallback Nominatim
+        let googleAvailable = true;
+        try {
+            await waitForGoogleMaps(3000);
+        } catch (err) {
+            googleAvailable = false;
+            console.warn('Google Maps API não disponível, usaremos fallback:', err);
+        }
         const inputRemetenteRua = document.getElementById("remetenteRua");
         const inputRemetenteNumero = document.getElementById("remetenteNumero");
         const inputRemetenteCEP = document.getElementById("remetenteCEP");
@@ -45,42 +107,95 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const valorCarga = parseFloat(document.getElementById("valorCarga").value) || 0;
 
-        return new Promise((resolve, reject) => {
-            const service = new google.maps.DistanceMatrixService();
-            service.getDistanceMatrix(
-                {
-                    origins: [enderecoRemetente],
-                    destinations: [enderecoDestinatario],
-                    travelMode: "DRIVING",
-                },
-                function (response, status) {
-                    if (status === "OK") {
-                        const distancia = response.rows[0].elements[0].distance.value / 1000; // Distância em km
-                        const precoPorKm = 1.5;
-                        const porcentagemCarga = 0.05;
-                        const custoDistancia = distancia * precoPorKm;
-                        const custoCarga = valorCarga * porcentagemCarga;
-                        const valorFinalFrete = (custoDistancia + custoCarga).toFixed(2);
-
-                        resolve(valorFinalFrete);
-                    } else {
-                        console.error("Erro ao calcular a distância:", status);
-                        reject("Erro ao calcular a distância");
+        if (googleAvailable && window.google && window.google.maps) {
+            return new Promise((resolve, reject) => {
+                const service = new google.maps.DistanceMatrixService();
+                service.getDistanceMatrix(
+                    {
+                        origins: [enderecoRemetente],
+                        destinations: [enderecoDestinatario],
+                        travelMode: "DRIVING",
+                    },
+                    async function (response, status) {
+                        if (status === "OK") {
+                            try {
+                                const distancia = response.rows[0].elements[0].distance.value / 1000; // Distância em km
+                                const precoPorKm = 1.5;
+                                const porcentagemCarga = 0.05;
+                                const custoDistancia = distancia * precoPorKm;
+                                const custoCarga = valorCarga * porcentagemCarga;
+                                const valorFinalFrete = (custoDistancia + custoCarga).toFixed(2);
+                                resolve(valorFinalFrete);
+                            } catch (err) {
+                                console.error('Erro ao processar resposta do Google Maps:', err);
+                                // tenta fallback
+                                try {
+                                    const distanciaKm = await fallbackDistanceUsingNominatim(enderecoRemetente, enderecoDestinatario);
+                                    const precoPorKm = 1.5;
+                                    const porcentagemCarga = 0.05;
+                                    const custoDistancia = distanciaKm * precoPorKm;
+                                    const custoCarga = valorCarga * porcentagemCarga;
+                                    const valorFinalFrete = (custoDistancia + custoCarga).toFixed(2);
+                                    resolve(valorFinalFrete);
+                                } catch (fbErr) {
+                                    reject(fbErr);
+                                }
+                            }
+                        } else {
+                            console.warn('Google DistanceMatrix retornou status:', status, 'tentando fallback');
+                            try {
+                                const distanciaKm = await fallbackDistanceUsingNominatim(enderecoRemetente, enderecoDestinatario);
+                                const precoPorKm = 1.5;
+                                const porcentagemCarga = 0.05;
+                                const custoDistancia = distanciaKm * precoPorKm;
+                                const custoCarga = valorCarga * porcentagemCarga;
+                                const valorFinalFrete = (custoDistancia + custoCarga).toFixed(2);
+                                resolve(valorFinalFrete);
+                            } catch (fbErr) {
+                                reject(fbErr);
+                            }
+                        }
                     }
-                }
-            );
-        });
+                );
+            });
+        } else {
+            // Usa fallback direto
+            try {
+                const distanciaKm = await fallbackDistanceUsingNominatim(enderecoRemetente, enderecoDestinatario);
+                const precoPorKm = 1.5;
+                const porcentagemCarga = 0.05;
+                const custoDistancia = distanciaKm * precoPorKm;
+                const custoCarga = valorCarga * porcentagemCarga;
+                const valorFinalFrete = (custoDistancia + custoCarga).toFixed(2);
+                return valorFinalFrete;
+            } catch (err) {
+                console.error('Não foi possível calcular distância (fallback também falhou):', err);
+                throw err;
+            }
+        }
     }
 
     // Função para confirmar e salvar todos os dados no banco de dados
     async function confirmarCotacao() {
+        console.log('confirmarCotacao: iniciando');
+        const btnConfirmar = document.getElementById("btnConfirmar");
+        if (btnConfirmar) btnConfirmar.disabled = true;
+
         const usuarioID = localStorage.getItem("usuarioID");
+        console.log('usuarioID from localStorage:', usuarioID);
+        if (!usuarioID) {
+            alert('Usuário não autenticado. Faça login antes de criar uma cotação.');
+            if (btnConfirmar) btnConfirmar.disabled = false;
+            return;
+        }
         const descricaoPedido = document.getElementById("descricaoPedido").value;
         const dataAgendamento = document.getElementById("dataAgendamento").value;
 
         try {
             // Calcular o frete primeiro
+            console.log('confirmarCotacao: chamando calcularFrete()');
             const valorFrete = await calcularFrete();
+            console.log('confirmarCotacao: valorFrete calculado =', valorFrete);
 
             // 1. Criação da Cotação
             const cotacaoResponse = await fetch("http://127.0.0.1:5000/api/cotacao/", {
@@ -97,7 +212,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
             const cotacaoData = await cotacaoResponse.json();
             if (!cotacaoResponse.ok) {
-                alert("Erro ao criar cotação: " + cotacaoData.error);
+                console.error('confirmarCotacao: resposta com erro ao criar cotacao:', cotacaoData);
+                alert("Erro ao criar cotação: " + (cotacaoData.error || JSON.stringify(cotacaoData)));
+                if (btnConfirmar) btnConfirmar.disabled = false;
                 return;
             }
 
@@ -200,6 +317,10 @@ document.addEventListener("DOMContentLoaded", function () {
             window.location.href = "/src/app/pages/price/resume/resume.html";
         } catch (error) {
             console.error("Erro ao salvar dados da cotação:", error);
+            alert('Erro ao salvar dados da cotação. Veja o console para detalhes.');
+        }
+        finally {
+            if (document.getElementById("btnConfirmar")) document.getElementById("btnConfirmar").disabled = false;
         }
     }
 
