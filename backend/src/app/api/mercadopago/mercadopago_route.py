@@ -1,10 +1,11 @@
+import os
 from flask import Blueprint, jsonify, request
 import mercadopago
 
 payment_blueprint = Blueprint('payment', __name__, url_prefix='/api/payment')
 
 # Configurar o SDK do Mercado Pago com a chave de acesso
-sdk = mercadopago.SDK("TEST-8590336602236945-112101-1cd5dc844d47eb2fcd1242647a2351a4-2109333902")  # Substitua pela sua chave de acesso
+sdk = mercadopago.SDK(os.getenv("SDK_TESTE"))  # Substitua pela sua chave de acesso
 
 @payment_blueprint.route('/create_preference', methods=['POST'])
 def create_preference():

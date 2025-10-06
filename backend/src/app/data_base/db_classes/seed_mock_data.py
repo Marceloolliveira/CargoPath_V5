@@ -1,3 +1,4 @@
+import os
 from DatabaseConnection import DatabaseConnection
 import random
 import bcrypt
@@ -15,11 +16,11 @@ def seed_mock_data():
         print('Iniciando seed: criando apenas usuário admin e várias cotações vinculadas a ele')
 
         # Dados do admin conforme solicitado
-        admin_email = 'adm'
-        admin_password = 'adm'
-        admin_name = 'Administrador'
-        admin_telefone = '11999990000'
-        admin_cpf = '00000000000'
+        admin_email = os.getenv('admin_email')
+        admin_password = os.getenv('admin_password')
+        admin_name = os.getenv('admin_name')
+        admin_telefone = os.getenv('admin_telefone')
+        admin_cpf = os.getenv('admin_cpf')
 
         # Insere admin (ou garante que exista) com senha hasheada
         # Gera hash bcrypt para a senha 'adm'

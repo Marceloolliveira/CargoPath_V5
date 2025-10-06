@@ -1,8 +1,9 @@
+import os
 import psycopg2
 from psycopg2 import OperationalError
 
 class DatabaseConnection:
-    def __init__(self, dbname="cargo_path", user="adm", password="adm", host="localhost", port="5432"):
+    def __init__(self, dbname=os.getenv("dbname"), user=os.getenv("user"), password=os.getenv("password"), host=os.getenv("host"), port=os.getenv("port")):
         self.cargo_path = dbname
         self.user = user
         self.password = password
