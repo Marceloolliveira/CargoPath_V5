@@ -1,6 +1,9 @@
 import os
 from flask import Blueprint, jsonify, request
+from dotenv import load_dotenv
 import mercadopago
+# Carregar variáveis de ambiente do arquivo .env
+load_dotenv(os.path.join(os.path.dirname(__file__), '..', '..', '..', '..', '.env'))
 
 payment_blueprint = Blueprint('payment', __name__, url_prefix='/api/payment')
 
