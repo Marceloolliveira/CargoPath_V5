@@ -1,5 +1,10 @@
 import sys
 import os
+from dotenv import load_dotenv
+
+# Carregar variáveis de ambiente do arquivo .env
+load_dotenv(os.path.join(os.path.dirname(__file__), '..', '..', '.env'))
+
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 from flask import Flask
 from flask_cors import CORS
@@ -14,7 +19,7 @@ from src.app.api.dashboard.dashboard_route import dashboard_blueprint
 from src.app.api.mercadopago.mercadopago_route import payment_blueprint
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'adm'  # Defina uma chave secreta forte
+app.config['SECRET_KEY'] = os.getenv("SECRET_KEY")  # Defina uma chave secreta forte
 
 # Permitir CORS para todas as rotas
 CORS(app, resources={r"/*": {"origins": "http://127.0.0.1:5501"}}) # Configura o CORS para permitir requisições apenas da porta 5500
