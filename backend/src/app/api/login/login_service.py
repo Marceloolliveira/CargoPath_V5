@@ -2,9 +2,37 @@ from ...data_base.db_classes.DatabaseConnection import DatabaseConnection
 import bcrypt
 import jwt
 import datetime
-from flask import current_app
+from flask import current_app, jsonify
 
 class LoginService:
+    @staticmethod
+    def handle_login_request(request):
+        """
+        Manipula toda a requisição de login
+        """
+        try:
+            # Validação dos dados de entrada
+            data = request.get_json()
+            if not data:
+                return jsonify({"message": "Dados não fornecidos"}), 400
+
+            email = data.get('email')
+            password = data.get('password')
+
+            if not email or not password:
+                return jsonify({"message": "Email e senha são obrigatórios"}), 400
+
+            # Autenticação do usuário
+            result = LoginService.authenticate_user(email, password)
+
+            if result["success"]:
+                return jsonify(result["data"]), 200
+            else:
+                return jsonify({"message": result["message"]}), 401
+
+        except Exception as e:
+            return jsonify({"message": f"Erro interno do servidor: {str(e)}"}), 500
+
     @staticmethod
     def authenticate_user(email, password):
         """
