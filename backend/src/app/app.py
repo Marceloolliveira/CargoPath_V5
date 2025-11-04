@@ -9,11 +9,11 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '.
 from flask import Flask
 from flask_cors import CORS
 from src.app.api.register.register_route import register_blueprint
-from src.app.api.login.login_route import login_blueprint
+from src.app.api.login.login_controller import login_blueprint
 from src.app.api.carga.carga_route import carga_blueprint
 from src.app.api.cotacao.cotacao_route import cotacao_blueprint
 from src.app.api.cubagem.cubagem_route import cubagem_blueprint
-from src.app.api.localizacao.localizacao_route import localizacao_blueprint
+from src.app.api.localizacao.localizacao_controller import localizacao_blueprint
 from src.app.api.embalagem.embalagem_route import embalagem_blueprint
 from src.app.api.dashboard.dashboard_route import dashboard_blueprint
 from src.app.api.mercadopago.mercadopago_route import payment_blueprint
