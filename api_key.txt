@@ -1,2 +1,0 @@
-Maps JavaScript API = AIzaSyC6kxSxECEj-CdxB4fTcBxXVUppXhhQD1Y
-Geocoding API = dPBwIsmBUBXas6oDHHDG9G0lW9w=
