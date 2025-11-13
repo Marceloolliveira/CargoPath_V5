@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from ...services.dashboard_service import DashboardService
+from .dashboard_service import DashboardService
 
 dashboard_blueprint = Blueprint('dashboard', __name__, url_prefix='/api/dashboard')
 

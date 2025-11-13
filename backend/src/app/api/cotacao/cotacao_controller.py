@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from services.cotacao_service import CotacaoService
+from .cotacao_service import CotacaoService
 
 cotacao_blueprint = Blueprint('cotacao', __name__, url_prefix='/api/cotacao')
 cotacao_service = CotacaoService()

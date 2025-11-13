@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from ...services.cubagem_service import CubagemService
+from .cubagem_service import CubagemService
 
 cubagem_blueprint = Blueprint('cubagem', __name__, url_prefix='/api/cubagem')
 
