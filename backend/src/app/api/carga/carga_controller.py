@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from services.carga_service import CargaService
+from .carga_service import CargaService
 
 carga_blueprint = Blueprint('carga', __name__)
 carga_service = CargaService()
