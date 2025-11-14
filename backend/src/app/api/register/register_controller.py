@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from services.register_service import RegisterService
+from .register_service import RegisterService
 
 register_blueprint = Blueprint("register", __name__)
 register_service = RegisterService()
