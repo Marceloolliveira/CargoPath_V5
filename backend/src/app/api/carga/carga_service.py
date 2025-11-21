@@ -7,11 +7,7 @@ class CargaService:
         cursor = db.get_cursor()
 
         try:
-            cursor.execute("""
-                INSERT INTO carga (valor, peso, volumes, cotacao_id)
-                VALUES (%s, %s, %s, %s)
-                RETURNING carga_id;
-            """, (valor, peso, volumes, cotacao_id))
+            cursor.execute(, (valor, peso, volumes, cotacao_id))
 
             carga_id = cursor.fetchone()[0]
             db.commit()
@@ -84,11 +80,7 @@ class CargaService:
         cursor = db.get_cursor()
 
         try:
-            cursor.execute("""
-                UPDATE carga
-                SET valor = %s, peso = %s, volumes = %s
-                WHERE carga_id = %s;
-            """, (valor, peso, volumes, carga_id))
+            cursor.execute(, (valor, peso, volumes, carga_id))
             db.commit()
 
             return {

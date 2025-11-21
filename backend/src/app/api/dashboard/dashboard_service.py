@@ -11,15 +11,7 @@ class DashboardService:
             raise Exception("Erro ao conectar ao banco de dados")
 
         try:
-            query = """
-                SELECT 
-                    COUNT(*) AS total,
-                    SUM(CASE WHEN status = 'pendente' THEN 1 ELSE 0 END) AS pending,
-                    SUM(CASE WHEN status = 'finalizado' THEN 1 ELSE 0 END) AS completed,
-                    SUM(CASE WHEN status = 'cancelado' THEN 1 ELSE 0 END) AS cancelled
-                FROM cotacoes
-                WHERE user_id = %s
-            """
+            query = 
             params = [user_id]
 
             if start_date and end_date:

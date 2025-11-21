@@ -4,7 +4,7 @@ from .carga_service import CargaService
 carga_blueprint = Blueprint('carga', __name__)
 carga_service = CargaService()
 
-# Criar nova carga
+
 @carga_blueprint.route('/api/carga', methods=['POST'])
 def criar_carga():
     try:
@@ -24,7 +24,7 @@ def criar_carga():
         return jsonify({"error": str(e)}), 500
 
 
-# Listar todas as cargas
+
 @carga_blueprint.route('/api/cargas', methods=['GET'])
 def listar_cargas():
     try:
@@ -34,7 +34,7 @@ def listar_cargas():
         return jsonify({"error": str(e)}), 500
 
 
-# Obter carga específica
+
 @carga_blueprint.route('/api/carga/<int:carga_id>', methods=['GET'])
 def obter_carga(carga_id):
     try:
@@ -46,7 +46,7 @@ def obter_carga(carga_id):
         return jsonify({"error": str(e)}), 500
 
 
-# Atualizar carga
+
 @carga_blueprint.route('/api/carga/<int:carga_id>', methods=['PUT'])
 def atualizar_carga(carga_id):
     try:
@@ -64,7 +64,7 @@ def atualizar_carga(carga_id):
         return jsonify({"error": str(e)}), 500
 
 
-# Deletar carga
+
 @carga_blueprint.route('/api/carga/<int:carga_id>', methods=['DELETE'])
 def deletar_carga(carga_id):
     try:

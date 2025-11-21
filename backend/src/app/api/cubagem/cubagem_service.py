@@ -8,11 +8,7 @@ class CubagemService:
         cursor = db.get_cursor()
 
         try:
-            cursor.execute("""
-                INSERT INTO cubagem (altura, largura, comprimento, qtd, carga_id)
-                VALUES (%s, %s, %s, %s, %s)
-                RETURNING cubagem_id;
-            """, (altura, largura, comprimento, qtd, carga_id))
+            cursor.execute(, (altura, largura, comprimento, qtd, carga_id))
             
             cubagem_id = cursor.fetchone()[0]
             db.commit()
@@ -57,11 +53,7 @@ class CubagemService:
         cursor = db.get_cursor()
 
         try:
-            cursor.execute("""
-                UPDATE cubagem
-                SET altura = %s, largura = %s, comprimento = %s, qtd = %s
-                WHERE cubagem_id = %s;
-            """, (altura, largura, comprimento, qtd, cubagem_id))
+            cursor.execute(, (altura, largura, comprimento, qtd, cubagem_id))
             db.commit()
         except Exception as e:
             db.rollback()

@@ -11,7 +11,7 @@ class DatabaseConnection:
         self.port = port
         self.connection = None
 
-    # Método para abrir a conexão
+    
     def connect(self):
         try:
             self.connection = psycopg2.connect(
@@ -26,7 +26,7 @@ class DatabaseConnection:
             print(f"Erro ao conectar ao banco de dados: {e}")
             self.connection = None
 
-    # Método para obter um cursor
+    
     def get_cursor(self):
         if self.connection:
             return self.connection.cursor()
@@ -34,21 +34,21 @@ class DatabaseConnection:
             print("Conexão não estabelecida. Por favor, chame o método 'connect' primeiro.")
             return None
 
-    # Método para confirmar transações
+    
     def commit(self):
         if self.connection:
             self.connection.commit()
         else:
             print("Nenhuma conexão ativa para confirmar transações.")
 
-    # Método para desfazer transações
+    
     def rollback(self):
         if self.connection:
             self.connection.rollback()
         else:
             print("Nenhuma conexão ativa para desfazer transações.")
 
-    # Método para fechar a conexão
+    
     def close(self):
         if self.connection:
             self.connection.close()

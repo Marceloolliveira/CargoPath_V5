@@ -4,15 +4,13 @@ from flask import jsonify
 class LocalizacaoService:
     @staticmethod
     def handle_criar_localizacao(request):
-        """
-        Manipula a requisição de criação de localização
-        """
+        
         try:
             data = request.json
             if not data:
                 return jsonify({"error": "Dados não fornecidos"}), 400
 
-            # Extração dos dados
+            
             rua = data.get('rua')
             numero = data.get('numero')
             cep = data.get('cep')
@@ -23,11 +21,11 @@ class LocalizacaoService:
             cotacao_id = data.get('cotacao_id')
             destinatario_nome = data.get('destinatario_nome')
 
-            # Validações básicas
+            
             if not all([rua, numero, cep, cidade, estado, tipo, cotacao_id]):
                 return jsonify({"error": "Campos obrigatórios não preenchidos"}), 400
 
-            # Criar localização
+            
             result = LocalizacaoService.criar_localizacao(
                 rua, numero, cep, cidade, estado, complemento, tipo, cotacao_id, destinatario_nome
             )
@@ -39,9 +37,7 @@ class LocalizacaoService:
 
     @staticmethod
     def criar_localizacao(rua, numero, cep, cidade, estado, complemento, tipo, cotacao_id, destinatario_nome):
-        """
-        Cria uma nova localização no banco de dados
-        """
+        
         db = DatabaseConnection()
         db.connect()
         cursor = db.get_cursor()
@@ -50,11 +46,7 @@ class LocalizacaoService:
             return jsonify({"error": "Erro ao conectar ao banco de dados"}), 500
 
         try:
-            cursor.execute("""
-                INSERT INTO localizacao (rua, numero, cep, cidade, estado, complemento, tipo, cotacao_id, destinatario_nome)
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
-                RETURNING localizacao_id;
-            """, (rua, numero, cep, cidade, estado, complemento, tipo, cotacao_id, destinatario_nome))
+            cursor.execute(, (rua, numero, cep, cidade, estado, complemento, tipo, cotacao_id, destinatario_nome))
             
             localizacao_id = cursor.fetchone()[0]
             db.commit()
@@ -81,9 +73,7 @@ class LocalizacaoService:
 
     @staticmethod
     def listar_localizacoes():
-        """
-        Lista todas as localizações
-        """
+        
         db = DatabaseConnection()
         db.connect()
         cursor = db.get_cursor()
@@ -95,7 +85,7 @@ class LocalizacaoService:
             cursor.execute("SELECT * FROM localizacao;")
             localizacoes = cursor.fetchall()
             
-            # Adiciona rótulos aos dados retornados
+            
             localizacoes_list = []
             for localizacao in localizacoes:
                 localizacoes_list.append({
@@ -120,9 +110,7 @@ class LocalizacaoService:
 
     @staticmethod
     def obter_localizacao(localizacao_id):
-        """
-        Obtém uma localização específica
-        """
+        
         db = DatabaseConnection()
         db.connect()
         cursor = db.get_cursor()
@@ -158,9 +146,7 @@ class LocalizacaoService:
 
     @staticmethod
     def handle_atualizar_localizacao(localizacao_id, request):
-        """
-        Manipula a requisição de atualização de localização
-        """
+        
         try:
             data = request.json
             if not data:
@@ -183,9 +169,7 @@ class LocalizacaoService:
 
     @staticmethod
     def atualizar_localizacao(localizacao_id, rua, numero, cep, cidade, estado, complemento, tipo):
-        """
-        Atualiza uma localização
-        """
+        
         db = DatabaseConnection()
         db.connect()
         cursor = db.get_cursor()
@@ -194,11 +178,7 @@ class LocalizacaoService:
             return jsonify({"error": "Erro ao conectar ao banco de dados"}), 500
 
         try:
-            cursor.execute("""
-                UPDATE localizacao SET rua = %s, numero = %s, cep = %s, cidade = %s,
-                                      estado = %s, complemento = %s, tipo = %s
-                WHERE localizacao_id = %s;
-            """, (rua, numero, cep, cidade, estado, complemento, tipo, localizacao_id))
+            cursor.execute(, (rua, numero, cep, cidade, estado, complemento, tipo, localizacao_id))
             
             db.commit()
             return jsonify({
@@ -221,9 +201,7 @@ class LocalizacaoService:
 
     @staticmethod
     def deletar_localizacao(localizacao_id):
-        """
-        Deleta uma localização
-        """
+        
         db = DatabaseConnection()
         db.connect()
         cursor = db.get_cursor()

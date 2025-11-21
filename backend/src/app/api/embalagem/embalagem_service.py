@@ -17,11 +17,7 @@ class EmbalagemService:
             raise Exception("Erro ao conectar ao banco de dados")
 
         try:
-            cursor.execute("""
-                INSERT INTO embalagem (caixa, palet, grade, cubagem_id)
-                VALUES (%s, %s, %s, %s)
-                RETURNING embalagem_id;
-            """, (caixa, palet, grade, cubagem_id))
+            cursor.execute(, (caixa, palet, grade, cubagem_id))
 
             embalagem_id = cursor.fetchone()[0]
             db.commit()
@@ -110,10 +106,7 @@ class EmbalagemService:
             raise Exception("Erro ao conectar ao banco de dados")
 
         try:
-            cursor.execute("""
-                UPDATE embalagem SET caixa = %s, palet = %s, grade = %s
-                WHERE embalagem_id = %s;
-            """, (caixa, palet, grade, embalagem_id))
+            cursor.execute(, (caixa, palet, grade, embalagem_id))
             db.commit()
 
             return {
