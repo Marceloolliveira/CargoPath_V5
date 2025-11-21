@@ -13,11 +13,7 @@ class CotacaoService:
         cursor = db.get_cursor()
 
         try:
-            cursor.execute("""
-                INSERT INTO cotacoes (descricao, status, user_id, valor_frete, data_agendamento)
-                VALUES (%s, %s, %s, %s, %s)
-                RETURNING cotacao_id;
-            """, (descricao, status, user_id, valor_frete, data_agendamento))
+            cursor.execute(, (descricao, status, user_id, valor_frete, data_agendamento))
             
             cotacao_id = cursor.fetchone()[0]
             db.commit()
@@ -92,10 +88,7 @@ class CotacaoService:
         db.connect()
         cursor = db.get_cursor()
         try:
-            cursor.execute("""
-                UPDATE cotacoes SET descricao = %s, status = %s
-                WHERE cotacao_id = %s;
-            """, (descricao, status, cotacao_id))
+            cursor.execute(, (descricao, status, cotacao_id))
             db.commit()
             return {
                 "cotacao_id": cotacao_id,
@@ -124,4 +117,4 @@ class CotacaoService:
             cursor.close()
             db.close()
 
-    # Métodos adicionais (resumo, coletas, histórico, faturas) seguem a mesma lógica
+    

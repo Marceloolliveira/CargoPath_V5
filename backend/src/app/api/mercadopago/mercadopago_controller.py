@@ -3,7 +3,7 @@ from .mercadopago_service import PaymentService
 
 payment_blueprint = Blueprint('payment', __name__, url_prefix='/api/payment')
 
-# Instância do service
+
 payment_service = PaymentService()
 
 @payment_blueprint.route('/create_preference', methods=['POST'])

@@ -2,7 +2,7 @@ import sys
 import os
 from dotenv import load_dotenv
 
-# Carregar variáveis de ambiente do arquivo .env
+
 load_dotenv(os.path.join(os.path.dirname(__file__), '..', '..', '.env'))
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
@@ -18,12 +18,12 @@ from src.app.api.embalagem.embalagem_controller import embalagem_blueprint
 from src.app.api.dashboard.dashboard_controller import dashboard_blueprint
 from src.app.api.mercadopago.mercadopago_controller import payment_blueprint
 app = Flask(__name__)
-app.config['SECRET_KEY'] = os.getenv("SECRET_KEY")  # Defina uma chave secreta forte
+app.config['SECRET_KEY'] = os.getenv("SECRET_KEY")  
 
-# Permitir CORS para todas as rotas
-CORS(app, resources={r"/*": {"origins": "http://127.0.0.1:5501"}}) # Configura o CORS para permitir requisições apenas da porta 5500
 
-# Registro dos Blueprints
+CORS(app, resources={r"/*": {"origins": "http://127.0.0.1:5501"}}) 
+
+
 app.register_blueprint(register_blueprint)
 app.register_blueprint(login_blueprint)
 app.register_blueprint(carga_blueprint)
