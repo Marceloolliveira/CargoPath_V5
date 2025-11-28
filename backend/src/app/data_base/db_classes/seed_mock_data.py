@@ -1,11 +1,29 @@
 import os
+from dotenv import load_dotenv
 from DatabaseConnection import DatabaseConnection
 import random
 import bcrypt
 
+# Carregar variáveis de ambiente
+load_dotenv(os.path.join(os.path.dirname(__file__), '..', '..', '..', '..', '.env'))
+
 
 def seed_mock_data():
-    db = DatabaseConnection()
+    print(f"[DEBUG] Variáveis de ambiente:")
+    print(f"  dbname: {os.getenv('dbname')}")
+    print(f"  user: {os.getenv('user')}")
+    print(f"  password: {os.getenv('password')}")
+    print(f"  host: {os.getenv('host')}")
+    print(f"  port: {os.getenv('port')}")
+    
+    # Tentar conexão direta com parâmetros explícitos
+    db = DatabaseConnection(
+        dbname="cargo_path",
+        user="adm", 
+        password="adm",
+        host="localhost",
+        port="5432"
+    )
     db.connect()
     cursor = db.get_cursor()
     if not cursor:
@@ -53,18 +71,23 @@ def seed_mock_data():
         print(f'Cotacoes existentes para admin: {existing}. Serão criadas: {to_create}')
 
         for i in range(to_create):
-            descricao = f'Cotação demo admin
+            descricao = f'Cotação demo admin #{i+1}'
             valor_frete = round(random.uniform(50, 1200), 2)
+            
+            # Criar cotações com diferentes status
+            status_options = ['pendente', 'agendada', 'em_transito', 'finalizada', 'cancelada']
+            status = random.choice(status_options)
+            
             cursor.execute(
                 """
                 INSERT INTO cotacoes (descricao, status, user_id, valor_frete)
                 VALUES (%s, %s, %s, %s)
                 RETURNING cotacao_id
                 """,
-                (descricao, 'pendente', admin_id, valor_frete),
+                (descricao, status, admin_id, valor_frete),
             )
             cotacao_id = cursor.fetchone()[0]
-            print(f'  Criada cotacao id={cotacao_id} ({descricao})')
+            print(f'  Criada cotacao id={cotacao_id} status={status} ({descricao})')
 
             remetente = (f'Rua das Flores {i+1}', str(100 + i), f'0100{i}0-000', 'São Paulo', 'SP', 'Sem complemento', 1, cotacao_id)
             destino = (f'Avenida Central {i+1}', str(200 + i), f'0200{i}0-000', 'Rio de Janeiro', 'RJ', 'Sem complemento', 2, cotacao_id)
@@ -138,6 +161,38 @@ def seed_mock_data():
 
         db.commit()
         print('Seed completo e commit realizado.')
+
+        # Adicionar algumas cotações para o usuário ID 2 se ele existir
+        try:
+            cursor.execute("SELECT user_id FROM users WHERE user_id = 2")
+            user2_exists = cursor.fetchone()
+            
+            if user2_exists:
+                print('Adicionando cotações para o usuário ID 2...')
+                status_options = ['agendada', 'em_transito', 'finalizada', 'pendente', 'cancelada']
+                
+                for i in range(10):  # Criar 10 cotações para o usuário 2
+                    descricao = f'Cotação usuário 2 #{i+1}'
+                    valor_frete = round(random.uniform(100, 1500), 2)
+                    status = random.choice(status_options)
+                    
+                    cursor.execute(
+                        """
+                        INSERT INTO cotacoes (descricao, status, user_id, valor_frete)
+                        VALUES (%s, %s, %s, %s)
+                        RETURNING cotacao_id
+                        """,
+                        (descricao, status, 2, valor_frete),
+                    )
+                    cotacao_id = cursor.fetchone()[0]
+                    print(f'  Criada cotacao id={cotacao_id} status={status} valor={valor_frete} para usuário 2')
+                
+                db.commit()
+                print('Cotações para usuário ID 2 criadas com sucesso.')
+            else:
+                print('Usuário ID 2 não existe, pulando criação de cotações.')
+        except Exception as e:
+            print(f'Erro ao criar cotações para usuário 2: {e}')
 
     except Exception as e:
         print('Erro ao inserir dados de mock:', e)
