@@ -66,18 +66,15 @@ function configurarBotoes() {
         const cotacaoId = localStorage.getItem("cotacaoId");
         const valorFinalFrete = document.getElementById("valorFinal").textContent.replace("Valor: R$ ", "").trim();
 
-        // Salvar os dados necessários no localStorage
         localStorage.setItem("cotacaoId", cotacaoId);
         localStorage.setItem("valorFinalFrete", valorFinalFrete);
 
-        // Caso precise salvar mais dados
         const destinatario = document.getElementById("destinoNome").value;
         const dataAgendamento = document.getElementById("dataAgendamento").value;
         localStorage.setItem("destinatario", destinatario);
         localStorage.setItem("dataAgendamento", dataAgendamento);
 
-        // Redirecionar para a tela de pagamento
-        window.location.href = "/src/app/pages/price/pagamento/pagamento.html"; // Altere para o caminho correto
+        window.location.href = "/src/app/pages/price/pagamento/pagamento.html";
     });
 
     document.getElementById("btnNovaCotacao").addEventListener("click", function () {

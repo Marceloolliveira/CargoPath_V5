@@ -15,7 +15,6 @@ describe('Login Functionality', () => {
   let passwordInput;
 
   beforeEach(() => {
-    // Setup DOM
     document.body.innerHTML = `
       <input id="email" type="email" value="" />
       <input id="password" type="password" value="" />
@@ -26,7 +25,6 @@ describe('Login Functionality', () => {
     passwordInput = document.getElementById('password');
     loginButton = document.getElementById('btn-login');
 
-    // Simula o event listener do login
     loginButton.addEventListener('click', async (e) => {
       e.preventDefault();
       const email = emailInput.value;
@@ -59,7 +57,6 @@ describe('Login Functionality', () => {
 
   describe('Successful Login', () => {
     test('should collect form data and make API request', async () => {
-      // Arrange
       emailInput.value = 'test@test.com';
       passwordInput.value = 'password123';
 
@@ -74,11 +71,9 @@ describe('Login Functionality', () => {
 
       fetch.mockResolvedValue(mockResponse);
 
-      // Act
       loginButton.click();
-      await new Promise(resolve => setTimeout(resolve, 0)); // Wait for async
+      await new Promise(resolve => setTimeout(resolve, 0));
 
-      // Assert
       expect(fetch).toHaveBeenCalledWith('http://127.0.0.1:5000/api/login', {
         method: 'POST',
         headers: {
@@ -92,7 +87,6 @@ describe('Login Functionality', () => {
     });
 
     test('should store user data in localStorage on successful login', async () => {
-      // Arrange
       emailInput.value = 'test@test.com';
       passwordInput.value = 'password123';
 
@@ -107,18 +101,15 @@ describe('Login Functionality', () => {
 
       fetch.mockResolvedValue(mockResponse);
 
-      // Act
       loginButton.click();
       await new Promise(resolve => setTimeout(resolve, 0));
 
-      // Assert
       expect(localStorage.getItem('token')).toBe('fake-jwt-token');
       expect(localStorage.getItem('usuarioID')).toBe('123');
       expect(localStorage.getItem('usuarioNome')).toBe('Test User');
     });
 
     test('should show success alert and redirect on successful login', async () => {
-      // Arrange
       emailInput.value = 'test@test.com';
       passwordInput.value = 'password123';
 
@@ -133,11 +124,9 @@ describe('Login Functionality', () => {
 
       fetch.mockResolvedValue(mockResponse);
 
-      // Act
       loginButton.click();
       await new Promise(resolve => setTimeout(resolve, 0));
 
-      // Assert
       expect(alert).toHaveBeenCalledWith('Login bem-sucedido!');
       expect(window.location.href).toBe('src/app/pages/dashboard/dashboard.html');
     });
@@ -145,7 +134,6 @@ describe('Login Functionality', () => {
 
   describe('Login Errors', () => {
     test('should handle API error response', async () => {
-      // Arrange
       emailInput.value = 'test@test.com';
       passwordInput.value = 'wrongpassword';
 
@@ -158,34 +146,27 @@ describe('Login Functionality', () => {
 
       fetch.mockResolvedValue(mockResponse);
 
-      // Act
       loginButton.click();
       await new Promise(resolve => setTimeout(resolve, 0));
 
-      // Assert
       expect(alert).toHaveBeenCalledWith('Credenciais inválidas');
-      // Limpar localStorage após erro
       localStorage.removeItem('token');
     });
 
     test('should handle network errors', async () => {
-      // Arrange
       emailInput.value = 'test@test.com';
       passwordInput.value = 'password123';
 
       fetch.mockRejectedValue(new Error('Network error'));
 
-      // Act
       loginButton.click();
       await new Promise(resolve => setTimeout(resolve, 0));
 
-      // Assert
       expect(alert).toHaveBeenCalledWith('Erro ao conectar com o servidor');
       expect(console.error).toHaveBeenCalled();
     });
 
     test('should handle API error without message', async () => {
-      // Arrange
       emailInput.value = 'test@test.com';
       passwordInput.value = 'password123';
 
@@ -196,32 +177,25 @@ describe('Login Functionality', () => {
 
       fetch.mockResolvedValue(mockResponse);
 
-      // Act
       loginButton.click();
       await new Promise(resolve => setTimeout(resolve, 0));
 
-      // Assert
       expect(alert).toHaveBeenCalledWith('Erro no login');
     });
   });
 
   describe('Form Validation', () => {
     test('should prevent default form submission', async () => {
-      // Arrange
       const mockEvent = {
         preventDefault: jest.fn()
       };
 
-      // Act
       loginButton.dispatchEvent(new Event('click'));
 
-      // Assert - O preventDefault é chamado no event listener
-      // Este teste verifica se o comportamento padrão é prevenido
       expect(fetch).toHaveBeenCalled();
     });
 
     test('should handle empty form fields', async () => {
-      // Arrange
       emailInput.value = '';
       passwordInput.value = '';
 
@@ -236,11 +210,9 @@ describe('Login Functionality', () => {
 
       fetch.mockResolvedValue(mockResponse);
 
-      // Act
       loginButton.click();
       await new Promise(resolve => setTimeout(resolve, 0));
 
-      // Assert
       expect(fetch).toHaveBeenCalledWith('http://127.0.0.1:5000/api/login', {
         method: 'POST',
         headers: {

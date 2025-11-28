@@ -12,7 +12,6 @@ class LocalizacaoService:
             if not data:
                 return jsonify({"error": "Dados não fornecidos"}), 400
 
-            # Extração dos dados
             rua = data.get('rua')
             numero = data.get('numero')
             cep = data.get('cep')
@@ -23,11 +22,9 @@ class LocalizacaoService:
             cotacao_id = data.get('cotacao_id')
             destinatario_nome = data.get('destinatario_nome')
 
-            # Validações básicas
             if not all([rua, numero, cep, cidade, estado, tipo, cotacao_id]):
                 return jsonify({"error": "Campos obrigatórios não preenchidos"}), 400
 
-            # Criar localização
             result = LocalizacaoService.criar_localizacao(
                 rua, numero, cep, cidade, estado, complemento, tipo, cotacao_id, destinatario_nome
             )
@@ -95,7 +92,6 @@ class LocalizacaoService:
             cursor.execute("SELECT * FROM localizacao;")
             localizacoes = cursor.fetchall()
             
-            # Adiciona rótulos aos dados retornados
             localizacoes_list = []
             for localizacao in localizacoes:
                 localizacoes_list.append({

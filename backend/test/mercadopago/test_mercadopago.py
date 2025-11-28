@@ -3,10 +3,8 @@ import os
 from unittest.mock import Mock, patch, MagicMock
 import sys
 
-# Adiciona o src ao PYTHONPATH
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'src'))
 
-# Agora pode importar usando o caminho completo
 from app.api.mercadopago.mercadopago_service import PaymentService
 
 
@@ -25,7 +23,7 @@ class TestPaymentService:
         self.expected_preference_data = {
             "items": [
                 {
-                    "title": "Cotação #12345",
+                    "title": "Cotação
                     "quantity": 1,
                     "unit_price": 250.75,
                 }
@@ -53,19 +51,16 @@ class TestPaymentService:
         with patch.dict(os.environ, {'SDK_TESTE': 'TEST_TOKEN_123'}):
             service = PaymentService()
         
-        # Verifica se o SDK foi inicializado com o token correto
         mock_sdk_class.assert_called_once_with('TEST_TOKEN_123')
         assert service.sdk == mock_sdk
 
     @patch.object(PaymentService, '__init__', lambda x: None)
     def test_create_preference_success(self):
         """Testa criação bem-sucedida de preferência de pagamento"""
-        # Mock do SDK
         mock_sdk = MagicMock()
         mock_preference = MagicMock()
         mock_sdk.preference.return_value = mock_preference
         
-        # Configura resposta de sucesso
         mock_preference.create.return_value = {
             "response": {
                 "id": "preference_id_123",
@@ -73,38 +68,30 @@ class TestPaymentService:
             }
         }
         
-        # Configura o service com o mock
         self.payment_service.sdk = mock_sdk
         
-        # Executa o teste
         result = self.payment_service.create_preference(
             self.test_data['cotacao_id'],
             self.test_data['valor']
         )
         
-        # Verificações
         assert result == "preference_id_123"
         
-        # Verifica se o método foi chamado com os dados corretos
         mock_preference.create.assert_called_once_with(self.expected_preference_data)
 
     @patch.object(PaymentService, '__init__', lambda x: None)
     def test_create_preference_no_response(self):
         """Testa erro quando não há resposta do Mercado Pago"""
-        # Mock do SDK
         mock_sdk = MagicMock()
         mock_preference = MagicMock()
         mock_sdk.preference.return_value = mock_preference
         
-        # Configura resposta sem dados
         mock_preference.create.return_value = {
             "response": None
         }
         
-        # Configura o service com o mock
         self.payment_service.sdk = mock_sdk
         
-        # Verifica se a exceção é lançada
         with pytest.raises(Exception) as exc_info:
             self.payment_service.create_preference(
                 self.test_data['cotacao_id'],
@@ -116,23 +103,18 @@ class TestPaymentService:
     @patch.object(PaymentService, '__init__', lambda x: None)
     def test_create_preference_no_id(self):
         """Testa erro quando resposta não contém ID"""
-        # Mock do SDK
         mock_sdk = MagicMock()
         mock_preference = MagicMock()
         mock_sdk.preference.return_value = mock_preference
         
-        # Configura resposta sem ID
         mock_preference.create.return_value = {
             "response": {
                 "status": "created",
-                # "id" está ausente
             }
         }
         
-        # Configura o service com o mock
         self.payment_service.sdk = mock_sdk
         
-        # Verifica se a exceção é lançada
         with pytest.raises(Exception) as exc_info:
             self.payment_service.create_preference(
                 self.test_data['cotacao_id'],
@@ -144,18 +126,14 @@ class TestPaymentService:
     @patch.object(PaymentService, '__init__', lambda x: None)
     def test_create_preference_api_error(self):
         """Testa erro na API do Mercado Pago"""
-        # Mock do SDK
         mock_sdk = MagicMock()
         mock_preference = MagicMock()
         mock_sdk.preference.return_value = mock_preference
         
-        # Configura exceção na API
         mock_preference.create.side_effect = Exception("Erro na API do Mercado Pago")
         
-        # Configura o service com o mock
         self.payment_service.sdk = mock_sdk
         
-        # Verifica se a exceção é lançada
         with pytest.raises(Exception) as exc_info:
             self.payment_service.create_preference(
                 self.test_data['cotacao_id'],
@@ -167,61 +145,50 @@ class TestPaymentService:
     @patch.object(PaymentService, '__init__', lambda x: None)
     def test_create_preference_with_different_values(self):
         """Testa criação de preferência com diferentes valores"""
-        # Mock do SDK
         mock_sdk = MagicMock()
         mock_preference = MagicMock()
         mock_sdk.preference.return_value = mock_preference
         
-        # Configura resposta de sucesso
         mock_preference.create.return_value = {
             "response": {
                 "id": "preference_id_456",
             }
         }
         
-        # Configura o service com o mock
         self.payment_service.sdk = mock_sdk
         
-        # Teste com valores diferentes
         cotacao_id = 98765
         valor = 1000.50
         
         result = self.payment_service.create_preference(cotacao_id, valor)
         
-        # Verifica o resultado
         assert result == "preference_id_456"
         
-        # Verifica se os dados foram formatados corretamente
         call_args = mock_preference.create.call_args[0][0]
-        assert call_args["items"][0]["title"] == "Cotação #98765"
+        assert call_args["items"][0]["title"] == "Cotação
         assert call_args["items"][0]["unit_price"] == 1000.50
         assert call_args["items"][0]["quantity"] == 1
 
     @patch.object(PaymentService, '__init__', lambda x: None)
     def test_create_preference_urls_configuration(self):
         """Testa se as URLs estão configuradas corretamente"""
-        # Mock do SDK
         mock_sdk = MagicMock()
         mock_preference = MagicMock()
         mock_sdk.preference.return_value = mock_preference
         
-        # Configura resposta de sucesso
         mock_preference.create.return_value = {
             "response": {
                 "id": "preference_id_789",
             }
         }
         
-        # Configura o service com o mock
         self.payment_service.sdk = mock_sdk
         
-        # Executa o teste
         self.payment_service.create_preference(
             self.test_data['cotacao_id'],
             self.test_data['valor']
         )
         
-        # Verifica se as URLs estão corretas
         call_args = mock_preference.create.call_args[0][0]
         back_urls = call_args["back_urls"]
         
@@ -233,28 +200,23 @@ class TestPaymentService:
     @patch.object(PaymentService, '__init__', lambda x: None)
     def test_create_preference_payment_methods_configuration(self):
         """Testa se os métodos de pagamento estão configurados corretamente"""
-        # Mock do SDK
         mock_sdk = MagicMock()
         mock_preference = MagicMock()
         mock_sdk.preference.return_value = mock_preference
         
-        # Configura resposta de sucesso
         mock_preference.create.return_value = {
             "response": {
                 "id": "preference_id_abc",
             }
         }
         
-        # Configura o service com o mock
         self.payment_service.sdk = mock_sdk
         
-        # Executa o teste
         self.payment_service.create_preference(
             self.test_data['cotacao_id'],
             self.test_data['valor']
         )
         
-        # Verifica se os métodos de pagamento estão corretos
         call_args = mock_preference.create.call_args[0][0]
         payment_methods = call_args["payment_methods"]
         

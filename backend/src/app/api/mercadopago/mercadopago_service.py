@@ -2,7 +2,6 @@ import os
 from dotenv import load_dotenv
 import mercadopago
 
-# Carregar variáveis de ambiente do arquivo .env
 load_dotenv(os.path.join(os.path.dirname(__file__), '..', '..', '..', '.env'))
 
 class PaymentService:
@@ -10,7 +9,7 @@ class PaymentService:
         self.sdk = mercadopago.SDK(os.getenv("SDK_TESTE"))
 
     def create_preference(self, cotacao_id, valor):
-        descricao = f"Cotação #{cotacao_id}"
+        descricao = f"Cotação {cotacao_id}"
 
         preference_data = {
             "items": [
@@ -34,7 +33,6 @@ class PaymentService:
             "auto_return": "approved",
         }
 
-        # Criar a preferência de pagamento
         preference_response = self.sdk.preference().create(preference_data)
         preference = preference_response.get("response")
 

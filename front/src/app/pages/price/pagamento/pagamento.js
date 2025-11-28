@@ -10,7 +10,6 @@ document.addEventListener("DOMContentLoaded", function () {
     return;
   }
 
-  // Atualizar a página com os dados recuperados
   document.getElementById("cotacaoId").textContent = cotacaoId;
   document.getElementById("valorPagamento").textContent = parseFloat(valorFinalFrete).toFixed(2);
   document.getElementById("destinatarioNome").textContent = destinatario || "Não informado";
@@ -19,7 +18,6 @@ document.addEventListener("DOMContentLoaded", function () {
   const mp = new MercadoPago("TEST-f5a1b082-2c41-45c9-9bfe-668172eea53d");
   const bricksBuilder = mp.bricks();
 
-  // Função para buscar o preferenceId no backend
   async function fetchPreferenceId() {
     try {
       const response = await fetch("http://127.0.0.1:5000/api/payment/create_preference", {
@@ -46,7 +44,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // Função para carregar o Payment Brick
   async function loadPaymentBrick() {
     try {
       const preferenceId = await fetchPreferenceId();
@@ -57,8 +54,8 @@ document.addEventListener("DOMContentLoaded", function () {
           preferenceId: preferenceId,
         },
         paymentMethods: {
-          ticket: false, // Desabilita boletos (opcional)
-          bank_transfer: false, // Desabilita transferências (opcional)
+          ticket: false,
+          bank_transfer: false,
         },
         callbacks: {
           onReady: () => {

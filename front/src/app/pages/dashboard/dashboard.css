@@ -1,24 +1,18 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800&display=swap");
-
 body,
 input {
   font-family: "Poppins", sans-serif;
 }
-
-/* Estilos básicos */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
-
 body {
   height: 100vh;
 }
-
-/* Menu lateral */
 .menu-lateral {
-  width: 90px; /* Largura inicial do menu recolhido */
+  width: 90px; 
   height: 100%;
   background-color: #414bb2;
   padding: 40px 0;
@@ -31,25 +25,20 @@ body {
   justify-content: space-between;
   transition: width 0.3s ease;
 }
-
 .menu-lateral.expandir {
-  width: 260px; /* Largura do menu quando expandido */
+  width: 260px; 
 }
-
 .btn-expandir {
   width: 100%;
   padding-left: 10px;
   display: flex;
   justify-content: flex-start;
 }
-
 .btn-expandir > i {
   color: #fff;
   font-size: 24px;
   cursor: pointer;
 }
-
-/* Centralizar ícones e remover pontos */
 ul {
   list-style-type: none;
   padding-left: 0;
@@ -58,7 +47,6 @@ ul {
   align-items: center;
   width: 100%;
 }
-
 ul li.item-menu {
   width: 100%;
   display: flex;
@@ -69,12 +57,10 @@ ul li.item-menu {
   border: 2px solid transparent;
   border-radius: 10px;
 }
-
 ul li.item-menu:hover {
   background-color: rgba(255, 255, 255, 0.2);
   border: 2px solid white;
 }
-
 ul li.item-menu a {
   color: #fff;
   text-decoration: none;
@@ -83,110 +69,88 @@ ul li.item-menu a {
   padding-left: 25px;
   width: 100%;
 }
-
 ul li.item-menu a .icon {
   font-size: 30px;
   transition: margin-left 0.3s ease;
   text-align: center;
 }
-
 ul li.item-menu a .txt-link {
   margin-left: 20px;
   opacity: 0;
   white-space: nowrap;
   transition: opacity 0.3s ease;
 }
-
-/* Mostrar texto apenas no menu expandido */
 .menu-lateral.expandir ul li.item-menu a .txt-link {
   opacity: 1;
 }
-
 ul li.ativo {
   background-color: #738bd3;
   border-color: white;
 }
-
 #sair{
     padding-left: 1px;
     font-size: 30px;
 }
-
-/* Responsividade */
 @media (max-width: 768px) {
   .menu-lateral {
-    width: 60px; /* Reduz a largura do menu em telas menores */
+    width: 60px; 
     padding: 20px 0;
   }
-
   .menu-lateral.expandir {
-    width: 100%; /* O menu expande para 100% da tela em dispositivos menores */
+    width: 100%; 
   }
-
   ul li.item-menu a .txt-link {
-    display: none; /* Oculta o texto do link em telas pequenas */
+    display: none; 
   }
-
   .btn-expandir > i {
-    font-size: 20px; /* Ajusta o tamanho do ícone para caber em telas pequenas */
+    font-size: 20px; 
   }
 }
-
 @media (max-width: 480px) {
   .menu-lateral {
-    width: 100%; /* Menu ocupa toda a largura em dispositivos muito pequenos */
-    height: auto; /* Altura automática para caber o conteúdo */
+    width: 100%; 
+    height: auto; 
     flex-direction: row;
     padding: 10px 0;
   }
-
   ul {
-    flex-direction: row; /* Ícones ficam em uma linha */
+    flex-direction: row; 
     justify-content: space-around;
   }
-
   ul li.item-menu {
     padding: 10px;
     border-radius: 5px;
   }
-
   .btn-expandir {
-    display: none; /* Esconde o botão expandir em telas muito pequenas */
+    display: none; 
   }
 }
-
 body {
   background-color: #f4f4f4;
   font-family: 'Poppins', sans-serif;
   margin-left: 90px;
 }
-
 .container {
   padding: 20px;
 }
-
 h1, h2 {
   color: #333;
 }
-
 h2 {
   margin-top: 10px;
 }
-
 .filters {
   display: flex;
   align-items: center;
   gap: 10px;
   margin-bottom: 20px;
 }
-
 .filters input,
 .filters button {
   padding: 10px;
   border-radius: 5px;
   border: 1px solid #ccc;
 }
-
 .filters button {
   background-color: #414bb2;
   color: white;
@@ -194,13 +158,11 @@ h2 {
   border: none;
   cursor: pointer;
 }
-
 .dashboard-content {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 20px;
 }
-
 .chart-container {
   background-color: white;
   border-radius: 8px;
@@ -208,22 +170,18 @@ h2 {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   text-align: center;
 }
-
 .chart-container canvas {
   height: 200px;
   width: 200px;
   margin: auto;
 }
-
 .chart-label {
   margin-top: 10px;
 }
-
 .chart-label i {
   font-size: 24px;
   color: #414bb2;
 }
-
 .card {
   display: flex;
   flex-direction: column;
@@ -231,20 +189,15 @@ h2 {
   justify-content: center;
   background-color: #f5a623;
   border-radius: 8px;
- 
   padding: 20px;
   font-size: 18px;
   text-align: center;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
-
 .card i {
   font-size: 40px;
   margin-bottom: 10px;
 }
-
-
-/* Animação dos números */
 @keyframes count-up {
   from {
     content: "0";
@@ -253,8 +206,6 @@ h2 {
     content: attr(data-value);
   }
 }
-
-/* Estilo dos cartões no padrão dos gráficos */
 .card {
   position: relative;
   flex: 1;
@@ -269,13 +220,10 @@ h2 {
   overflow: hidden;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-
 .card:hover {
   transform: translateY(-10px);
   box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
 }
-
-/* Ícone flutuante no canto */
 .card i {
   position: absolute;
   top: 15px;
@@ -283,50 +231,39 @@ h2 {
   font-size: 30px;
   color: rgba(255, 255, 255, 0.7);
 }
-
-/* Informações centrais */
 .card h3 {
   font-size: 18px;
   font-weight: bold;
   color: #333;
   margin-bottom: 10px;
 }
-
 .card .count {
   font-size: 42px;
   font-weight: bold;
   color: #333;
 }
-
-/* Cores de fundo específicas */
 #totalCard {
   background: linear-gradient(135deg, #414bb2, #6c77d6);
   color: white;
 }
-
 #pendingCard {
   background: linear-gradient(135deg, #f5a623, #f8c474);
   color: white;
 }
-
 #completedCard {
   background: linear-gradient(135deg, #27ae60, #6cc98d);
   color: white;
 }
-
 #cancelledCard {
   background: linear-gradient(135deg, #e74c3c, #f07568);
   color: white;
 }
-
-/* Layout responsivo e dinâmico */
 .dashboard-content {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 20px;
   margin-top: 20px;
 }
-
 .chart-value {
   display: block;
   font-size: 18px;

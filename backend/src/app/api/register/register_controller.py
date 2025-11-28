@@ -14,7 +14,6 @@ def register():
         email = data.get("email")
         password = data.get("password")
 
-        # Validação simples
         if not all([name, telefone, cpf, email, password]):
             return jsonify({"error": "Todos os campos são obrigatórios"}), 400
 

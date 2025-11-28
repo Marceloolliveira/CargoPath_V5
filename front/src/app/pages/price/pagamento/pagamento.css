@@ -4,12 +4,10 @@ body {
   padding: 0;
   background-color: #f9f9f9;
 }
-
 .container {
   padding: 20px;
   margin-left: 90px;
 }
-
 .resumo-pagamento, .pagamento-container {
   background-color: #ffffff;
   padding: 20px;
@@ -17,25 +15,20 @@ body {
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
-
 h1, h2 {
   color: #333;
 }
-
 .pagamento-container {
   text-align: center;
 }
-
 #paymentBrick_container {
   margin-top: 20px;
 }
-
 .acoes {
   display: flex;
   justify-content: space-between;
   gap: 10px;
 }
-
 .btn-primario {
   background-color: #414bb2;
   color: white;
@@ -45,7 +38,6 @@ h1, h2 {
   cursor: pointer;
   font-weight: bold;
 }
-
 .btn-secundario {
   background-color: #e0e0e0;
   color: #333;

@@ -124,4 +124,3 @@ class CotacaoService:
             cursor.close()
             db.close()
 
-    # Métodos adicionais (resumo, coletas, histórico, faturas) seguem a mesma lógica

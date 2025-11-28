@@ -3,7 +3,6 @@
   padding: 0;
   box-sizing: border-box;
 }
-
 .main-cadastro {
   width: 100vw;
   height: 100vh;
@@ -13,7 +12,6 @@
   justify-content: center;
   align-items: center;
 }
-
 .left-cadastro {
   width: 50vw;
   height: 100vh;
@@ -22,7 +20,6 @@
   align-items: center;
   flex-direction: column;
 }
-
 .left-cadastro > img {
   max-width: 55vw;
   height: auto;
@@ -31,7 +28,6 @@
   font-size: 3v;
   color: #fff;
 }
-
 .right-cadastro {
   width: 50vw;
   height: 100vh;
@@ -41,7 +37,6 @@
   text-align: center;
   z-index: 1;
 }
-
 .card-cadastro {
   width: 65%;
   justify-content: center;
@@ -51,13 +46,11 @@
   background-color: #414bb2;
   border-radius: 20px;
 }
-
 .card-cadastro > h1 {
   color: #fff;
   font-weight: 800;
   margin: 0;
 }
-
 .textfield-cadastro {
   width: 100%;
   display: flex;
@@ -66,7 +59,6 @@
   justify-content: center;
   margin: 10px 0;
 }
-
 .textfield-cadastro > input {
   width: 100%;
   border: none;
@@ -78,16 +70,13 @@
   outline: none;
   box-sizing: border-box;
 }
-
 .textfield-cadastro > label {
   color: #fff;
   margin-bottom: 10px;
 }
-
 .textfield-cadastro > input::placeholder {
   color: #fff;
 }
-
 .btn-cadastrar {
   width: 100%;
   padding: 16px 0px;
@@ -102,17 +91,14 @@
   box-sizing: border-box;
   margin-top: 10px;
 }
-
 .image_cadastro {
   width: 100%;
 }
-
 @media only screen and (min-width: 950px) {
   .card-cadastro {
     width: 85%;
   }
 }
-
 @media only screen and (max-width: 600px) {
   .main-cadastro {
     flex-direction: column;

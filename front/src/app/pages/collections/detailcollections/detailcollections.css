@@ -1,15 +1,12 @@
-/* Estilos gerais */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
-
 body {
   background-color: #f4f4f4;
   padding: 20px;
 }
-
 .container {
   max-width: 1000px;
   margin: 0 auto;
@@ -19,7 +16,6 @@ body {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   overflow: auto;
 }
-
 h1 {
   font-size: 1.5em;
   color: #333;
@@ -27,13 +23,10 @@ h1 {
   border-bottom: 2px solid #333;
   padding-bottom: 10px;
 }
-
-/* Layout */
 .container-flex {
   display: flex;
   gap: 20px;
 }
-
 .left-content {
   flex: 3;
   background-color: #ffffff;
@@ -41,7 +34,6 @@ h1 {
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
-
 .right-content {
   flex: 3;
   background-color: #e9f7ef;
@@ -49,19 +41,15 @@ h1 {
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
-
-/* Seções internas */
 .left-content h2,
 .right-content h2 {
   font-size: 1.1em;
   color: #111;
   margin-bottom: 10px;
 }
-
 .section {
   margin-bottom: 20px;
 }
-
 .section2 input,
 .section2 select {
   width: calc(50% - 10px);
@@ -71,8 +59,6 @@ h1 {
   border-radius: 4px;
   font-size: 0.9em;
 }
-
-/* Campos específicos de endereço */
 #remetenteRua,
 #destinoRua,
 #remetenteNumero,
@@ -95,7 +81,6 @@ h1 {
   background-color: white;
   font-size: 0.9em;
 }
-
 .endereco-container {
   display: flex;
   flex-wrap: wrap;
@@ -103,92 +88,72 @@ h1 {
   width: 100%;
   justify-content: space-between;
 }
-
 #remetenteRua,
 #destinoRua {
   width: 76%;
 }
-
 #remetenteNumero,
 #destinoNumero {
   width: 15%;
 }
-
 #remetenteCEP,
 #destinoCEP {
   width: 20%;
 }
-
 #remetenteCidade,
 #destinoCidade {
   width: 25%;
 }
-
 #remetenteEstado,
 #destinoEstado {
   width: 12%;
 }
-
 #remetenteBairro,
 #destinoBairro {
   width: 32.5%;
 }
-
 #remetenteComplemento,
 #destinoComplemento {
   width: 92%;
 }
-
-/* Carga */
 .carga {
   display: flex;
   width: 100%;
   gap: 10px;
 }
-
 .carga label {
   font-size: 0.9em;
   font-weight: bold;
   color: #333;
 }
-
 .carga input {
   width: calc(33.33% - 10px);
   padding: 8px;
   border-radius: 4px;
 }
-
-/* Cubagem */
 #cubagemTable {
   width: 100%;
   border-collapse: collapse;
   margin-top: 10px;
 }
-
 #cubagemTable th,
 #cubagemTable td {
   border: 1px solid #ccc;
   padding: 8px;
   text-align: center;
 }
-
 #cubagemTable th {
   background-color: #f4f4f4;
   font-weight: bold;
 }
-
 #cubagemBody tr:nth-child(even) {
   background-color: #f9f9f9;
 }
-
-/* Embalagem */
 #embalagemSelecionada {
   font-size: 1em;
   color: #333;
   margin-top: 10px;
 }
-
-/* Botões */
 button {
   padding: 10px 20px;
   border: none;
@@ -196,17 +161,14 @@ button {
   font-size: 16px;
   cursor: pointer;
 }
-
 #btnPagar {
   background-color: #3498db;
   color: white;
 }
-
 #resultado {
   display: flex;
   gap: 10px;
 }
-
 #btnPagar {
   width: 100%;
   background-color: #45a049;
@@ -220,7 +182,6 @@ button {
   margin-top: 20px;
   float: right;
 }
-
 #btnPagar:hover {
   background-color: #1caf21;
 }

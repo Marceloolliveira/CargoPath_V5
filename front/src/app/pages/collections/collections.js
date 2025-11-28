@@ -9,7 +9,6 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
 
   try {
-      // Requisição para buscar as coletas pelo user_id
       const response = await fetch(`http://127.0.0.1:5000/api/cotacao/user/${userId}/coletas`);
       const coletas = await response.json();
 
@@ -17,7 +16,6 @@ document.addEventListener("DOMContentLoaded", async function () {
           throw new Error(coletas.error || coletas.message || "Erro ao carregar coletas.");
       }
 
-      // Preenchendo a tabela com as coletas
       coletas.forEach((coleta) => {
           const row = `
               <tr data-cotacao-id="${coleta.id}">
@@ -39,37 +37,33 @@ document.addEventListener("DOMContentLoaded", async function () {
       alert("Erro ao carregar coletas. Verifique o console.");
   }
 
-  // Event delegation para botões de Detalhes e Cancelar
   tableBody.addEventListener("click", async function (event) {
       const button = event.target;
 
-      // Verificar se o clique foi em um botão
       if (button.classList.contains("detalhes")) {
           const row = button.closest("tr");
-          const cotacaoId = row.dataset.cotacaoId; // Recupera o cotacao_id
+          const cotacaoId = row.dataset.cotacaoId;
           verDetalhes(cotacaoId);
       }
 
       if (button.classList.contains("cancelar")) {
           const row = button.closest("tr");
-          const cotacaoId = row.dataset.cotacaoId; // Recupera o cotacao_id
+          const cotacaoId = row.dataset.cotacaoId;
           await cancelarColeta(row, cotacaoId);
       }
   });
 });
 
-// Função para visualizar detalhes da cotação (coleta)
 function verDetalhes(cotacaoId) {
-  localStorage.setItem("cotacaoId", cotacaoId); // Salva cotacao_id no localStorage
+  localStorage.setItem("cotacaoId", cotacaoId);
   window.location.href = "./detailcollections/detailcollections.html";
 }
 
-// Função para cancelar coleta
 async function cancelarColeta(row, cotacaoId) {
   const confirmacao = confirm("Tem certeza de que deseja cancelar esta cotação?");
   if (!confirmacao) return;
 
-  const userId = localStorage.getItem("usuarioID"); // Certifique-se de ter o user_id
+  const userId = localStorage.getItem("usuarioID");
 
   try {
       const response = await fetch(`http://127.0.0.1:5000/api/cotacao/${cotacaoId}`, {
@@ -78,9 +72,9 @@ async function cancelarColeta(row, cotacaoId) {
               "Content-Type": "application/json",
           },
           body: JSON.stringify({
-              descricao: "Cotação cancelada", // Envie uma descrição padrão
+              descricao: "Cotação cancelada",
               status: "cancelado",
-              user_id: userId, // Inclua o user_id
+              user_id: userId,
           }),
       });
 
@@ -92,7 +86,6 @@ async function cancelarColeta(row, cotacaoId) {
       const data = await response.json();
       alert(data.message || "Cotação cancelada com sucesso.");
 
-      // Remover a linha correspondente da tabela
       row.remove();
   } catch (error) {
       console.error("Erro ao cancelar a coleta:", error);

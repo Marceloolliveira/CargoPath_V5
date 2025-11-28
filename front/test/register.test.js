@@ -18,7 +18,6 @@ describe('Register Functionality', () => {
   let cpfInput;
 
   beforeEach(() => {
-    // Setup DOM
     document.body.innerHTML = `
       <input id="email" type="email" value="" />
       <input id="password" type="password" value="" />
@@ -35,7 +34,6 @@ describe('Register Functionality', () => {
     cpfInput = document.getElementById('cpf');
     registerButton = document.getElementById('btn-cadastrar');
 
-    // Simula o event listener do registro
     registerButton.addEventListener('click', async (e) => {
       e.preventDefault();
       const email = emailInput.value;
@@ -68,7 +66,6 @@ describe('Register Functionality', () => {
 
   describe('Successful Registration', () => {
     test('should collect all form data and make API request', async () => {
-      // Arrange
       emailInput.value = 'test@test.com';
       passwordInput.value = 'password123';
       nameInput.value = 'Test User';
@@ -84,11 +81,9 @@ describe('Register Functionality', () => {
 
       fetch.mockResolvedValue(mockResponse);
 
-      // Act
       registerButton.click();
-      await new Promise(resolve => setTimeout(resolve, 0)); // Wait for async
+      await new Promise(resolve => setTimeout(resolve, 0));
 
-      // Assert
       expect(fetch).toHaveBeenCalledWith('http://127.0.0.1:5000/api/register', {
         method: 'POST',
         headers: {
@@ -105,7 +100,6 @@ describe('Register Functionality', () => {
     });
 
     test('should show success alert and redirect on successful registration', async () => {
-      // Arrange
       emailInput.value = 'test@test.com';
       passwordInput.value = 'password123';
       nameInput.value = 'Test User';
@@ -121,11 +115,9 @@ describe('Register Functionality', () => {
 
       fetch.mockResolvedValue(mockResponse);
 
-      // Act
       registerButton.click();
       await new Promise(resolve => setTimeout(resolve, 0));
 
-      // Assert
       expect(alert).toHaveBeenCalledWith('Cadastro realizado com sucesso!');
       expect(window.location.href).toBe('http://127.0.0.1:5501/login.html');
     });
@@ -133,7 +125,6 @@ describe('Register Functionality', () => {
 
   describe('Registration Errors', () => {
     test('should handle API error response with custom message', async () => {
-      // Arrange
       emailInput.value = 'existing@test.com';
       passwordInput.value = 'password123';
       nameInput.value = 'Test User';
@@ -149,17 +140,13 @@ describe('Register Functionality', () => {
 
       fetch.mockResolvedValue(mockResponse);
 
-      // Act
       registerButton.click();
       await new Promise(resolve => setTimeout(resolve, 0));
 
-      // Assert
       expect(alert).toHaveBeenCalledWith('Email já cadastrado');
-      // Não deve redirecionar em caso de erro
     });
 
     test('should handle API error response without custom message', async () => {
-      // Arrange
       emailInput.value = 'test@test.com';
       passwordInput.value = 'password123';
       nameInput.value = 'Test User';
@@ -173,16 +160,13 @@ describe('Register Functionality', () => {
 
       fetch.mockResolvedValue(mockResponse);
 
-      // Act
       registerButton.click();
       await new Promise(resolve => setTimeout(resolve, 0));
 
-      // Assert
       expect(alert).toHaveBeenCalledWith('Erro no cadastro');
     });
 
     test('should handle network errors', async () => {
-      // Arrange
       emailInput.value = 'test@test.com';
       passwordInput.value = 'password123';
       nameInput.value = 'Test User';
@@ -191,11 +175,9 @@ describe('Register Functionality', () => {
 
       fetch.mockRejectedValue(new Error('Network error'));
 
-      // Act
       registerButton.click();
       await new Promise(resolve => setTimeout(resolve, 0));
 
-      // Assert
       expect(alert).toHaveBeenCalledWith('Erro ao conectar com o servidor');
       expect(console.error).toHaveBeenCalled();
     });
@@ -203,16 +185,12 @@ describe('Register Functionality', () => {
 
   describe('Form Validation', () => {
     test('should prevent default form submission', async () => {
-      // Act
       registerButton.dispatchEvent(new Event('click'));
 
-      // Assert - O preventDefault é chamado no event listener
-      // Este teste verifica se o comportamento padrão é prevenido
       expect(fetch).toHaveBeenCalled();
     });
 
     test('should handle empty form fields', async () => {
-      // Arrange - todos os campos vazios
       emailInput.value = '';
       passwordInput.value = '';
       nameInput.value = '';
@@ -228,11 +206,9 @@ describe('Register Functionality', () => {
 
       fetch.mockResolvedValue(mockResponse);
 
-      // Act
       registerButton.click();
       await new Promise(resolve => setTimeout(resolve, 0));
 
-      // Assert
       expect(fetch).toHaveBeenCalledWith('http://127.0.0.1:5000/api/register', {
         method: 'POST',
         headers: {
@@ -249,7 +225,6 @@ describe('Register Functionality', () => {
     });
 
     test('should handle partially filled form', async () => {
-      // Arrange - alguns campos preenchidos
       emailInput.value = 'test@test.com';
       passwordInput.value = 'password123';
       nameInput.value = '';
@@ -265,11 +240,9 @@ describe('Register Functionality', () => {
 
       fetch.mockResolvedValue(mockResponse);
 
-      // Act
       registerButton.click();
       await new Promise(resolve => setTimeout(resolve, 0));
 
-      // Assert
       expect(fetch).toHaveBeenCalledWith('http://127.0.0.1:5000/api/register', {
         method: 'POST',
         headers: {
@@ -288,7 +261,6 @@ describe('Register Functionality', () => {
 
   describe('Input Data Validation', () => {
     test('should handle invalid email format', async () => {
-      // Arrange
       emailInput.value = 'invalid-email';
       passwordInput.value = 'password123';
       nameInput.value = 'Test User';
@@ -304,16 +276,13 @@ describe('Register Functionality', () => {
 
       fetch.mockResolvedValue(mockResponse);
 
-      // Act
       registerButton.click();
       await new Promise(resolve => setTimeout(resolve, 0));
 
-      // Assert
       expect(alert).toHaveBeenCalledWith('Formato de email inválido');
     });
 
     test('should handle weak password', async () => {
-      // Arrange
       emailInput.value = 'test@test.com';
       passwordInput.value = '123';
       nameInput.value = 'Test User';
@@ -329,11 +298,9 @@ describe('Register Functionality', () => {
 
       fetch.mockResolvedValue(mockResponse);
 
-      // Act
       registerButton.click();
       await new Promise(resolve => setTimeout(resolve, 0));
 
-      // Assert
       expect(alert).toHaveBeenCalledWith('Senha deve ter pelo menos 6 caracteres');
     });
   });

@@ -1,16 +1,13 @@
-/* Estilo base */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
-  
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
     padding: 20px;
 }
-  
 .container {
     max-width: 1000px;
     margin: 0 auto;
@@ -20,11 +17,9 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     overflow: auto;
 }
-
 .container-flex {
     display: flex;
 }
-
 h1 {
     font-size: 1.5em;
     color: #333;
@@ -32,156 +27,132 @@ h1 {
     border-bottom: 2px solid #333;
     padding-bottom: 10px;
 }
-
 .info-container {
     display: flex;
-    justify-content: space-between; /* Espaçamento entre colunas */
-    margin-top: 20px; /* Espaço acima do container de informações */
+    justify-content: space-between; 
+    margin-top: 20px; 
 }
-
 .info-left, .info-right {
-    flex: 1; /* Faz as colunas ocuparem espaço igual */
-    margin-right: 10px; /* Espaço entre as colunas */
+    flex: 1; 
+    margin-right: 10px; 
 }
-
 .info-right {
-    margin-right: 0; /* Remove a margem direita da coluna da direita */
+    margin-right: 0; 
 }
-
 .section {
-    margin-bottom: 20px; /* Espaço entre as seções */
+    margin-bottom: 20px; 
 }
-
 .section h2 {
     font-size: 1.1em;
     color: #111;
     margin-bottom: 5px;
 }
-
 .carga {
     margin-bottom: 20px;
 }
-
 .carga-inputs {
-    display: flex; /* Usar flexbox para alinhar os inputs horizontalmente */
+    display: flex; 
     justify-content: center;
     text-align: center;
 }
-
 .carga-inputs label {
-    margin-right: 10px; /* Espaço entre o label e o input */
-    font-size: 0.9em; /* Tamanho do texto do label */
+    margin-right: 10px; 
+    font-size: 0.9em; 
     justify-content: center;
     text-align: center;
 }
-
-
-
 input[type="text"], input[type="number"], select {
-    padding: 8px; /* Menor padding para inputs mais compactos */
+    padding: 8px; 
     margin: 5px 0;
     border-radius: 5px;
     border: 1px solid #ccc;
     text-align: center;
-    font-size: 0.85em; /* Reduzir o tamanho da fonte */
-    width: 100px; /* Largura fixa para inputs */
+    font-size: 0.85em; 
+    width: 100px; 
 }
-
 table {
-    width: 100%; /* Garantir que a tabela use toda a largura do container */
-    border-collapse: collapse; /* Remover espaçamento entre células */
-    font-size: 0.85em; /* Reduzir o tamanho da fonte da tabela */
+    width: 100%; 
+    border-collapse: collapse; 
+    font-size: 0.85em; 
 }
-
 th, td {
-    border: 1px solid #ccc; /* Borda para as células */
-    padding: 8px; /* Espaço interno nas células */
-    text-align: center; /* Centralizar texto nas células */
+    border: 1px solid #ccc; 
+    padding: 8px; 
+    text-align: center; 
 }
-
 th {
-    background-color: #f0f0f0; /* Fundo para cabeçalhos da tabela */
-    font-weight: bold; /* Negrito para cabeçalhos */
+    background-color: #f0f0f0; 
+    font-weight: bold; 
 }
-
 input[type="number"] {
-    width: 70px; /* Largura menor para inputs dentro da tabela */
+    width: 70px; 
     background-color: white;
 }
-
 #cubagemTable {
-    margin-top: 10px; /* Espaço acima da tabela */
+    margin-top: 10px; 
 }
 #remetenteRua,
 #destinoRua {
-  width: 80%; /* Ajuste ou remova */
-  box-sizing: border-box; /* Ajuste ou remova */
-  justify-content: space-between; /* Ajuste ou remova */
-  align-items: center; /* Ajuste ou remova */
-  text-align: left; /* Ajuste ou remova */
-  background-color: white; /* Ajuste ou remova */
+  width: 80%; 
+  box-sizing: border-box; 
+  justify-content: space-between; 
+  align-items: center; 
+  text-align: left; 
+  background-color: white; 
 }
-
 #destinoNome{
     width: 80%;
     background-color: white;
 }
-
 #remetenteNumero,
 #destinoNumero {
-  width: 15%; /* Ajuste ou remova */
-  box-sizing: border-box; /* Ajuste ou remova */
-  justify-content: space-between; /* Ajuste ou remova */
-  align-items: center; /* Ajuste ou remova */
-  background-color: white; /* Ajuste ou remova */
+  width: 15%; 
+  box-sizing: border-box; 
+  justify-content: space-between; 
+  align-items: center; 
+  background-color: white; 
 }
-
 #remetenteCEP,
 #destinoCEP {
-  width: 20%; /* Ajuste ou remova */
-  box-sizing: border-box; /* Ajuste ou remova */
-  justify-content: space-between; /* Ajuste ou remova */
-  align-items: center; /* Ajuste ou remova */
-  background-color: white; /* Ajuste ou remova */
+  width: 20%; 
+  box-sizing: border-box; 
+  justify-content: space-between; 
+  align-items: center; 
+  background-color: white; 
 }
-
 #remetenteCidade,
 #destinoCidade {
-  width: 25%; /* Ajuste ou remova */
-  box-sizing: border-box; /* Ajuste ou remova */
-  justify-content: space-between; /* Ajuste ou remova */
-  align-items: center; /* Ajuste ou remova */
-  background-color: white; /* Ajuste ou remova */
+  width: 25%; 
+  box-sizing: border-box; 
+  justify-content: space-between; 
+  align-items: center; 
+  background-color: white; 
 }
 #remetenteEstado,
 #destinoEstado {
     width: 12%;
     background-color: white;
 }
-
 #remetenteBairro,
 #destinoBairro {
-  width: 32.5%; /* Ajuste ou remova */
-  justify-content: space-between; /* Ajuste ou remova */
-  align-items: center; /* Ajuste ou remova */
-  background-color: white; /* Ajuste ou remova */
+  width: 32.5%; 
+  justify-content: space-between; 
+  align-items: center; 
+  background-color: white; 
 }
-
 #remetenteComplemento,
 #destinoComplemento {
-  width: 98%; /* Ajuste ou remova */
+  width: 98%; 
   background-color: white;
 }
-
 input[type="text"], input[type="number"], select {
-  padding: 10px; /* Pode ser mantido ou ajustado */
-  margin: 5px 5px 10px 5px; /* Pode ser mantido ou ajustado */
-  border-radius: 5px; /* Pode ser mantido ou ajustado */
-  border: 1px solid #ccc; /* Pode ser mantido ou ajustado */
-  text-align: center; /* Ajuste se necessário */
-  font-size: 0.9em; /* Pode ser mantido ou ajustado */
+  padding: 10px; 
+  margin: 5px 5px 10px 5px; 
+  border-radius: 5px; 
+  border: 1px solid #ccc; 
+  text-align: center; 
+  font-size: 0.9em; 
 }
-
 #resultado{
     display: flex;
     flex-direction: column;
@@ -200,7 +171,6 @@ input[type="text"], input[type="number"], select {
     margin-top: 20px;
     float: right;
   }
-
 #btnNovaCotacao{
     width: 85%;
     background-color: rgb(253, 60, 60);
@@ -213,7 +183,6 @@ input[type="text"], input[type="number"], select {
     margin-top: 20px;
     float: right;
 }
-  
 #btnNovaCotacao:hover {
     background-color: rgb(255, 0, 0);
   }

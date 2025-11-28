@@ -7,7 +7,6 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
     }
 
-    // Atualiza o nome do usuário no dashboard
     const usuarioNome = localStorage.getItem("usuarioNome");
     if (usuarioNome) {
         document.getElementById("nomeDashboard").innerText = `Olá ${usuarioNome}, seja bem-vindo!`;
@@ -15,7 +14,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     console.log("Dashboard carregado!");
 
-// Selecionar item no menu lateral
 var MenuItem = document.querySelectorAll('.item-menu');
 
 function SelectLink(){
@@ -29,7 +27,6 @@ MenuItem.forEach((item) =>
     item.addEventListener('click', SelectLink)
 );
 
-// Expandir menu
 var MenuExpand = document.querySelector('#btn-exp');
 var MenuSide = document.querySelector('.menu-lateral');
 

@@ -1,5 +1,5 @@
 document.getElementById("btn-login").addEventListener("click", async (e) => {
-    e.preventDefault(); // Evita o reload da página
+    e.preventDefault();
   
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
@@ -16,13 +16,12 @@ document.getElementById("btn-login").addEventListener("click", async (e) => {
         if (response.ok) {
             const data = await response.json();
 
-            // Armazena o token, ID e nome do usuário no localStorage
-            localStorage.setItem("token", data.token); // Armazena o token JWT
-            localStorage.setItem("usuarioID", data.user_id); // Armazena o ID do usuário
-            localStorage.setItem("usuarioNome", data.name); // Armazena o nome do usuário
+            localStorage.setItem("token", data.token);
+            localStorage.setItem("usuarioID", data.user_id);
+            localStorage.setItem("usuarioNome", data.name);
             
             alert("Login bem-sucedido!");
-            window.location.href = "src/app/pages/dashboard/dashboard.html"; // Redireciona para a página protegida
+            window.location.href = "src/app/pages/dashboard/dashboard.html";
         } else {
             const error = await response.json();
             alert(error.message || "Erro no login");
