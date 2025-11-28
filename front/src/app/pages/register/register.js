@@ -1,5 +1,5 @@
 document.getElementById("btn-cadastrar").addEventListener("click", async (e) => {
-  e.preventDefault(); // Evita que a página recarregue
+  e.preventDefault();
 
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;

@@ -2,7 +2,6 @@ from flask import Blueprint, request
 from .localizacao_service import LocalizacaoService
 
 class LocalizacaoController:
-    # Criação do Blueprint
     blueprint = Blueprint('localizacao', __name__)
 
     @staticmethod
@@ -45,5 +44,4 @@ class LocalizacaoController:
         """
         return LocalizacaoService.deletar_localizacao(localizacao_id)
 
-# Exporta o blueprint para ser usado no app.py
 localizacao_blueprint = LocalizacaoController.blueprint

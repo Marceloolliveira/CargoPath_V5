@@ -3,7 +3,6 @@ import bcrypt
 
 class RegisterService:
     def create_user(self, name, telefone, cpf, email, password):
-        # Criptografa a senha
         hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
 
         db = DatabaseConnection()

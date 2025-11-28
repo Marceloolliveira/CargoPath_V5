@@ -3,7 +3,6 @@ from .embalagem_service import EmbalagemService
 
 embalagem_blueprint = Blueprint('embalagem', __name__)
 
-# Criar embalagem
 @embalagem_blueprint.route('/api/embalagem', methods=['POST'])
 def criar_embalagem():
     data = request.json
@@ -14,7 +13,6 @@ def criar_embalagem():
         return jsonify({"error": str(e)}), 500
 
 
-# Listar embalagens
 @embalagem_blueprint.route('/api/embalagens', methods=['GET'])
 def listar_embalagens():
     try:
@@ -24,7 +22,6 @@ def listar_embalagens():
         return jsonify({"error": str(e)}), 500
 
 
-# Obter embalagem por ID
 @embalagem_blueprint.route('/api/embalagem/<int:embalagem_id>', methods=['GET'])
 def obter_embalagem(embalagem_id):
     try:
@@ -36,7 +33,6 @@ def obter_embalagem(embalagem_id):
         return jsonify({"error": str(e)}), 500
 
 
-# Atualizar embalagem
 @embalagem_blueprint.route('/api/embalagem/<int:embalagem_id>', methods=['PUT'])
 def atualizar_embalagem(embalagem_id):
     data = request.json
@@ -47,7 +43,6 @@ def atualizar_embalagem(embalagem_id):
         return jsonify({"error": str(e)}), 500
 
 
-# Deletar embalagem
 @embalagem_blueprint.route('/api/embalagem/<int:embalagem_id>', methods=['DELETE'])
 def deletar_embalagem(embalagem_id):
     try:

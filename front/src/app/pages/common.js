@@ -1,6 +1,4 @@
-// common.js
 document.addEventListener("DOMContentLoaded", function () {
-  // Expandir e recolher o menu lateral
   const menuExpand = document.querySelector("#btn-exp");
   const menuSide = document.querySelector(".menu-lateral");
 

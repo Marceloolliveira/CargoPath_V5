@@ -1,16 +1,13 @@
-/* Estilo base */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
-
 body {
   font-family: Arial, sans-serif;
   background-color: #f4f4f4;
   padding: 20px;
 }
-
 .container {
   max-width: 800px;
   margin: 0 auto;
@@ -20,7 +17,6 @@ body {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   overflow: auto;
 }
-
 h1 {
   font-size: 1.5em;
   color: #333;
@@ -28,20 +24,17 @@ h1 {
   border-bottom: 2px solid #333;
   padding-bottom: 10px;
 }
-
 .section2 {
   margin-bottom: 20px;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
 }
-
 .section h2 {
   font-size: 1.1em;
   color:#111;
   margin-bottom: 10px;
 }
-
 #remetenteRua, #destinoRua,
 #remetenteNumero, #destinoNumero,
 #remetenteCEP, #destinoCEP,
@@ -52,37 +45,28 @@ h1 {
   background-color: white;
   margin-bottom: 10px;
 }
-
 #destinatarioNome{
   width: 65%;
   padding-right: px;
 }
-
-
 #remetenteRua, #destinoRua {
   width: 80%;
 }
-
 #remetenteNumero, #destinoNumero {
   width: 15%;
 }
-
 #remetenteCEP, #destinoCEP {
   width: 20%;
 }
-
 #remetenteCidade, #destinoCidade {
   width: 25%;
 }
-
 #remetenteBairro, #destinoBairro {
   width: 38%;
 }
-
 #remetenteComplemento, #destinoComplemento {
   width: 100%; 
 }
-
 input[type="text"], input[type="number"], select {
   padding: 10px;
   margin: 5px 5px 10px 5px;
@@ -91,7 +75,6 @@ input[type="text"], input[type="number"], select {
   text-align: center;
   font-size: 0.9em;
 }
-
 .carga-inputs {
   display: flex;
   flex-wrap: wrap;
@@ -99,7 +82,6 @@ input[type="text"], input[type="number"], select {
   align-items: center;
   margin-bottom: 20px;
 }
-
 #valorCarga, #pesoCarga, #volumesCarga {
   display: flex;
   flex-wrap: wrap;
@@ -107,38 +89,31 @@ input[type="text"], input[type="number"], select {
   box-sizing: border-box;
   width: 25%;
 }
-
 .carga-inputs label {
   flex: 1;
   text-align: center;
   font-size: 0.9em;
 }
-
 #cubagemTable {
   width: 100%; 
   border-collapse: collapse;
   margin-top: 10px;
   table-layout: fixed;
 }
-
 #cubagemTable th, #cubagemTable td {
   width: 1px;
   padding: 10px;
   border: 1px solid #ddd;
   text-align: center;
 }
-
 #cubagemTable td input {
   width: 90%;
   text-align: center;
 }
-
 #cubagemTable th {
   background-color: #f4f4f4;
   color: #333;
 }
-
-/* Embalagem */
 .embalagem-opcoes {
   display: flex;
   justify-content: space-around;
@@ -146,18 +121,15 @@ input[type="text"], input[type="number"], select {
   margin-top: 20px;
   flex-wrap: wrap;
 }
-
 .embalagem-opcoes label {
   cursor: pointer;
   padding: 10px;
   transition: background-color 0.3s;
   border-radius: 5px;
 }
-
 .embalagem-opcoes label:hover {
   background-color: #f0f0f0;
 }
-
 .embalagem-opcoes .caixa img,
 .embalagem-opcoes .pallet img,
 .embalagem-opcoes .grade img {
@@ -166,7 +138,6 @@ input[type="text"], input[type="number"], select {
   width: 80px;
   height: auto;
 }
-
 .embalagem-opcoes .caixa,
 .embalagem-opcoes .pallet,
 .embalagem-opcoes .grade {
@@ -174,8 +145,6 @@ input[type="text"], input[type="number"], select {
   align-items: center;
   justify-content: center;
 }
-
-/* Botão de Confirmação */
 #calcular {
   background-color: #333;
   color: white;
@@ -187,38 +156,29 @@ input[type="text"], input[type="number"], select {
   margin-top: 20px;
   float: right;
 }
-
 #calcular:hover {
   background-color: #111;
 }
-
 .flatpickr-calendar {
   font-family: 'Arial', sans-serif;
   color: #333;
 }
-
 .flatpickr-day {
   border-radius: 50%;
   transition: 0.3s;
 }
-
 .flatpickr-day:hover {
   background: #007bff;
   color: #fff;
 }
-
-
-/* Responsividade */
 @media (max-width: 768px) {
   .container {
     padding: 15px;
   }
-
   .section2, .carga-inputs {
     flex-direction: column;
     align-items: flex-start;
   }
-
   #remetenteRua, #destinoRua,
   #remetenteNumero, #destinoNumero,
   #remetenteCEP, #destinoCEP,
@@ -228,32 +188,27 @@ input[type="text"], input[type="number"], select {
   #valorCarga, #pesoCarga, #volumesCarga {
     width: 100%;
   }
-
   .embalagem-opcoes {
     flex-direction: column;
   }
-
   #calcular {
     width: 100%;
     text-align: center;
     float: none;
   }
 }
-
 select {
-  appearance: none; /* Remove estilos padrão do navegador */
-  height: 40px; /* Defina a altura */
-  padding: 0 10px; /* Adicione espaçamento interno */
-  font-size: 16px; /* Ajuste o tamanho da fonte */
-  border: 1px solid #ccc; /* Borda */
-  border-radius: 5px; /* Bordas arredondadas */
-  background-color: #fff; /* Fundo branco */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra leve */
-  cursor: pointer; /* Cursor de mão para indicar clique */
+  appearance: none; 
+  height: 40px; 
+  padding: 0 10px; 
+  font-size: 16px; 
+  border: 1px solid #ccc; 
+  border-radius: 5px; 
+  background-color: #fff; 
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+  cursor: pointer; 
 }
-
 select:focus {
-  outline: none; /* Remove o contorno padrão ao focar */
-  border-color: #414bb2; /* Destaque a borda ao focar */
+  outline: none; 
+  border-color: #414bb2; 
 }
-

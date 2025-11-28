@@ -1,13 +1,9 @@
-from DatabaseConnection import DatabaseConnection  # Importe a classe DatabaseConnection
-# Função para criar tabelas no banco de dados
+from DatabaseConnection import DatabaseConnection
 def create_tables():
-    # Crie uma instância da classe DatabaseConnection
     db_connection = DatabaseConnection()
     
-    # Estabeleça a conexão
     db_connection.connect()
     
-    # Obtenha o cursor
     cursor = db_connection.get_cursor()
     
     if cursor:
@@ -24,11 +20,9 @@ def create_tables():
             );
             """
 
-            # Cria users
             cursor.execute(create_table_users)
             print("Tabela 'users' criada com sucesso.")
 
-            # Cria cotacoes (depende de users)
             create_table_cotacoes = """
             CREATE TABLE IF NOT EXISTS cotacoes (
                 cotacao_id SERIAL PRIMARY KEY,
@@ -43,7 +37,6 @@ def create_tables():
             cursor.execute(create_table_cotacoes)
             print("Tabela 'cotacoes' criada com sucesso.")
 
-            # Agora localizacao (depende de cotacoes)
             create_table_localizacao = """
             CREATE TABLE IF NOT EXISTS localizacao (
                 localizacao_id SERIAL PRIMARY KEY,
@@ -62,7 +55,6 @@ def create_tables():
             cursor.execute(create_table_localizacao)
             print("Tabela 'localizacao' criada com sucesso.")
 
-            # carga (depende de cotacoes)
             create_table_carga = """
             CREATE TABLE IF NOT EXISTS carga (
                 carga_id SERIAL PRIMARY KEY,
@@ -77,7 +69,6 @@ def create_tables():
             cursor.execute(create_table_carga)
             print("Tabela 'carga' criada com sucesso.")
 
-            # cubagem (depende de carga)
             create_table_cubagem = """
             CREATE TABLE IF NOT EXISTS cubagem (
                 cubagem_id SERIAL PRIMARY KEY,
@@ -93,7 +84,6 @@ def create_tables():
             cursor.execute(create_table_cubagem)
             print("Tabela 'cubagem' criada com sucesso.")
 
-            # embalagem (depende de cubagem)
             create_table_embalagem = """
             CREATE TABLE IF NOT EXISTS embalagem (
                 embalagem_id SERIAL PRIMARY KEY,
@@ -108,20 +98,16 @@ def create_tables():
             cursor.execute(create_table_embalagem)
             print("Tabela 'embalagem' criada com sucesso.")
 
-            # Commit as alterações
             db_connection.commit()
 
         except Exception as e:
-            # Em caso de erro, faz rollback e imprime o erro
             print(f"Erro ao criar tabelas: {e}")
             try:
                 db_connection.rollback()
             except Exception:
                 pass
     
-    # Fechar a conexão
     db_connection.close()
 
-# Executar a função se o script for chamado diretamente
 if __name__ == "__main__":
     create_tables()

@@ -56,5 +56,5 @@ function preencherDados(tipo, dados) {
 }
 
 document.getElementById("btnPagar").addEventListener("click", function () {// Redirecionar para a tela de pagamento
-    window.location.href = "/src/app/pages/price/resume/resume.html"; // Altere para o caminho correto
+    window.location.href = "/src/app/pages/price/resume/resume.html";
 })

@@ -4,9 +4,7 @@ from unittest.mock import Mock, patch, MagicMock
 import psycopg2
 from psycopg2 import OperationalError
 
-# Corrigindo o caminho - o problema está aqui!
 import sys
-# O caminho correto deve ser:
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'src', 'app', 'data_base', 'db_classes'))
 from DatabaseConnection import DatabaseConnection
 
@@ -16,7 +14,6 @@ class TestDatabaseConnection:
     def test_init_with_none_env_vars(self):
         """Testa se a inicialização funciona quando variáveis de ambiente são None"""
         db = DatabaseConnection()
-        # Se as variáveis de ambiente não existem, devem ser None
         assert db.cargo_path is None or isinstance(db.cargo_path, str)
         assert db.user is None or isinstance(db.user, str)
         assert db.password is None or isinstance(db.password, str)
@@ -43,14 +40,12 @@ class TestDatabaseConnection:
     @patch('psycopg2.connect')
     def test_connect_success(self, mock_connect, capsys):
         """Testa conexão bem-sucedida"""
-        # Mock da conexão
         mock_connection = MagicMock()
         mock_connect.return_value = mock_connection
         
         db = DatabaseConnection('test_db', 'user', 'pass', 'localhost', '5432')
         db.connect()
         
-        # Verifica se psycopg2.connect foi chamado com os parâmetros corretos
         mock_connect.assert_called_once_with(
             dbname='test_db',
             user='user',
@@ -59,26 +54,21 @@ class TestDatabaseConnection:
             port='5432'
         )
         
-        # Verifica se a conexão foi armazenada
         assert db.connection == mock_connection
         
-        # Verifica a mensagem de sucesso
         captured = capsys.readouterr()
         assert "Conexão com o banco de dados estabelecida com sucesso." in captured.out
 
     @patch('psycopg2.connect')
     def test_connect_failure(self, mock_connect, capsys):
         """Testa falha na conexão"""
-        # Mock que simula erro de conexão
         mock_connect.side_effect = OperationalError("Erro de conexão")
         
         db = DatabaseConnection('test_db', 'user', 'pass', 'localhost', '5432')
         db.connect()
         
-        # Verifica se a conexão é None após falha
         assert db.connection is None
         
-        # Verifica a mensagem de erro
         captured = capsys.readouterr()
         assert "Erro ao conectar ao banco de dados: Erro de conexão" in captured.out
 
@@ -86,7 +76,6 @@ class TestDatabaseConnection:
         """Testa obtenção de cursor quando há conexão ativa"""
         db = DatabaseConnection('test_db', 'user', 'pass', 'localhost', '5432')
         
-        # Mock da conexão e cursor
         mock_connection = MagicMock()
         mock_cursor = MagicMock()
         mock_connection.cursor.return_value = mock_cursor
@@ -94,7 +83,6 @@ class TestDatabaseConnection:
         
         result = db.get_cursor()
         
-        # Verifica se o método cursor foi chamado
         mock_connection.cursor.assert_called_once()
         assert result == mock_cursor
 
@@ -104,10 +92,8 @@ class TestDatabaseConnection:
         
         result = db.get_cursor()
         
-        # Verifica se retorna None
         assert result is None
         
-        # Verifica a mensagem de erro
         captured = capsys.readouterr()
         assert "Conexão não estabelecida. Por favor, chame o método 'connect' primeiro." in captured.out
 
@@ -115,13 +101,11 @@ class TestDatabaseConnection:
         """Testa commit quando há conexão ativa"""
         db = DatabaseConnection('test_db', 'user', 'pass', 'localhost', '5432')
         
-        # Mock da conexão
         mock_connection = MagicMock()
         db.connection = mock_connection
         
         db.commit()
         
-        # Verifica se o commit foi chamado
         mock_connection.commit.assert_called_once()
 
     def test_commit_without_connection(self, capsys):
@@ -130,7 +114,6 @@ class TestDatabaseConnection:
         
         db.commit()
         
-        # Verifica a mensagem de erro
         captured = capsys.readouterr()
         assert "Nenhuma conexão ativa para confirmar transações." in captured.out
 
@@ -138,13 +121,11 @@ class TestDatabaseConnection:
         """Testa rollback quando há conexão ativa"""
         db = DatabaseConnection('test_db', 'user', 'pass', 'localhost', '5432')
         
-        # Mock da conexão
         mock_connection = MagicMock()
         db.connection = mock_connection
         
         db.rollback()
         
-        # Verifica se o rollback foi chamado
         mock_connection.rollback.assert_called_once()
 
     def test_rollback_without_connection(self, capsys):
@@ -153,7 +134,6 @@ class TestDatabaseConnection:
         
         db.rollback()
         
-        # Verifica a mensagem de erro
         captured = capsys.readouterr()
         assert "Nenhuma conexão ativa para desfazer transações." in captured.out
 
@@ -161,16 +141,13 @@ class TestDatabaseConnection:
         """Testa fechamento quando há conexão ativa"""
         db = DatabaseConnection('test_db', 'user', 'pass', 'localhost', '5432')
         
-        # Mock da conexão
         mock_connection = MagicMock()
         db.connection = mock_connection
         
         db.close()
         
-        # Verifica se o close foi chamado
         mock_connection.close.assert_called_once()
         
-        # Verifica a mensagem de sucesso
         captured = capsys.readouterr()
         assert "Conexão com o banco de dados fechada." in captured.out
 
@@ -180,14 +157,12 @@ class TestDatabaseConnection:
         
         db.close()
         
-        # Verifica a mensagem de aviso
         captured = capsys.readouterr()
         assert "A conexão já está fechada ou não foi inicializada." in captured.out
 
     @patch('psycopg2.connect')
     def test_complete_workflow(self, mock_connect):
         """Testa um fluxo completo de uso da classe"""
-        # Mock da conexão e cursor
         mock_connection = MagicMock()
         mock_cursor = MagicMock()
         mock_connection.cursor.return_value = mock_cursor
@@ -195,18 +170,14 @@ class TestDatabaseConnection:
         
         db = DatabaseConnection('test_db', 'user', 'pass', 'localhost', '5432')
         
-        # Conecta
         db.connect()
         assert db.connection == mock_connection
         
-        # Obtém cursor
         cursor = db.get_cursor()
         assert cursor == mock_cursor
         
-        # Faz commit
         db.commit()
         mock_connection.commit.assert_called_once()
         
-        # Fecha conexão
         db.close()
         mock_connection.close.assert_called_once()

@@ -1,10 +1,8 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // Função para construir o endereço completo
     function construirEndereco(rua, numero, cep, cidade, estado) {
         return `${rua}, ${numero}, ${cep}, ${cidade} - ${estado}`;
     }
 
-    // Configuração do calendário (Flatpickr)
     flatpickr("#dataAgendamento", {
         altInput: true, 
         altFormat: "F j, Y", 
@@ -13,7 +11,6 @@ document.addEventListener("DOMContentLoaded", function () {
         locale: "pt",
     });
 
-    // Aguarda a API do Google Maps estar disponível
     function waitForGoogleMaps(timeout = 10000) {
         return new Promise((resolve, reject) => {
             if (window.google && window.google.maps) return resolve();
@@ -33,7 +30,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // Fallback: usa Nominatim (OpenStreetMap) para geocodificar endereços e calcula distância haversine
     async function fallbackDistanceUsingNominatim(originAddress, destAddress) {
         console.warn('Usando fallback Nominatim para calcular distância');
         const encode = (s) => encodeURIComponent(s);
@@ -52,9 +48,8 @@ document.addEventListener("DOMContentLoaded", function () {
             const dLat = parseFloat(dJson[0].lat);
             const dLon = parseFloat(dJson[0].lon);
 
-            // Haversine
             const toRad = (v) => (v * Math.PI) / 180;
-            const R = 6371; // km
+            const R = 6371;
             const dLatR = toRad(dLat - oLat);
             const dLonR = toRad(dLon - oLon);
             const a = Math.sin(dLatR / 2) * Math.sin(dLatR / 2) + Math.cos(toRad(oLat)) * Math.cos(toRad(dLat)) * Math.sin(dLonR / 2) * Math.sin(dLonR / 2);
@@ -67,9 +62,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // Função para calcular o frete usando a API do Google Maps
     async function calcularFrete() {
-        // Tenta usar Google Maps; se não disponível ou retornar erro, usa fallback Nominatim
         let googleAvailable = true;
         try {
             await waitForGoogleMaps(3000);
@@ -119,7 +112,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     async function (response, status) {
                         if (status === "OK") {
                             try {
-                                const distancia = response.rows[0].elements[0].distance.value / 1000; // Distância em km
+                                const distancia = response.rows[0].elements[0].distance.value / 1000;
                                 const precoPorKm = 1.5;
                                 const porcentagemCarga = 0.05;
                                 const custoDistancia = distancia * precoPorKm;
@@ -128,7 +121,6 @@ document.addEventListener("DOMContentLoaded", function () {
                                 resolve(valorFinalFrete);
                             } catch (err) {
                                 console.error('Erro ao processar resposta do Google Maps:', err);
-                                // tenta fallback
                                 try {
                                     const distanciaKm = await fallbackDistanceUsingNominatim(enderecoRemetente, enderecoDestinatario);
                                     const precoPorKm = 1.5;
@@ -159,7 +151,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 );
             });
         } else {
-            // Usa fallback direto
             try {
                 const distanciaKm = await fallbackDistanceUsingNominatim(enderecoRemetente, enderecoDestinatario);
                 const precoPorKm = 1.5;
@@ -175,7 +166,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // Função para confirmar e salvar todos os dados no banco de dados
     async function confirmarCotacao() {
         console.log('confirmarCotacao: iniciando');
         const btnConfirmar = document.getElementById("btnConfirmar");
@@ -192,12 +182,10 @@ document.addEventListener("DOMContentLoaded", function () {
         const dataAgendamento = document.getElementById("dataAgendamento").value;
 
         try {
-            // Calcular o frete primeiro
             console.log('confirmarCotacao: chamando calcularFrete()');
             const valorFrete = await calcularFrete();
             console.log('confirmarCotacao: valorFrete calculado =', valorFrete);
 
-            // 1. Criação da Cotação
             const cotacaoResponse = await fetch("http://127.0.0.1:5000/api/cotacao/", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -221,7 +209,6 @@ document.addEventListener("DOMContentLoaded", function () {
             const cotacaoId = cotacaoData.cotacao_id;
             localStorage.setItem("cotacaoId", cotacaoId);
 
-            // 2. Criar Localizações para Remetente e Destino
             const remetente = {
                 rua: document.getElementById("remetenteRua").value,
                 numero: document.getElementById("remetenteNumero").value,
@@ -258,7 +245,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 }),
             ]);
 
-            // 3. Criar Carga
             const cargaResponse = await fetch("http://127.0.0.1:5000/api/carga", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -276,7 +262,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 return;
             }
 
-            // 4. Criar Cubagem
             const cubagemLinhas = document.querySelectorAll("#cubagemBody tr");
             for (const linha of cubagemLinhas) {
                 const inputs = linha.querySelectorAll("input");
@@ -293,7 +278,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 });
             }
 
-            // 5. Criar Embalagem
             const embalagemSelecionada = document.querySelector('input[name="embalagem"]:checked');
             if (embalagemSelecionada) {
                 const embalagemResponse = await fetch("http://127.0.0.1:5000/api/embalagem", {
@@ -324,6 +308,5 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // Evento de clique no botão Confirmar
     document.getElementById("btnConfirmar").addEventListener("click", confirmarCotacao);
 });

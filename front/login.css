@@ -1,17 +1,13 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800&display=swap");
-
 body,
 input {
   font-family: "Poppins", sans-serif;
 }
-
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
-/* left(esquerda) e right(direita) estão trocados!! */
-
 .main-login{
   width: 100vw;
   height: 100vh;
@@ -21,7 +17,6 @@ input {
   justify-content: center;
   align-items: center;
 }
-
 .left-login{
   width: 50vw;
   height: 100vh;
@@ -30,7 +25,6 @@ input {
   align-items: center;
   flex-direction: column;
 }
-
 .left-login > img {
   max-width: 55vw;
   height: auto;
@@ -39,7 +33,6 @@ input {
   font-size: 3v;
   color: #fff;
 }
-
 .right-login {
   width: 50vw;
   height: 100vh;
@@ -49,7 +42,6 @@ input {
   text-align: center;
   z-index: 1;
 }
-
 .card-login{
   width: 65%;
   justify-content: center;
@@ -59,13 +51,11 @@ input {
   background-color: #414bb2;
   border-radius: 20px;
 }
-
 .card-login > h1{
   color: #fff;
   font-weight: 800;
   margin: 0;
 }
-
 .textfield{
   width: 100%;
   display: flex;
@@ -74,7 +64,6 @@ input {
   justify-content: center;
   margin: 10px 0;
 }
-
 .textfield > input{
   width: 100%;
   border: none;
@@ -83,20 +72,16 @@ input {
   background-color: #7a81c9;
   color: #fff;
   font-size: 12pt;
-  outline: none; /* remover marcação envolta da textbox*/
+  outline: none; 
   box-sizing: border-box;
 }
-
 .textfield > label{
   color: #fff;
   margin-bottom: 10px;
-
 }
-
 .textfield > input::placeholder{
   color: #fff;
 }
-
 .btn-login{
   width: 100%;
   padding: 16px 0px;
@@ -111,7 +96,6 @@ input {
   box-sizing: border-box;
   margin-top: 5px;
 }
-
 .btn-cadastrar{
   width: 100%;
   padding: 16px 0px;
@@ -126,7 +110,6 @@ input {
   box-sizing: border-box;
   margin-top: 10px;
 }
-
 .btn-esqueci{
   width: 100%;
   padding: 16px 0px;
@@ -141,18 +124,14 @@ input {
   box-sizing: border-box;
   margin-top: 10px;
 }
-
 .image_login{
   width: 100%;
-
 }
-
 @media only screen and (min-width: 950px){
   .card-login{
       width: 85%;
   }
 }
-
 @media only screen and (max-width: 600px){
   .main-login{
       flex-direction: column;

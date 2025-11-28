@@ -9,7 +9,6 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
 
   try {
-      // Requisição para buscar faturas pagas
       const response = await fetch(`http://127.0.0.1:5000/api/user/${userId}/faturas`);
       const faturas = await response.json();
 
@@ -17,7 +16,6 @@ document.addEventListener("DOMContentLoaded", async function () {
           throw new Error(faturas.error || faturas.message || "Erro ao carregar as faturas.");
       }
 
-      // Preenchendo a tabela com as faturas
       faturas.forEach((fatura) => {
           const row = `
               <tr data-cotacao-id="${fatura.id}">
@@ -38,20 +36,18 @@ document.addEventListener("DOMContentLoaded", async function () {
       
   }
 
-  // Event delegation para o botão de "Detalhes"
   tableBody.addEventListener("click", function (event) {
       const button = event.target;
 
       if (button.classList.contains("detalhes")) {
           const row = button.closest("tr");
-          const cotacaoId = row.dataset.cotacaoId; // Recupera o cotacao_id
+          const cotacaoId = row.dataset.cotacaoId;
           verDetalhes(cotacaoId);
       }
   });
 });
 
-// Função para visualizar detalhes da fatura
 function verDetalhes(cotacaoId) {
-  localStorage.setItem("cotacaoId", cotacaoId); // Salva cotacao_id no localStorage
-  window.location.href = "../collections/detailcollections/detailcollections.html"; // Redireciona para a página de detalhes
+  localStorage.setItem("cotacaoId", cotacaoId);
+  window.location.href = "../collections/detailcollections/detailcollections.html";
 }

@@ -9,22 +9,18 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
   }
 
-  // Exibir nome do usuário e custo de transporte
   document.getElementById("nomeUsuario").innerText = nomeUsuario;
   document.getElementById("resultado").insertAdjacentHTML(
       "afterbegin",
       `<h3>Valor Final do Frete: R$ ${valorFinalFrete}</h3>`
   );
 
-  // Função para preencher os campos de cotação (dados pré-carregados)
   async function carregarDadosCotacao() {
       try {
-          // Buscando dados da cotação
           const cotacaoResponse = await fetch(`http://127.0.0.1:5000/api/cotacao/${cotacaoID}`);
           const cotacao = await cotacaoResponse.json();
 
           if (cotacaoResponse.ok) {
-              // Preencher os campos com os dados da cotação
               document.getElementById("remetenteRua").value = cotacao.remetente.rua;
               document.getElementById("destinoRua").value = cotacao.destino.rua;
               document.getElementById("valorCarga").value = cotacao.carga.valor;
@@ -39,7 +35,6 @@ document.addEventListener("DOMContentLoaded", function () {
       }
   }
 
-  // Função para processar pagamento via Mercado Pago
   async function processarPagamento() {
       try {
           const response = await fetch("http://127.0.0.1:5000/api/mercado_pago", {
@@ -65,16 +60,13 @@ document.addEventListener("DOMContentLoaded", function () {
       }
   }
 
-  // Evento de clique no botão "Pagar / Agendar"
   document.getElementById("btnPagar").addEventListener("click", processarPagamento);
 
-  // Evento de clique no botão "Cancelar"
   document.getElementById("btnNovaCotacao").addEventListener("click", function () {
       if (confirm("Tem certeza de que deseja cancelar?")) {
           window.location.href = "../../price/price.html";
       }
   });
 
-  // Carregar dados da cotação ao carregar a página
   carregarDadosCotacao();
 });
