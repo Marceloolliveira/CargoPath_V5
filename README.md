@@ -1,202 +1,167 @@
-# CargoPath V5
+# 🚚 CargoPath V5
 
-Uma plataforma completa para gerenciamento de cargas, cotações e logística com integração de pagamentos via Mercado Pago.
+> Uma plataforma completa para gerenciamento de cargas, cotações e logística com integração de pagamentos via Mercado Pago.
+
+[![Python](https://img.shields.io/badge/Python-3.x-blue.svg)](https://python.org)
+[![Flask](https://img.shields.io/badge/Flask-3.1.2-green.svg)](https://flask.palletsprojects.com)
+[![Node.js](https://img.shields.io/badge/Node.js-Testing-68A063.svg)](https://nodejs.org)
+[![Docker](https://img.shields.io/badge/Docker-Container-2496ED.svg)](https://docker.com)
+
+---
 
 ## 📋 Sobre o Projeto
 
-CargoPath é um sistema web moderno desenvolvido para facilitar o gerenciamento de operações logísticas, incluindo:
+CargoPath é um sistema web moderno desenvolvido para facilitar o gerenciamento de operações logísticas:
 
-- **Registro e Autenticação** de usuários com segurança
-- **Gestão de Cargas** e rastreamento
-- **Sistema de Cotações** para preços de frete
-- **Cálculo de Cubagem** de produtos
-- **Localização** de pontos de coleta e entrega
-- **Embalagem** e preparação de cargas
-- **Dashboard** com análises e relatórios
-- **Integração com Mercado Pago** para pagamentos
+- ✅ **Registro e Autenticação** - Sistema seguro de usuários com JWT
+- 📦 **Gestão de Cargas** - Rastreamento completo e em tempo real
+- 💰 **Sistema de Cotações** - Cálculo automático de preços de frete
+- 📐 **Cálculo de Cubagem** - Otimização de espaço de produtos
+- 📍 **Localização** - Pontos de coleta e entrega
+- 📋 **Embalagem** - Preparação de cargas
+- 📊 **Dashboard** - Relatórios e análises
+- 💳 **Pagamentos** - Integração com Mercado Pago
 
-## 🏗️ Arquitetura do Projeto
+## 🏗️ Arquitetura
 
-O projeto está dividido em dois principais componentes:
-
-### Backend (Python + Flask)
-API REST desenvolvida em Flask com arquitetura baseada em:
+### 🐍 Backend (Python + Flask)
 - **Controllers**: Rotas e endpoints da API
 - **Services**: Lógica de negócio
-- **Database**: Conexão e gerenciamento do banco de dados
+- **Database**: PostgreSQL
 
-### Frontend (JavaScript + HTML + CSS)
-Interface web interativa com:
-- Página de login e autenticação
-- Dashboard com análises
-- Páginas de gestão (cargas, cotações, embalagem, etc.)
-- Integração com sistema de pagamentos
+### 🌐 Frontend (JavaScript)
+- **HTML5 + CSS3** - Interface responsiva
+- **JavaScript Vanilla** - Lógica da aplicação
 
-## 🛠️ Tecnologias Utilizadas
+### 🧪 Testes
+- **Python**: pytest para backend
+- **Node.js**: Jest para frontend
+
+## 🛠️ Tecnologias
 
 ### Backend
-- **Python 3.x**
-- **Flask 3.1.2** - Framework web
-- **Flask-CORS 6.0.1** - Suporte a CORS
-- **PostgreSQL** - Banco de dados
-- **psycopg2 2.9.11** - Driver PostgreSQL
-- **PyJWT 2.8.0** - Autenticação JWT
-- **bcrypt 5.0.0** - Hash de senhas
-- **python-dotenv 1.2.1** - Variáveis de ambiente
-- **Mercado Pago SDK 2.3.0** - Integração de pagamentos
-- **Docker & Docker Compose** - Containerização
+- **Python 3.x** + **Flask 3.1.2**
+- **PostgreSQL** + **psycopg2**
+- **JWT** + **bcrypt** (autenticação)
+- **Mercado Pago SDK**
+- **Docker**
 
 ### Frontend
-- **HTML5**
-- **CSS3**
-- **JavaScript (Vanilla)**
+- **HTML5 + CSS3 + JavaScript**
 
-## 📦 Dependências
-
-Ver arquivo `requirements.txt` para lista completa de dependências Python.
-
-```
-python_dotenv==1.2.1
-flask==3.1.2
-flask_cors==6.0.1
-bcrypt==5.0.0
-psycopg2==2.9.11
-jwt==1.4.0
-mercadopago==2.3.0
-PyJWT==2.8.0
-```
+### Testes
+- **pytest** (Python)
+- **Jest** (Node.js)
 
 ## 🚀 Como Executar
 
-### Pré-requisitos
-- Python 3.x instalado
-- Docker (para usar o Docker Compose)
+### 📋 Pré-requisitos
+- **Python 3.x**
+- **Node.js** (para testes)
+- **Docker**
 
-### Instalação Local
+### ⚡ Início Rápido
 
-1. **Clone o repositório**
 ```bash
-git clone <url-do-repositorio>
+# 1. Clone o projeto
+git clone https://github.com/MarceloOlliveira/CargoPath_V5.git
 cd CargoPath_V5
-```
 
-2. **Configure as variáveis de ambiente**
-Crie um arquivo `.env` na raiz do projeto:
-```
-SECRET_KEY=sua-chave-secreta-aqui
-DATABASE_URL=postgresql://usuario:senha@localhost:5432/cargopath
-MERCADOPAGO_TOKEN=seu-token-aqui
-```
+# 2. Configure o ambiente
+cp backend/.env.example backend/.env
+# Edite o .env com suas configurações
 
-3. **Instale as dependências**
-```bash
-pip install -r requirements.txt
-```
-
-4. **Configure o banco de dados**
-```bash
+# 3. Suba o banco de dados
 cd backend
-docker-compose up --build
+docker-compose up -d
+
+# 4. Instale dependências Python
+pip install -r ../requirements.txt
+
+# 5. Configure banco e dados de teste
+cd src/app
+python data_base/db_classes/create_tables.py
+python data_base/db_classes/seed_mock_data.py
+
+# 6. Execute o backend
+python app.py
+
+# 7. Para testes frontend (opcional)
+cd ../../../front
+npm install
+npm test
 ```
 
-5. **Execute o backend**
-```bash
-python src/app/app.py
-```
-O servidor estará disponível em `http://127.0.0.1:5501/front/login.html`
-
-
-## 📂 Estrutura de Pastas
+## 📂 Estrutura do Projeto
 
 ```
 CargoPath_V5/
-├── backend/
-│   ├── src/
-│   │   └── app/
-│   │       ├── app.py (Aplicação principal)
-│   │       ├── api/ (Controllers e Services)
-│   │       │   ├── register/
-│   │       │   ├── login/
-│   │       │   ├── carga/
-│   │       │   ├── cotacao/
-│   │       │   ├── cubagem/
-│   │       │   ├── localizacao/
-│   │       │   ├── embalagem/
-│   │       │   ├── dashboard/
-│   │       │   └── mercadopago/
-│   │       └── data_base/
-│   │           └── db_classes/
-│   ├── test/ (Testes unitários)
-│   ├── docker-compose.yml
-│   ├── Dockerfile
-│   └── pytest.ini
-├── front/
-│   ├── login.html / login.js / login.css
-│   ├── hello.html
-│   └── src/app/pages/
-│       ├── dashboard/
-│       ├── collections/ (Gerenciamento de cargas)
-│       ├── price/ (Cotações)
-│       ├── invoices/
-│       ├── history/
-│       └── register/
-└── requirements.txt
+├── 📁 backend/
+│   ├── 🐍 src/app/
+│   │   ├── app.py
+│   │   ├── 📁 api/ (Controllers & Services)
+│   │   └── 📁 data_base/
+│   ├── 🧪 test/ (pytest)
+│   ├── 🐳 docker-compose.yml
+│   └── ⚙️ pytest.ini
+├── 📁 front/
+│   ├── 🌐 login.html/css/js
+│   ├── 📁 src/app/pages/
+│   ├── 🧪 test/ (Jest)
+│   └── 📦 package.json
+└── 📋 requirements.txt
 ```
-
-## 🔐 Autenticação
-
-O projeto utiliza JWT (JSON Web Tokens) para autenticação. O fluxo é:
-
-1. Usuário faz login com email e senha
-2. Backend retorna um token JWT
-3. Cliente armazena o token
-4. Token é enviado em cada requisição no header `Authorization`
-
-## 💳 Integração Mercado Pago
-
-O sistema integra com a API do Mercado Pago para processamento de pagamentos. Configure sua chave de acesso no arquivo `.env`.
 
 ## 🧪 Testes
 
-Para executar os testes:
-
+**Backend (Python):**
 ```bash
 cd backend
 pytest
 ```
 
-## 📝 Endpoints Principais
+**Frontend (Node.js):**
+```bash
+cd front
+npm install
+npm test
+```
 
-### Autenticação
-- `POST /register` - Registrar novo usuário
+## 📚 API Endpoints
+
+### 🔐 Autenticação
 - `POST /login` - Fazer login
+- `POST /register` - Registrar usuário
 
-### Cargas
-- `GET /carga` - Listar cargas
-- `POST /carga` - Criar nova carga
-- `GET /carga/<id>` - Obter detalhes da carga
-- `PUT /carga/<id>` - Atualizar carga
+### 📦 Principais
+- `GET/POST /api/carga` - Gestão de cargas
+- `GET/POST /api/cotacao` - Sistema de cotações
+- `GET /api/dashboard` - Dados do dashboard
+- `POST /api/mercadopago/payment` - Pagamentos
 
-### Cotações
-- `GET /cotacao` - Listar cotações
-- `POST /cotacao` - Criar cotação
+## 🔐 Configuração (.env)
 
-### Dashboard
-- `GET /dashboard` - Obter dados do dashboard
+```env
+# Database
+DB_HOST=localhost
+DB_NAME=cargopath
+DB_USER=postgres
+DB_PASSWORD=admin123
 
-### Outras operações
-- `/cubagem` - Cálculos de cubagem
-- `/embalagem` - Gerenciamento de embalagem
-- `/localizacao` - Localização de pontos
-- `/mercadopago` - Processamento de pagamentos
+# Segurança
+SECRET_KEY=sua-chave-secreta
 
-## 🔄 Histórico de Versões
-
-### V5 (Atual)
-- Refatoração da arquitetura
-- Melhorias no sistema de autenticação
-- Integração aprimorada com Mercado Pago
-
+# Mercado Pago
+MERCADOPAGO_ACCESS_TOKEN=seu-token
+```
 ---
 
-**Última atualização:** Novembro 2025
+<div align="center">
+
+### 🚚 **CargoPath V5** - *Conectando cargas, destinos e oportunidades*
+
+**Desenvolvido com ❤️ pela equipe CargoPath**
+
+*Última atualização: Novembro 2025*
+
+</div>
