@@ -124,3 +124,31 @@ class CotacaoService:
             cursor.close()
             db.close()
 
+    def listar_coletas_por_usuario(self, user_id):
+        db = DatabaseConnection()
+        db.connect()
+        cursor = db.get_cursor()
+        try:
+            cursor.execute("""
+                SELECT cotacao_id, descricao, status, user_id, created_at, valor_frete
+                FROM cotacoes 
+                WHERE user_id = %s AND status = 'agendada'
+                ORDER BY created_at DESC;
+            """, (user_id,))
+            cotacoes = cursor.fetchall()
+            
+            return [
+                {
+                    "cotacao_id": row[0],
+                    "descricao": row[1],
+                    "status": row[2],
+                    "user_id": row[3],
+                    "created_at": row[4].isoformat() if row[4] else None,
+                    "valor_frete": float(row[5]) if row[5] else None
+                }
+                for row in cotacoes
+            ]
+        finally:
+            cursor.close()
+            db.close()
+
