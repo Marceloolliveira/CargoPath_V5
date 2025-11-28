@@ -23,7 +23,7 @@ class TestPaymentService:
         self.expected_preference_data = {
             "items": [
                 {
-                    "title": "Cotação
+                    "title": "Cotação 12345",
                     "quantity": 1,
                     "unit_price": 250.75,
                 }
@@ -165,7 +165,7 @@ class TestPaymentService:
         assert result == "preference_id_456"
         
         call_args = mock_preference.create.call_args[0][0]
-        assert call_args["items"][0]["title"] == "Cotação
+        assert call_args["items"][0]["title"] == "Cotação 98765"
         assert call_args["items"][0]["unit_price"] == 1000.50
         assert call_args["items"][0]["quantity"] == 1
 
